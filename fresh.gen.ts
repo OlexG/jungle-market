@@ -5,6 +5,8 @@
 import * as $0 from "./routes/api/graphql.ts";
 import * as $1 from "./routes/graphql/schema.ts";
 import * as $2 from "./routes/index.tsx";
+import * as $3 from "./routes/models/company.ts";
+import * as $4 from "./routes/models/newsStory.ts";
 import * as $$0 from "./islands/Homepage.tsx";
 
 const manifest = {
@@ -12,6 +14,8 @@ const manifest = {
     "./routes/api/graphql.ts": $0,
     "./routes/graphql/schema.ts": $1,
     "./routes/index.tsx": $2,
+    "./routes/models/company.ts": $3,
+    "./routes/models/newsStory.ts": $4,
   },
   islands: {
     "./islands/Homepage.tsx": $$0,

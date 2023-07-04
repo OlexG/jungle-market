@@ -11,6 +11,11 @@ export default function Homepage() {
       companies {
         name
         description
+        newsStories {
+          title
+          url
+          description
+        }
       } 
     }`
   )
