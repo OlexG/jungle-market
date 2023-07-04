@@ -125,8 +125,8 @@ const companyFirstNames: string[] = [
     company.name = name + " " + sector;
     company.ticker = ticker;
     company.sector = nameToSector(sector);
-    console.log(company);
+    //console.log(company);
     return company;
   }
   
-  generateRandomCompany();
+  //generateRandomCompany();
