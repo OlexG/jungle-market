@@ -26,7 +26,6 @@ export default function JoinPage() {
     console.log(pin);
     setIsClicked(true);
 
-    // Reset the animation after a delay
     setTimeout(() => {
       setIsClicked(false);
     }, 1000);
