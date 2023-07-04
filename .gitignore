@@ -6,3 +6,4 @@
 .env.local
 
 .vscode
+node_modules
