@@ -5,20 +5,24 @@
 import * as $0 from "./routes/api/graphql.ts";
 import * as $1 from "./routes/graphql/schema.ts";
 import * as $2 from "./routes/index.tsx";
-import * as $3 from "./routes/models/company.ts";
-import * as $4 from "./routes/models/newsStory.ts";
+import * as $3 from "./routes/joinclass.tsx";
+import * as $4 from "./routes/models/company.ts";
+import * as $5 from "./routes/models/newsStory.ts";
 import * as $$0 from "./islands/Homepage.tsx";
+import * as $$1 from "./islands/JoinClassPage.tsx";
 
 const manifest = {
   routes: {
     "./routes/api/graphql.ts": $0,
     "./routes/graphql/schema.ts": $1,
     "./routes/index.tsx": $2,
-    "./routes/models/company.ts": $3,
-    "./routes/models/newsStory.ts": $4,
+    "./routes/joinclass.tsx": $3,
+    "./routes/models/company.ts": $4,
+    "./routes/models/newsStory.ts": $5,
   },
   islands: {
     "./islands/Homepage.tsx": $$0,
+    "./islands/JoinClassPage.tsx": $$1,
   },
   baseUrl: import.meta.url,
 };
