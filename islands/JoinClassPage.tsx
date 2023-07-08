@@ -12,13 +12,13 @@ export default function JoinPage() {
   const [pin, setPin] = useState("");
   const [isClicked, setIsClicked] = useState(false);
 
-  const handleEnterKeyPress = (event) => {
+  const handleEnterKeyPress = (event: any) => {
     if (event.key === "Enter") {
       console.log(pin);
     }
   };
 
-  const handlePinChange = (event) => {
+  const handlePinChange = (event: any) => {
     setPin(event.target.value);
   };
 
@@ -40,15 +40,15 @@ export default function JoinPage() {
       <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-custom-light-tan absolute bottom-0 right-0"></div>
       <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-light-tan absolute bottom-0 right-0"></div>
 
-      <h1 className="text-white text-5xl font-inter font-bold leading-normal tracking-wide mb-4">
-        Jungle Market
+      <h1 className="text-white text-5xl font-sans font-bold leading-normal tracking-wide mb-4">
+        Join Class
       </h1>
 
-      <div className="w-[368px] h-[180px] bg-custom-off-white rounded-xl">
+      <div className="w-[368px] h-[180px] bg-custom-off-white rounded-xl font-sans shadow">
         <div className="w-[295px] h-[52px] border-2 border-custom-brown bg-custom-off-white mx-auto mt-7 flex flex-col justify-center">
           <input
             type="text"
-            className="flex-grow text-gray-500 bg-transparent text-4xl font-inter font-bold placeholder-gray-500 text-opacity-50 text-center focus:outline-none"
+            className="flex-grow text-gray-500 bg-transparent text-2xl font-bold placeholder-gray-500 text-opacity-50 text-center focus:outline-none"
             placeholder="PIN"
             style={{ letterSpacing: "-0.595px" }}
             value={pin}
@@ -63,7 +63,7 @@ export default function JoinPage() {
           }`}
           onClick={handleClick}
         >
-          <span className="text-white text-2xl font-inter font-bold" style={{ letterSpacing: "-0.595px" }}>
+          <span className="text-white text-2xl font-bold" style={{ letterSpacing: "-0.595px" }}>
             Enter
           </span>
         </button>
