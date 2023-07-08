@@ -21,7 +21,7 @@ export default function Signin() {
           if (data.error) {
             // TODO: Show error message
           } else {
-            localStorage.setItem("userData", data)
+            localStorage.setItem("userData", JSON.stringify(data))
             window.location.href = "/"
           }
         })

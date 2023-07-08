@@ -1,7 +1,7 @@
 import {
   buildSchema
 } from 'https://esm.sh/graphql@15.5.0';
-import Company from '../../types/company.ts';
+import { Company } from '../models/company.ts';
 
 import {
   CompanyModel,
@@ -12,24 +12,14 @@ import {
   NewsModel,
   newsStoryQLString
 } from '../models/newsStory.ts';
- 
-const fakeCompanies: Company[] = [
-  {
-    id: '1',
-    name: 'Company 1',
-    description: 'Company 1 description'
-  },
-  {
-    id: '2',
-    name: 'Company 2',
-    description: 'Company 2 description'
-  },
-  {
-    id: '3',
-    name: 'Company 3',
-    description: 'Company 3 description'
-  },
-]
+
+import {
+  UserModel,
+  userQLString
+} from '../models/user.ts';
+
+import { DBDriver } from '../../database/driver.ts';
+
 
 const fakeNewsStories = [
   {
@@ -57,6 +47,7 @@ const fakeNewsStories = [
 export const schema = buildSchema(`
   ${companyQLString}
   ${newsStoryQLString}
+  ${userQLString}
   type Query {
     companies: [Company!]!
     company(id: ID!): Company!
@@ -66,11 +57,12 @@ export const schema = buildSchema(`
 `)
 
 export const rootValue = {
-  companies: () => {
-    return fakeCompanies.map(company => new CompanyModel(company))
+  companies: async () => {
+    const companies = await DBDriver.getAllCompanies()
+    return companies.map(company => new CompanyModel(company))
   },
-  company: (id: string ) => {
-    const company = fakeCompanies.find(company => company.id === id)
+  company: async (id: string ) => {
+    const company = await DBDriver.findCompanyByID(id)
     /* TODO: Figure out error handling */
     return new CompanyModel(company as Company)
   },
@@ -80,5 +72,7 @@ export const rootValue = {
   newStory: (id: string) => {
     const newsStory = fakeNewsStories.find(newsStory => newsStory.id === id)
     return new NewsModel(newsStory as any)
+  },
+  user: (id: string) => {
   }
 }

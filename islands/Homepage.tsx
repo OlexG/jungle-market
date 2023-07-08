@@ -1,5 +1,5 @@
 import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
-import Company from "../types/company.ts";  
+import { Company } from "../routes/models/company.ts";
 
 export default function Homepage() {
   const { data, error, loading } = useGraphQLQuery<
@@ -10,7 +10,9 @@ export default function Homepage() {
     {
       companies {
         name
-        description
+        id
+        ticker
+        sector
         newsStories {
           title
           url

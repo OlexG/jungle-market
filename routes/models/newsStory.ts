@@ -1,24 +1,25 @@
 
-import Company from '../../types/company.ts'
+import { generateRandomCompany } from '../../generation/nameGeneration.ts'
+import { Company } from './company.ts'
+import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 
 const fakeCompanies: Company[] = [
-  {
-    id: '1',
-    name: 'Company 1',
-    description: 'Company 1 description'
-  },
-  {
-    id: '2',
-    name: 'Company 2',
-    description: 'Company 2 description'
-  },
-  {
-    id: '3',
-    name: 'Company 3',
-    description: 'Company 3 description'
-  },
+  generateRandomCompany(),
+  generateRandomCompany(),
+  generateRandomCompany()
 ]
 
+
+export const NewsStoryDBSchema = z.object({
+  id: z.string().uuid().describe("primary, unique"),
+  createdAt: z.date(),
+  title: z.string(),
+  description: z.string(),
+  url: z.string(),
+  image: z.string(),
+  publishedAt: z.number(),
+  companyID: z.string().uuid(),
+});
 
 export const newsStoryQLString = `
   type NewsStory {

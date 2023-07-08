@@ -1,5 +1,6 @@
 import { config } from "https://deno.land/x/dotenv/mod.ts";
 const { CLIENT_ID, CLIENT_SECRET } = config();
+import { DBDriver } from "../../database/driver.ts";
 async function getAccessToken(code: string) {
   const client_id = CLIENT_ID
   const client_secret = CLIENT_SECRET
@@ -37,6 +38,19 @@ export const handler = async (_req: Request): Promise<Response> => {
   const data = await response.json();
   // return user info
   // TODO: save user info to database
+  let id;
+  try {
+    id = await DBDriver.createOrFindUser(data.email, data.name, data.picture);
+  } catch (err) {
+    return new Response(err.message, {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  data.id = id;
   return new Response(JSON.stringify(data), {
     status: 200,
     headers: {
