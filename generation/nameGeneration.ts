@@ -183,6 +183,15 @@ const realEstateSector: string[] = [
   "Development",
 ];
 
+export const sectorNames = [
+  "Technology Sector",
+  "Production Sector",
+  "Healthcare Sector",
+  "Financial Sector",
+  "Energy Sector",
+  "Real Estate Sector",
+];
+
 function generateCompanyName(): { name: string; sector: string } {
   const firstName =
     companyFirstNames[Math.floor(Math.random() * companyFirstNames.length)];
@@ -244,9 +253,9 @@ function nameToSector(lastName: string): string {
     energySector,
     realEstateSector,
   ];
-  for (const sector of sectors) {
-    if (sector.includes(lastName)) {
-      return sector[0];
+  for (let i = 0; i < sectors.length; i++) {
+    if (sectors[i].includes(lastName)) {
+      return sectorNames[i];
     }
   }
   return "";

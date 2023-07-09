@@ -14,6 +14,5 @@ import twindConfig from "./twind.config.ts";
 
 import { DBDriver } from "./database/driver.ts";
 DBDriver.init();
-DBDriver.deleteAllTableRecords();
 
 await start(manifest, { plugins: [twindPlugin(twindConfig)] });

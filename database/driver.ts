@@ -135,4 +135,14 @@ export const DBDriver = {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     await db.users.deleteMany({});
   },
+
+  deleteCompanyTableRecords: async () => {
+    for (const company of await db.companies.findMany({})) {
+      await db.companies.delete({
+        where: {
+          id: company.id,
+        },
+      });
+    }
+  }
 };
