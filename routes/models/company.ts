@@ -31,7 +31,7 @@ const fakeNewsStories = [
 
 export const CompanyDBSchema = z.object({
   id: z.string().uuid().describe("primary, unique"),
-  createdAt: z.date().optional(),
+  createdAt: z.date(),
   name: z.string(),
   ticker: z.string(),
   sector: z.string(),

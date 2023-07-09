@@ -2,10 +2,10 @@ import { useEffect, useState } from "preact/hooks";
 
 export default function JoinPage() {
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, []);
 
@@ -33,12 +33,15 @@ export default function JoinPage() {
 
   return (
     <div className="bg-custom-tan min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-custom-light-tan absolute top-0 left-0">
+      </div>
+      <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-light-tan absolute top-0 left-0">
+      </div>
 
-      <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-custom-light-tan absolute top-0 left-0"></div>
-      <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-light-tan absolute top-0 left-0"></div>
-
-      <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-custom-light-tan absolute bottom-0 right-0"></div>
-      <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-light-tan absolute bottom-0 right-0"></div>
+      <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-custom-light-tan absolute bottom-0 right-0">
+      </div>
+      <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-light-tan absolute bottom-0 right-0">
+      </div>
 
       <h1 className="text-white text-5xl font-sans font-bold leading-normal tracking-wide mb-4">
         Join Class
@@ -59,11 +62,14 @@ export default function JoinPage() {
 
         <button
           className={`w-[295px] h-[52px] bg-custom-brown mx-auto mt-5 flex justify-center hover:scale-105 focus:outline-none items-center ${
-            isClicked ? 'animate-pulse ' : ''
+            isClicked ? "animate-pulse " : ""
           }`}
           onClick={handleClick}
         >
-          <span className="text-white text-2xl font-bold" style={{ letterSpacing: "-0.595px" }}>
+          <span
+            className="text-white text-2xl font-bold"
+            style={{ letterSpacing: "-0.595px" }}
+          >
             Enter
           </span>
         </button>

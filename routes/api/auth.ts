@@ -38,11 +38,13 @@ export const handler = async (_req: Request): Promise<Response> => {
   const data = await response.json();
   // return user info
   // TODO: save user info to database
-  let id;
+  let sessionToken;
   try {
-    id = await DBDriver.createOrFindUser(data.email, data.name, data.picture);
+    sessionToken = await DBDriver.createOrFindUser(data.email, data.name, data.picture);
   } catch (err) {
-    return new Response(err.message, {
+    // TODO: add proper logging
+    console.log(err);
+    return new Response(JSON.stringify(err), {
       status: 500,
       headers: {
         "Content-Type": "application/json",
@@ -50,8 +52,12 @@ export const handler = async (_req: Request): Promise<Response> => {
     });
   }
 
-  data.id = id;
-  return new Response(JSON.stringify(data), {
+  return new Response(JSON.stringify({
+    sessionToken,
+    picture: data.picture,
+    name: data.name,
+    email: data.email
+  }), {
     status: 200,
     headers: {
       "Content-Type": "application/json",

@@ -18,7 +18,8 @@ export default function Signin() {
         .then((res) => res.json())
         .then((data) => {
           // Save to local storage and redirect to homepage
-          if (data.error) {
+          console.log(data);
+          if (data.error || !data.sessionToken) {
             // TODO: Show error message
           } else {
             localStorage.setItem("userData", JSON.stringify(data))

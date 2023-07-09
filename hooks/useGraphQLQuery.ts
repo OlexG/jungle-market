@@ -29,5 +29,9 @@ export function useGraphQLQuery<T>(query: string) {
     fetchData();
   }, [query]);
 
-  return { data , loading, error } as any as { data: T, loading: boolean, error: Error };
+  return { data, loading, error } as any as {
+    data: T;
+    loading: boolean;
+    error: Error;
+  };
 }
