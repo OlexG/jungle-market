@@ -11,6 +11,7 @@ export default {
         'custom-light-tan': '#F5E5BE',
         'custom-brown': '#392F2F',
         'custom-off-white': '#EDEDED',
+        'custom-red' : '#A95959',
       },
     },
   },
