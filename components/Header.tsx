@@ -1,5 +1,4 @@
-
-import { h } from 'preact'; 
+import { h } from "preact";
 
 function userSigned() {
   const userData = localStorage.getItem("userData");
