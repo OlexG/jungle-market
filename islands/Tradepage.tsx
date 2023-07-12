@@ -1,6 +1,8 @@
 import { useEffect, useState } from "preact/hooks";
 
 export default function Tradepage() {
+  let currentInvestmentsPage = 1;
+
   const redirectToStock = (desiredStock: string) => {
     window.location.href = "http://localhost:8000/" + desiredStock;
   };
@@ -24,12 +26,35 @@ export default function Tradepage() {
     }
   `;
 
-  const watchlistInfo = [
+  const [watchlistInfo, setWatchlistInfo] = useState<never[]>([]);
+
+  const TOTALWATCHLISTINFO: { ticker: string; percentageChange: number }[] = [
     { ticker: "PLMP", percentageChange: 5.6 },
     { ticker: "AAPL", percentageChange: -1.2 },
     { ticker: "GOOGL", percentageChange: 3.8 },
-
+    { ticker: "GOOGL", percentageChange: 3.8 },
+    { ticker: "GOOGL", percentageChange: 3.8 },
+    { ticker: "GOOGL", percentageChange: 3.8 },
+    { ticker: "GOOGL", percentageChange: 3.8 },
+    { ticker: "GOOGL", percentageChange: 3.8 },
+    { ticker: "GOOGL", percentageChange: 3.8 },
+    { ticker: "GOOGL", percentageChange: 3.8 },
+    { ticker: "GOOGL", percentageChange: 3.8 },
   ];
+
+  const addStockToWatchlist = (currentInvestmentsPage: number) => {
+    console.log(currentInvestmentsPage);
+    setWatchlistInfo(
+      TOTALWATCHLISTINFO.slice(
+        (currentInvestmentsPage * 10) - 10,
+        currentInvestmentsPage * 10,
+      ),
+    );
+  };
+
+  useEffect(() => {
+    addStockToWatchlist(currentInvestmentsPage);
+  }, []);
 
   return (
     <div className="bg-custom-light-tan min-h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -61,7 +86,6 @@ export default function Tradepage() {
           <div className="w-5/6 h-2/7 mx-auto bg-custom-tan rounded-l mt-6 text-lg flex flex-col items-start justify-between">
             <div>
               <div className="flex justify-between">
-                {/* Updated */}
                 <div className="text-white font-inter text-3xl font-bold">
                   {ticker + " $" + price}
                 </div>
@@ -82,20 +106,21 @@ export default function Tradepage() {
               </div>
             </div>
 
-            <div className="w-5/6 h-80 bg-white mt-3 rounded-xl">
+            <div className="w-full h-80 bg-white mt-3 rounded-xl">
             </div>
           </div>
         </div>
         {/* Stock graph div */}
+        
         <div className="w-2/6 bg-custom-tan">
           <div className="text-white font-inter text-3xl font-bold mt-5">
-            Watchlist
+            Investments
           </div>
           <div className="w-3/4 h-4/6 bg-white mt-3 rounded-xl">
             {Array.from({ length: watchlistInfo.length }, (_, index) => (
               <button
                 key={index}
-                className={`button-style w-3/4 h-12 ml-5 ${
+                className={`button-style w-3/4 h-12 ml-6 ${
                   watchlistInfo[index].percentageChange < 0
                     ? "text-custom-red"
                     : "text-custom-dark-green"
@@ -106,9 +131,25 @@ export default function Tradepage() {
                 {watchlistInfo[index].percentageChange}%
               </button>
             ))}
+            <button
+              className="next-button absolute top-[70%] left-[85%] text-custom-tan p-2 hover:text-lg focus:outline-none"
+              onClick={() => {
+                addStockToWatchlist(++currentInvestmentsPage);
+              }}
+            >
+              {"->"}
+            </button>
+            <button
+              className="next-button absolute top-[70%] left-[70%] text-custom-tan p-2 hover:text-lg focus:outline-none"
+              onClick={() => {
+                addStockToWatchlist(currentInvestmentsPage--);
+              }}
+            >
+              {"<-"}
+            </button>
           </div>
         </div>
-        {/* Watchlist div */}
+        {/* Investment div */}
       </div>
     </div>
   );
