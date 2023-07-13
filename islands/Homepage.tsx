@@ -37,6 +37,7 @@ export default function Homepage() {
         id
         ticker
         sector
+        currentPrice
         newsStories {
           title
           url

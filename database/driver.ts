@@ -7,7 +7,7 @@ import { createPentagon } from "https://deno.land/x/pentagon@v0.0.3/mod.ts";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { NewsStoryDBSchema } from "../routes/models/newsStory.ts";
 import { User, UserDBSchema } from "../routes/models/user.ts";
-
+import { getRandomPrice } from "../generation/priceGeneration.ts";
 const kv = await Deno.openKv();
 
 
@@ -37,9 +37,18 @@ async function testIfCompaniesCreated() {
     const newCompanies = Array(NUMBER_OF_COMPANIES - companies.length)
       .fill(null)
       .map(() => generateRandomCompany())
+      // TODO: generate weekly and daily price history properly
       .map((company) => ({
         ...company,
         createdAt: new Date(),
+        currentPrice: getRandomPrice(),
+        dailyPriceHistory: Array(60 * 24)
+          .fill(null)
+          .map(() => getRandomPrice()),
+        weeklyPriceHistory: Array(7 * 24)
+          .fill(null)
+          .map(() => getRandomPrice()),
+
       }));
 
     await db.companies.createMany({
@@ -47,8 +56,6 @@ async function testIfCompaniesCreated() {
     });
   }
 }
-
-testIfCompaniesCreated();
 
 export const DBDriver = {
   db,
