@@ -6,7 +6,7 @@ import { generateRandomCompany } from "../generation/nameGeneration.ts";
 import { createPentagon } from "https://deno.land/x/pentagon@v0.0.3/mod.ts";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { NewsStoryDBSchema } from "../routes/models/newsStory.ts";
-import { UserDBSchema } from "../routes/models/user.ts";
+import { User, UserDBSchema } from "../routes/models/user.ts";
 
 const kv = await Deno.openKv();
 
@@ -65,12 +65,19 @@ export const DBDriver = {
       },
     });
   },
-  findUserByID: async (id: string) => {
-    return await db.users.findFirst({
+  findUserByID: async (id: string): Promise<User> => {
+    const user = await db.users.findFirst({
       where: {
         id,
       },
     });
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      icon: user.icon,
+    }
   },
   /*
   * Creates a user or finds one with the same email. Regenerates and returns
@@ -144,5 +151,5 @@ export const DBDriver = {
         },
       });
     }
-  }
+  },
 };

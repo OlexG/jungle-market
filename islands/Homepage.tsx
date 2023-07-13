@@ -47,7 +47,7 @@ export default function Homepage() {
   console.log(data, error, loading);
 
   return (
-    <div class="flex gap-2 w-full p-4 flex-wrap">
+    <div class="flex gap-2 w-full p-4 flex-wrap mt-16">
       {data?.companies.map((company: any) => (
         <div
           class={"w-40 flex flex-col items-start justify-center rounded shadow " +

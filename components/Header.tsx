@@ -8,24 +8,30 @@ function userSigned() {
   return false;
 }
 
-export function Header() {
-  const redirectToTrade = () => {
-    window.location.href = "http://localhost:8000/trading";
-  };
-
-  const redirectToClass = () => {
-    window.location.href = "http://localhost:8000/joinclass";
-  };
-
-  const redirectToProfile = () => {
-    window.location.href = "http://localhost:8000/profile";
-  };
-
+const HeaderLink = (props: {to: string, text: string}) => {
   return (
-    <header className="w-screen h-16 bg-green-500 overflow-hidden relative">
-      <div className="flex w-full h-full items-center pl-10 pr-4 text-white text-5xl font-bold leading-normal">
+    <a
+      href={props.to}
+      className="w-20 h-10 rounded shadow bg-custom-tan mr-2 hover:scale-105 flex flex-row items-center justify-center"
+    >
+      <span
+        className="text-white text-1xl font-bold"
+        style={{ letterSpacing: "-0.595px" }}
+      >
+        {props.text}
+      </span>
+    </a>
+  );
+};
+
+export function Header() {
+  return (
+    <header className="w-screen h-16 bg-green-500 overflow-hidden fixed top-0 left-0 w-full z-50">
+      <a 
+        href={'/'}
+        className="flex w-full h-full items-center pl-10 pr-4 text-white text-5xl font-bold leading-normal">
         Jungle Market
-      </div>
+      </a>
       <div className="absolute top-1 left-10">
         <div className="w-1 h-4 sm:w-1 sm:h-3 transform bg-custom-red absolute top-2 left-0">
         </div>
@@ -41,39 +47,9 @@ export function Header() {
       </div>
 
       <div className="absolute top-0 right-0 flex items-center h-full pr-4">
-        <button
-          className="w-14 h-10 bg-custom-tan mr-2 hover:scale-105 rounded-md"
-          onClick={redirectToTrade}
-        >
-          <span
-            className="text-white text-1xl font-bold"
-            style={{ letterSpacing: "-0.595px" }}
-          >
-            Trade
-          </span>
-        </button>
-        <button
-          className="w-14 h-10 bg-custom-tan mr-2 hover:scale-105 rounded-md"
-          onClick={redirectToClass}
-        >
-          <span
-            className="text-white text-1xl font-bold"
-            style={{ letterSpacing: "-0.595px" }}
-          >
-            Class
-          </span>
-        </button>
-        <button
-          className="w-14 h-10 bg-custom-tan hover:scale-105 rounded-md"
-          onClick={redirectToProfile}
-        >
-          <span
-            className="text-white text-1xl font-bold"
-            style={{ letterSpacing: "-0.595px" }}
-          >
-            Profile
-          </span>
-        </button>
+        <HeaderLink to="/trading" text="Trade" />
+        <HeaderLink to="/class" text="Class" />
+        <HeaderLink to="/profile" text="Profile" />
       </div>
     </header>
   );

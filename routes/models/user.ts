@@ -2,10 +2,10 @@ import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 
 // Shared TS type
 export interface User {
-  id: string;
   name: string;
   email: string;
   icon: string;
+  id: string;
 }
 
 export const UserDBSchema = z.object({

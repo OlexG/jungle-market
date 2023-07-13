@@ -14,7 +14,7 @@ import {
 } from '../models/newsStory.ts';
 
 import {
-  UserModel,
+UserModel,
   userQLString
 } from '../models/user.ts';
 
@@ -73,6 +73,8 @@ export const rootValue = {
     const newsStory = fakeNewsStories.find(newsStory => newsStory.id === id)
     return new NewsModel(newsStory as any)
   },
-  user: (id: string) => {
+  user: async (id: string) => {
+    const user = await DBDriver.findUserByID(id)
+    return new UserModel(user)
   }
 }
