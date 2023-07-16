@@ -13,6 +13,9 @@ export default {
         'custom-off-white': '#EDEDED',
         'custom-red' : '#A95959',
       },
+      height: {
+        '92': '22.5rem',
+      }
     },
   },
 } as Options;

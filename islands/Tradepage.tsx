@@ -1,14 +1,39 @@
 import { useEffect, useState } from "preact/hooks";
+import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
+import { Company } from "../routes/models/company.ts";
+import InvestmentsPanel from "../components/InvestmentsPanel.tsx";
 
-export default function Tradepage() {
-  let currentInvestmentsPage = 1;
+interface IProps {
+  id: string;
+}
 
-  const redirectToStock = (desiredStock: string) => {
-    window.location.href = "http://localhost:8000/" + desiredStock;
-  };
+export default function Tradepage(props: IProps) {
+  console.log(props.id)
+  const { data, error, loading } = useGraphQLQuery<
+    {
+      company: Company;
+    } | null
+  >(`
+    {
+      company(id: "${props.id}") {
+        name
+        id
+        ticker
+        sector
+        currentPrice
+        newsStories {
+          title
+          url
+          description
+        }
+      } 
+    }`);
+  
+  console.log(data, error, loading);
+
 
   const [consoleText, setConsoleText] = useState(
-    " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%",
+    " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%"
   );
 
   const ticker = "PLMP";
@@ -26,8 +51,6 @@ export default function Tradepage() {
     }
   `;
 
-  const [watchlistInfo, setWatchlistInfo] = useState<never[]>([]);
-
   const TOTALWATCHLISTINFO: { ticker: string; percentageChange: number }[] = [
     { ticker: "PLMP", percentageChange: 5.6 },
     { ticker: "AAPL", percentageChange: -1.2 },
@@ -42,23 +65,10 @@ export default function Tradepage() {
     { ticker: "GOOGL", percentageChange: 3.8 },
   ];
 
-  const addStockToWatchlist = (currentInvestmentsPage: number) => {
-    console.log(currentInvestmentsPage);
-    setWatchlistInfo(
-      TOTALWATCHLISTINFO.slice(
-        (currentInvestmentsPage * 10) - 10,
-        currentInvestmentsPage * 10,
-      ),
-    );
-  };
-
-  useEffect(() => {
-    addStockToWatchlist(currentInvestmentsPage);
-  }, []);
 
   return (
     <div className="bg-custom-light-tan min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="w-3/5 h-full transform center bg-custom-tan absolute flex">
+      <div className="pt-20 w-3/5 h-full transform center bg-custom-tan absolute flex">
         <style>{style}</style>
         <div className="w-4/6 bg-custom-tan relative">
           <div className="w-5/6 mx-auto bg-white rounded-l mt-6 text-lg">
@@ -87,7 +97,7 @@ export default function Tradepage() {
             <div>
               <div className="flex justify-between">
                 <div className="text-white font-inter text-3xl font-bold">
-                  {ticker + " $" + price}
+                  {data?.company.ticker + " $" + data?.company.currentPrice}
                 </div>
                 <div
                   className={`mt-2 ml-2 font-inter text-xl ${
@@ -101,53 +111,18 @@ export default function Tradepage() {
                   {percentageChange + "%"}
                 </div>
               </div>
-              <div className="text-white font-inter text-xs">
-                {fullName}
-              </div>
+              <div className="text-white font-inter text-xs">{data?.company.name}</div>
             </div>
 
-            <div className="w-full h-80 bg-white mt-3 rounded-xl">
-            </div>
+            <div className="w-full h-80 bg-white mt-3 rounded-xl"></div>
           </div>
         </div>
         {/* Stock graph div */}
-        
+
         <div className="w-2/6 bg-custom-tan">
-          <div className="text-white font-inter text-3xl font-bold mt-5">
-            Investments
-          </div>
-          <div className="w-3/4 h-4/6 bg-white mt-3 rounded-xl">
-            {Array.from({ length: watchlistInfo.length }, (_, index) => (
-              <button
-                key={index}
-                className={`button-style w-3/4 h-12 ml-6 ${
-                  watchlistInfo[index].percentageChange < 0
-                    ? "text-custom-red"
-                    : "text-custom-dark-green"
-                } font-inter font-bold text-20px hover:text-lg`}
-                onClick={() => redirectToStock(watchlistInfo[index].ticker)}
-              >
-                {watchlistInfo[index].ticker}{" "}
-                {watchlistInfo[index].percentageChange}%
-              </button>
-            ))}
-            <button
-              className="next-button absolute top-[70%] left-[85%] text-custom-tan p-2 hover:text-lg focus:outline-none"
-              onClick={() => {
-                addStockToWatchlist(++currentInvestmentsPage);
-              }}
-            >
-              {"->"}
-            </button>
-            <button
-              className="next-button absolute top-[70%] left-[70%] text-custom-tan p-2 hover:text-lg focus:outline-none"
-              onClick={() => {
-                addStockToWatchlist(currentInvestmentsPage--);
-              }}
-            >
-              {"<-"}
-            </button>
-          </div>
+          <InvestmentsPanel
+            info={TOTALWATCHLISTINFO}
+          />
         </div>
         {/* Investment div */}
       </div>

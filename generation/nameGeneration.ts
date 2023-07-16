@@ -1,4 +1,4 @@
-import { Company } from "../routes/models/company.ts"
+import { Company } from "../routes/models/company.ts";
 
 const companyFirstNames: string[] = [
   "Banana",
@@ -171,17 +171,9 @@ const financialSector: string[] = [
   "Trading",
 ];
 
-const energySector: string[] = [
-  "Energy",
-  "Utilities",
-  "Logistics",
-];
+const energySector: string[] = ["Energy", "Utilities", "Logistics"];
 
-const realEstateSector: string[] = [
-  "Real Estate",
-  "Properties",
-  "Development",
-];
+const realEstateSector: string[] = ["Real Estate", "Properties", "Development"];
 
 export const sectorNames = [
   "Technology Sector",
@@ -228,9 +220,9 @@ function CompanyNameToTicker(companyName: string): string {
 
   let ticker = "";
 
-  const nonVowels = firstName.split("").filter((char) =>
-    !"aeiou".includes(char)
-  );
+  const nonVowels = firstName
+    .split("")
+    .filter((char) => !"aeiou".includes(char));
   if (nonVowels.length >= 3) {
     ticker = nonVowels.slice(0, 3).join("");
   } else {
@@ -261,8 +253,13 @@ function nameToSector(lastName: string): string {
   return "";
 }
 
-export function generateRandomCompany(): Company {
-  const company: Company = {
+export function generateRandomCompany(): {
+  id: string;
+  name: string;
+  ticker: string;
+  sector: string;
+} {
+  const company = {
     id: crypto.randomUUID(),
     name: "",
     ticker: "",
@@ -276,4 +273,3 @@ export function generateRandomCompany(): Company {
   company.sector = nameToSector(sector);
   return company;
 }
-

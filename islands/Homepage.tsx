@@ -45,21 +45,27 @@ export default function Homepage() {
         }
       } 
     }`);
-  console.log(data, error, loading);
+
+  function sendToCompanyPage(id: string) {
+    // send to /id/trading
+    const homeRoute = window.location.href.split("/")[2];
+    window.location.href = `http://${homeRoute}/${id}/trading`;
+  }
 
   return (
     <div class="flex gap-2 w-full p-4 flex-wrap mt-16">
       {data?.companies.map((company: any) => (
-        <div
+        <button
           class={"w-40 flex flex-col items-start justify-center rounded shadow " +
             `${getColorStyling(company.sector)}`}
+          onClick = {() => sendToCompanyPage(company.id)}
         >
-          <h1 class="text-lg font-bold p-4 text-white">{company.name}</h1>
+          <h1 class="text-lg font-bold p-4 text-white text-left">{company.name}</h1>
           <p class="text-gray-500">{company.description}</p>
           <p className="text-white bg-green-500 border-2 border-white rounded font-bold mx-4 p-2 mb-2">
             ${company.ticker}
           </p>
-        </div>
+        </button>
       ))}
     </div>
   );

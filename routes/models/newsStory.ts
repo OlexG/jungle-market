@@ -4,9 +4,6 @@ import { Company } from './company.ts'
 import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 
 const fakeCompanies: Company[] = [
-  generateRandomCompany(),
-  generateRandomCompany(),
-  generateRandomCompany()
 ]
 
 

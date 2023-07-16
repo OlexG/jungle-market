@@ -1,8 +1,13 @@
 const MIN_PRICE = 0.01;
 const MAX_PRICE = 1000.00;
 
+export function makeCent(num: number) {
+  return Math.round(num * 100) / 100;
+}
+
 export function getRandomPrice() {
-  return Math.random() * (MAX_PRICE - MIN_PRICE) + MIN_PRICE;
+  const price = Math.random() * (MAX_PRICE - MIN_PRICE) + MIN_PRICE;
+  return makeCent(price);
 }
 
 // TODO: fix this
@@ -15,5 +20,6 @@ export function getNextPrice(price: number) {
     changePercent -= (2 * volatility);
   }
   const changeAmount = price * changePercent;
-  return price + changeAmount;
+  const newPrice = price + changeAmount;
+  return makeCent(newPrice);
 }
