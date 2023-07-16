@@ -1,8 +1,10 @@
+
 import { PageProps } from "$fresh/server.ts";
 import Header from '../../components/Header.tsx'
 import Tradepage from '../../islands/Tradepage.tsx'
+import { Head, asset } from "$fresh/runtime.ts";
 
-export default function GreetPage(props: PageProps) {
+export default function TradePage(props: PageProps) {
   const { id } = props.params;
   return (
     <>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
 import { Company } from "../routes/models/company.ts";
 import InvestmentsPanel from "../components/InvestmentsPanel.tsx";
+import Graph from "./Graph.tsx";
 
 interface IProps {
   id: string;
@@ -21,11 +22,8 @@ export default function Tradepage(props: IProps) {
         ticker
         sector
         currentPrice
-        newsStories {
-          title
-          url
-          description
-        }
+        dailyPriceHistory
+        weeklyPriceHistory
       } 
     }`);
   
@@ -36,10 +34,7 @@ export default function Tradepage(props: IProps) {
     " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%"
   );
 
-  const ticker = "PLMP";
-  const price = "14.31";
   const percentageChange = "5.6";
-  const fullName = "PalmCoast Manufacturers";
   const style = `
     @keyframes rotate {
       0% {
@@ -65,6 +60,9 @@ export default function Tradepage(props: IProps) {
     { ticker: "GOOGL", percentageChange: 3.8 },
   ];
 
+  if (loading || !data?.company) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="bg-custom-light-tan min-h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -114,7 +112,16 @@ export default function Tradepage(props: IProps) {
               <div className="text-white font-inter text-xs">{data?.company.name}</div>
             </div>
 
-            <div className="w-full h-80 bg-white mt-3 rounded-xl"></div>
+            <div className="w-full h-100 bg-white mt-3 rounded-xl flex flex-row items-center justify-center">
+              <Graph 
+                data={// get the latest 60 data points from the company
+                  data?.company.dailyPriceHistory.slice(
+                    data?.company.dailyPriceHistory.length - 10,
+                    data?.company.dailyPriceHistory.length
+                  )
+                }
+              />
+            </div>
           </div>
         </div>
         {/* Stock graph div */}

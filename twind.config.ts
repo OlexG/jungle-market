@@ -15,6 +15,7 @@ export default {
       },
       height: {
         '92': '22.5rem',
+        '100': '27rem',
       }
     },
   },
