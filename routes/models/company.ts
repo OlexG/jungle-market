@@ -8,7 +8,7 @@ export interface Company {
   sector: string;
   currentPrice: number;
   dailyPriceHistory: number[];
-  weeklyPriceHistory: number[];
+  thirtyDaysPriceHistory: number[];
 }
 
 const fakeNewsStories = [
@@ -41,7 +41,7 @@ export const CompanyDBSchema = z.object({
   description: z.string().optional(),
   logo: z.string().optional(),
   dailyPriceHistory: z.array(z.number()), // per minute
-  weeklyPriceHistory: z.array(z.number()), // hourly
+  thirtyDaysPriceHistory: z.array(z.number()), // hourly
   currentPrice: z.number(),
 });
 
@@ -54,7 +54,7 @@ export const companyQLString = `
     description: String!
     logo: String!
     dailyPriceHistory: [Float!]!
-    weeklyPriceHistory: [Float!]!
+    thirtyDaysPriceHistory: [Float!]!
     currentPrice: Float!
     newsStories: [NewsStory!]!
   }
@@ -67,7 +67,7 @@ export class CompanyModel implements Company {
   sector: string
   currentPrice: number;
   dailyPriceHistory: number[];
-  weeklyPriceHistory: number[];
+  thirtyDaysPriceHistory: number[];
 
   constructor(company: Company) {
     this.id = company.id
@@ -76,7 +76,7 @@ export class CompanyModel implements Company {
     this.sector = company.sector
     this.currentPrice = company.currentPrice
     this.dailyPriceHistory = company.dailyPriceHistory
-    this.weeklyPriceHistory = company.weeklyPriceHistory
+    this.thirtyDaysPriceHistory = company.thirtyDaysPriceHistory
   }
 
   get newsStories() {

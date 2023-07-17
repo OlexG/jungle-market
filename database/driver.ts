@@ -45,7 +45,7 @@ async function testIfCompaniesCreated() {
         dailyPriceHistory: Array(60 * 24)
           .fill(null)
           .map(() => getRandomPrice()),
-        weeklyPriceHistory: Array(7 * 24)
+        thirtyDaysPriceHistory: Array(30 * 24)
           .fill(null)
           .map(() => getRandomPrice()),
 
