@@ -39,7 +39,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="absolute top-17 left-60 w-32 rotate-180">
+      <div className="absolute top-16 left-60 w-32 rotate-180">
         <div className="w-1 h-4 sm:w-1 sm:h-3 transform bg-custom-red absolute top-2 left-0">
         </div>
         <div className="w-5 h-1 sm:w-4 sm:h-1 transform bg-custom-red absolute top-1">

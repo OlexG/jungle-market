@@ -96,9 +96,11 @@ export default function Tradepage({ id }: { id: string }) {
   }
 
   return (
-    <div className="bg-custom-light-tan min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div className="grid grid-cols-5 bg-custom-light-tan min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <style>{style}</style>
-      <div className="pt-20 w-3/5 h-full transform center bg-custom-tan absolute flex">
+      <div className="col-span-1 h-full pt-16">
+      </div>
+      <div className="col-span-3 pt-20 h-full transform bg-custom-tan flex">
         <div className="w-4/6 bg-custom-tan relative">
           <div className="w-5/6 mx-auto bg-white rounded-l mt-6 text-lg">
             <div
@@ -182,6 +184,9 @@ export default function Tradepage({ id }: { id: string }) {
           <InvestmentsPanel info={TOTALWATCHLISTINFO} />
         </div>
         {/* Investment div */}
+      </div>
+      <div className="col-span-1">
+
       </div>
     </div>
   );

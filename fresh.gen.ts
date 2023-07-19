@@ -11,8 +11,9 @@ import * as $5 from "./routes/index.tsx";
 import * as $6 from "./routes/joinclass.tsx";
 import * as $7 from "./routes/models/company.ts";
 import * as $8 from "./routes/models/newsStory.ts";
-import * as $9 from "./routes/models/user.ts";
-import * as $10 from "./routes/signin.tsx";
+import * as $9 from "./routes/models/order.ts";
+import * as $10 from "./routes/models/user.ts";
+import * as $11 from "./routes/signin.tsx";
 import * as $$0 from "./islands/Graph.tsx";
 import * as $$1 from "./islands/Homepage.tsx";
 import * as $$2 from "./islands/JoinClassPage.tsx";
@@ -30,8 +31,9 @@ const manifest = {
     "./routes/joinclass.tsx": $6,
     "./routes/models/company.ts": $7,
     "./routes/models/newsStory.ts": $8,
-    "./routes/models/user.ts": $9,
-    "./routes/signin.tsx": $10,
+    "./routes/models/order.ts": $9,
+    "./routes/models/user.ts": $10,
+    "./routes/signin.tsx": $11,
   },
   islands: {
     "./islands/Graph.tsx": $$0,

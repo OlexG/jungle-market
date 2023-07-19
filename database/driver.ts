@@ -5,6 +5,7 @@ import { createPentagon } from "https://deno.land/x/pentagon@v0.0.3/mod.ts";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { NewsStoryDBSchema } from "../routes/models/newsStory.ts";
 import { User, UserDBSchema } from "../routes/models/user.ts";
+import { OrderDBSchema } from "../routes/models/order.ts";
 import { getRandomPrice } from "../generation/priceGeneration.ts";
 
 const NUMBER_OF_COMPANIES = 10;
@@ -26,7 +27,28 @@ const db = createPentagon(kv, {
       company: ["companies", CompanyDBSchema, "companyID", "id"],
     },
   },
+  orders: {
+    schema: OrderDBSchema,
+    relations: {
+      user: ["users", UserDBSchema, "userID", "id"],
+      company: ["companies", CompanyDBSchema, "companyID", "id"],
+    },
+  },
 });
+
+class Orders {
+  static async getByUserId(userId: string) {
+    return db.orders.findMany({
+      where: { userID: userId },
+    });
+  }
+
+  static async getById(id: string) {
+    return db.orders.findFirst({
+      where: { id },
+    });
+  }
+}
 
 class Companies {
   static async ensureCompaniesExist() {
@@ -136,6 +158,12 @@ class Users {
   static async deleteAllRecords() {
     await db.users.deleteMany({});
   }
+
+  async getById(id: string) {
+    return await db.users.findFirst({
+      where: { id },
+    });
+  }
 }
 
 export const DBDriver = {
@@ -143,6 +171,7 @@ export const DBDriver = {
   init: Companies.ensureCompaniesExist,
   Companies,
   Users,
+  Orders,
   deleteAllTableRecords: async () => {
     await db.newsStories.deleteMany({});
     await new Promise((resolve) => setTimeout(resolve, 1000));

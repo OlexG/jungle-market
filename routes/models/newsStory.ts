@@ -1,4 +1,5 @@
 
+import { DBDriver } from '../../database/driver.ts';
 import { generateRandomCompany } from '../../generation/nameGeneration.ts'
 import { Company } from './company.ts'
 import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
@@ -50,7 +51,8 @@ export class NewsModel {
   }
 
   get company() {
-    return fakeCompanies.find(company => company.id === this.companyID)
+    return DBDriver.Companies.findById(this.companyID)
   }
+
 }
 
