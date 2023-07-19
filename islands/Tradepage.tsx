@@ -4,35 +4,31 @@ import { Company } from "../routes/models/company.ts";
 import InvestmentsPanel from "../components/InvestmentsPanel.tsx";
 import Graph from "./Graph.tsx";
 import TimeButton from "../components/TimeButton.tsx";
+import { TimeType } from "../components/types/types.tsx";
 
-interface IProps {
-  id: string;
-}
+const TOTALWATCHLISTINFO = [
+  { ticker: "PLMP", percentageChange: 5.6 },
+  { ticker: "AAPL", percentageChange: -1.2 },
+  { ticker: "GOOGL", percentageChange: 3.8 },
+  { ticker: "AMZN", percentageChange: 2.1 },
+  { ticker: "TSLA", percentageChange: 1.2 },
+  { ticker: "MSFT", percentageChange: 0.5 },
+  { ticker: "FB", percentageChange: 0.2 },
+  { ticker: "NVDA", percentageChange: 0.1 },
+  { ticker: "PYPL", percentageChange: 0.0 },
+  { ticker: "ADBE", percentageChange: -0.1 },
+  { ticker: "NFLX", percentageChange: -0.2 },
+  { ticker: "INTC", percentageChange: -0.3 },
+  { ticker: "CMCSA", percentageChange: -0.4 },
+  { ticker: "PEP", percentageChange: -0.5 },
+  { ticker: "CSCO", percentageChange: -0.6 },
+  { ticker: "AVGO", percentageChange: -0.7 },
+  { ticker: "TMUS", percentageChange: -0.8 },
+];
 
-export default function Tradepage(props: IProps) {
-  const { data, error, loading } = useGraphQLQuery<{
-    company: Company;
-  } | null>(`
-    {
-      company(id: "${props.id}") {
-        name
-        id
-        ticker
-        sector
-        currentPrice
-        dailyPriceHistory
-        thirtyDaysPriceHistory
-      } 
-    }`);
+const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
 
-  const [type, setType] = useState("10 minutes");
-
-  const [consoleText, setConsoleText] = useState(
-    " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%"
-  );
-
-  const percentageChange = "5.6";
-  const style = `
+const style = `
     @keyframes rotate {
       0% {
         transform: translateX(100%);
@@ -43,70 +39,57 @@ export default function Tradepage(props: IProps) {
     }
   `;
 
-  const TOTALWATCHLISTINFO: { ticker: string; percentageChange: number }[] = [
-    { ticker: "PLMP", percentageChange: 5.6 },
-    { ticker: "AAPL", percentageChange: -1.2 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-    { ticker: "GOOGL", percentageChange: 3.8 },
-  ];
+export default function Tradepage({ id }: { id: string }) {
+  const { data, error, loading } = useGraphQLQuery<{ company: Company } | null>(
+    `{
+      company(id: "${id}") {
+        name
+        id
+        ticker
+        sector
+        currentPrice
+        dailyPriceHistory
+        thirtyDaysPriceHistory
+      } 
+    }`,
+  );
 
-  function getData(type: string) {
-    if (type === "10 minutes") {
-      // return the last 10 data points
-      const dailyData = data?.company.dailyPriceHistory.slice(
-        data?.company.dailyPriceHistory.length - 10
-      );
-      if (!dailyData) return [];
-      return dailyData;
-    } 
-    else if (type === "hourly") {
-      // get the last 60 data points, counting by 5
-      const dailyData = data?.company.dailyPriceHistory.slice(
-        data?.company.dailyPriceHistory.length - 60
-      );
-      if (!dailyData) return [];
-      const dailyDataReduced = [];
-      for (let i = dailyData.length - 1; i >= 0; i -= 5) {
-        dailyDataReduced.push(dailyData[i]);
-      }
-      dailyDataReduced.reverse();
-      return dailyDataReduced;
-    }
-    else if (type === "daily") {
-      // get the last 24 data points, counting by 60
-      const dailyData = data?.company.dailyPriceHistory.slice(
-        data?.company.dailyPriceHistory.length - 24 * 60
-      );
-      if (!dailyData) return [];
-      const dailyDataReduced = [];
-      for (let i = dailyData.length - 1; i >= 0; i -= 60) {
-        dailyDataReduced.push(dailyData[i]);
-      }
-      dailyDataReduced.reverse();
-      return dailyDataReduced;
-    } else if (type === "30 days") {
-      // get the last 30 data points, counting by 24
-      const weeklyData = data?.company.thirtyDaysPriceHistory.slice(
-        data?.company.thirtyDaysPriceHistory.length - 30 * 24
-      );
-      if (!weeklyData) return [];
-      const weeklyDataReduced = [];
-      for (let i = weeklyData.length - 1; i >= 0; i -= 24) {
-        weeklyDataReduced.push(weeklyData[i]);
-      }
-      weeklyDataReduced.reverse();
-      return weeklyDataReduced;
-    }
-    return []
-  }
+  const [type, setType] = useState<TimeType>(TimeType.TEN_MINUTES);
+  const [consoleText, setConsoleText] = useState(defaultConsoleText);
+  const percentageChange = "5.6";
 
+  const processData = (
+    priceHistory: number[] | undefined,
+    numOfDataPoints: number,
+    stride: number,
+  ) => {
+    if (!priceHistory) return [];
+    const slicedData = priceHistory.slice(
+      priceHistory.length - numOfDataPoints,
+    );
+    if (!slicedData) return [];
+    const reducedData = [];
+    for (let i = slicedData.length - 1; i >= 0; i -= stride) {
+      reducedData.push(slicedData[i]);
+    }
+    reducedData.reverse();
+    return reducedData;
+  };
+
+  const getData = (type: TimeType) => {
+    switch (type) {
+      case TimeType.TEN_MINUTES:
+        return processData(data?.company.dailyPriceHistory, 10, 1);
+      case TimeType.HOURLY:
+        return processData(data?.company.dailyPriceHistory, 60, 5);
+      case TimeType.DAILY:
+        return processData(data?.company.dailyPriceHistory, 24 * 60, 60);
+      case TimeType.THIRTY_DAYS:
+        return processData(data?.company.thirtyDaysPriceHistory, 30 * 24, 24);
+      default:
+        return [];
+    }
+  };
 
   if (loading || !data?.company) {
     return <div>Loading...</div>;
@@ -114,8 +97,8 @@ export default function Tradepage(props: IProps) {
 
   return (
     <div className="bg-custom-light-tan min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <style>{style}</style>
       <div className="pt-20 w-3/5 h-full transform center bg-custom-tan absolute flex">
-        <style>{style}</style>
         <div className="w-4/6 bg-custom-tan relative">
           <div className="w-5/6 mx-auto bg-white rounded-l mt-6 text-lg">
             <div
@@ -165,36 +148,31 @@ export default function Tradepage(props: IProps) {
             <div className="relative w-full h-100 bg-white mt-3 rounded-xl flex flex-row items-center justify-center">
               <div className="absolute top-4 flex flex-row gap-2">
                 <TimeButton
-                  currentType={type} // @TODO: make type a typescript type
-                  thisType={"30 days"}
+                  currentType={type}
+                  thisType={TimeType.THIRTY_DAYS}
                   thisText={"30 Days"}
                   setCurrentType={setType}
                 />
                 <TimeButton
                   currentType={type}
-                  thisType={"daily"}
+                  thisType={TimeType.DAILY}
                   thisText={"Day"}
                   setCurrentType={setType}
                 />
                 <TimeButton
                   currentType={type}
-                  thisType={"hourly"}
+                  thisType={TimeType.HOURLY}
                   thisText={"Hour"}
                   setCurrentType={setType}
                 />
                 <TimeButton
                   currentType={type}
-                  thisType={"10 minutes"}
+                  thisType={TimeType.TEN_MINUTES}
                   thisText={"10 min"}
                   setCurrentType={setType}
                 />
               </div>
-              <Graph
-                data={
-                  getData(type)
-                }
-                type={type}
-              />
+              <Graph data={getData(type)} type={type} />
             </div>
           </div>
         </div>

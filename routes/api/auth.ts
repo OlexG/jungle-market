@@ -40,7 +40,7 @@ export const handler = async (_req: Request): Promise<Response> => {
   // TODO: save user info to database
   let sessionToken;
   try {
-    sessionToken = await DBDriver.createOrFindUser(data.email, data.name, data.picture);
+    sessionToken = await DBDriver.Users.createOrFind(data.email, data.name, data.picture);
   } catch (err) {
     // TODO: add proper logging
     console.log(err);

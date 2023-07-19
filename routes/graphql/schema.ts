@@ -44,11 +44,11 @@ export const schema = buildSchema(`
 
 export const rootValue = {
   companies: async () => {
-    const companies = await DBDriver.getAllCompanies();
+    const companies = await DBDriver.Companies.getAll();
     return companies.map((company) => new CompanyModel(company));
   },
   company: async (id: { id: string }) => {
-    const company = await DBDriver.findCompanyByID(id.id);
+    const company = await DBDriver.Companies.findById(id.id);
     /* TODO: Figure out error handling */
     return new CompanyModel(company as Company);
   },
@@ -62,7 +62,7 @@ export const rootValue = {
     return new NewsModel(newsStory as any);
   },
   user: async (id: { id: string }) => {
-    const user = await DBDriver.findUserByID(id.id);
+    const user = await DBDriver.Users.findById(id.id);
     return new UserModel(user);
   },
 };

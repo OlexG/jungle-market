@@ -1,7 +1,9 @@
+import { TimeType } from "./types/types.tsx";
+
 interface IProps {
-  currentType: string;
-  setCurrentType: (type: string) => void;
-  thisType: string;
+  currentType: TimeType;
+  setCurrentType: (type: TimeType) => void;
+  thisType: TimeType;
   thisText: string;
 }
 
