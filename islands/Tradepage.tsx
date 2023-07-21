@@ -5,6 +5,7 @@ import InvestmentsPanel from "../components/InvestmentsPanel.tsx";
 import Graph from "./Graph.tsx";
 import TimeButton from "../components/TimeButton.tsx";
 import { TimeType } from "../components/types/types.tsx";
+import Footer from "../components/Footer.tsx";
 
 const TOTALWATCHLISTINFO = [
   { ticker: "PLMP", percentageChange: 5.6 },
@@ -96,13 +97,13 @@ export default function Tradepage({ id }: { id: string }) {
   }
 
   return (
-    <div className="grid grid-cols-5 bg-custom-light-tan min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div className="grid grid-cols-5 bg-custom-dark-brown min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <style>{style}</style>
       <div className="col-span-1 h-full pt-16">
       </div>
-      <div className="col-span-3 pt-20 h-full transform bg-custom-tan flex">
-        <div className="w-4/6 bg-custom-tan relative">
-          <div className="w-5/6 mx-auto bg-white rounded-l mt-6 text-lg">
+      <div className="col-span-3 pt-20 h-full transform bg-custom-dark-brown flex">
+        <div className="w-4/6 bg-custom-light-brown relative">
+          <div className="w-5/6 mx-auto bg-white rounded-sm mt-6 text-lg">
             <div
               className="relative"
               style={{
@@ -124,7 +125,7 @@ export default function Tradepage({ id }: { id: string }) {
             </div>
           </div>
 
-          <div className="w-5/6 h-2/7 mx-auto bg-custom-tan rounded-l mt-6 text-lg flex flex-col items-start justify-between">
+          <div className="w-5/6 h-2/7 mx-auto bg-custom-light-brown rounded-t-sm rounded-b-sm mt-6 text-lg flex flex-col items-start justify-between">
             <div>
               <div className="flex justify-between">
                 <div className="text-white font-inter text-3xl font-bold">
@@ -147,8 +148,8 @@ export default function Tradepage({ id }: { id: string }) {
               </div>
             </div>
 
-            <div className="relative w-full h-100 bg-white mt-3 rounded-xl flex flex-row items-center justify-center">
-              <div className="absolute top-4 flex flex-row gap-2">
+            <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b-sm flex flex-row items-center justify-center">
+              <div className="absolute top-4 flex flex-row gap-2 ">
                 <TimeButton
                   currentType={type}
                   thisType={TimeType.THIRTY_DAYS}
@@ -158,19 +159,19 @@ export default function Tradepage({ id }: { id: string }) {
                 <TimeButton
                   currentType={type}
                   thisType={TimeType.DAILY}
-                  thisText={"Day"}
+                  thisText={"1 Day"}
                   setCurrentType={setType}
                 />
                 <TimeButton
                   currentType={type}
                   thisType={TimeType.HOURLY}
-                  thisText={"Hour"}
+                  thisText={"1 Hour"}
                   setCurrentType={setType}
                 />
                 <TimeButton
                   currentType={type}
                   thisType={TimeType.TEN_MINUTES}
-                  thisText={"10 min"}
+                  thisText={"10 Min"}
                   setCurrentType={setType}
                 />
               </div>
@@ -180,14 +181,12 @@ export default function Tradepage({ id }: { id: string }) {
         </div>
         {/* Stock graph div */}
 
-        <div className="w-2/6 bg-custom-tan">
+        <div className="w-2/6 bg-custom-light-brown">
           <InvestmentsPanel info={TOTALWATCHLISTINFO} />
         </div>
         {/* Investment div */}
       </div>
-      <div className="col-span-1">
-
-      </div>
+      <div className="col-span-3"></div>
     </div>
   );
 }
