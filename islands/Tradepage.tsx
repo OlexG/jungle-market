@@ -131,7 +131,7 @@ export default function Tradepage({ id }: { id: string }) {
                   {data?.company.ticker + " $" + data?.company.currentPrice}
                 </div>
                 <div
-                  className={`mt-2 ml-2 font-inter text-xl ${
+                  className={`mt-2 ml-2 font-bold text-xl ${
                     parseFloat(percentageChange) > 0
                       ? "text-custom-dark-green"
                       : parseFloat(percentageChange) < 0

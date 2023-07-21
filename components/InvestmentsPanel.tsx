@@ -42,7 +42,9 @@ export default function InvestmentsPanel(props: IProps) {
             className={`button-style w-3/4 h-10 ml-6 ${
               info.percentageChange < 0
                 ? "text-custom-red"
-                : "text-custom-dark-green"
+                : info.percentageChange > 0
+                ? "text-custom-dark-green"
+                : "text-gray-500"   // we need to make it so that when it is 0.0% it does not truncate.
             } font-inter font-bold text-20px hover:text-lg`}
           >
             {info.ticker} {info.percentageChange}%
