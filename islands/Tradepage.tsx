@@ -104,7 +104,7 @@ export default function Tradepage({ id }: { id: string }) {
       </div>
       <div className="col-span-4 pt-20 h-full transform bg-custom-dark-brown flex">
         <div className="w-4/6 bg-custom-light-brown relative rounded-l">
-          <div className="w-5/6 mx-auto bg-white rounded-sm mt-6 text-lg">
+          <div className="w-5/6 mx-auto bg-white rounded-md mt-6 text-lg">
             <div
               className="relative"
               style={{
@@ -126,7 +126,7 @@ export default function Tradepage({ id }: { id: string }) {
             </div>
           </div>
 
-          <div className="w-5/6 h-2/7 mx-auto bg-custom-light-brown rounded-t-sm rounded-b-sm mt-6 text-lg flex flex-col items-start justify-between">
+          <div className="w-5/6 h-2/7 mx-auto bg-custom-light-brown rounded-t-md rounded-b-md mt-6 text-lg flex flex-col items-start justify-between">
             <div>
               <div className="flex justify-between">
                 <div className="text-white font-inter text-3xl font-bold">
@@ -149,7 +149,7 @@ export default function Tradepage({ id }: { id: string }) {
               </div>
             </div>
 
-            <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b-sm rounded-t-sm flex flex-row items-center justify-center">
+            <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b-md rounded-t-md flex flex-row items-center justify-center">
               <div className="absolute top-4 flex flex-row gap-2 ">
                 <TimeButton
                   currentType={type}

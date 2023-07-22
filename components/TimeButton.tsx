@@ -10,7 +10,7 @@ interface IProps {
 export default function TimeButton(props: IProps) {
   return (
     <button
-      className={`w-20 h-10 rounded-sm shadow bg-custom-light-brown mr-2 hover:scale-105 flex flex-row items-center justify-center ${
+      className={`w-20 h-10 rounded-md shadow bg-custom-light-brown mr-2 hover:scale-105 flex flex-row items-center justify-center ${
         props.currentType === props.thisType ? "bg-custom-dark-green" : ""
       }`}
       onClick={() => props.setCurrentType(props.thisType)}
