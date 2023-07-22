@@ -97,13 +97,13 @@ export default function Tradepage({ id }: { id: string }) {
   }
 
   return (
-    <div className="grid grid-cols-6 bg-custom-dark-brown min-h-screen overflow-hidden">
+    <div className="grid grid-cols-6 bg-custom-dark-main min-h-screen overflow-hidden">
       <style>{style}</style>
       <div className="col-span-1">
 
       </div>
-      <div className="col-span-4 pt-20 h-full transform bg-custom-dark-brown flex">
-        <div className="w-4/6 bg-custom-light-brown relative rounded-l">
+      <div className="col-span-4 pt-20 h-full transform bg-custom-dark-main flex">
+        <div className="w-4/6 bg-custom-light-main relative rounded-l">
           <div className="w-5/6 mx-auto bg-white rounded-md mt-6 text-lg">
             <div
               className="relative"
@@ -126,7 +126,7 @@ export default function Tradepage({ id }: { id: string }) {
             </div>
           </div>
 
-          <div className="w-5/6 h-2/7 mx-auto bg-custom-light-brown rounded-t-md rounded-b-md mt-6 text-lg flex flex-col items-start justify-between">
+          <div className="w-5/6 h-2/7 mx-auto bg-custom-light-main rounded-t-md rounded-b-md mt-6 text-lg flex flex-col items-start justify-between">
             <div>
               <div className="flex justify-between">
                 <div className="text-white font-inter text-3xl font-bold">
@@ -187,7 +187,7 @@ export default function Tradepage({ id }: { id: string }) {
         </div>
         {/* Stock graph div */}
 
-        <div className="w-1/3 bg-custom-light-brown rounded-r pl-10">
+        <div className="w-1/3 bg-custom-light-main rounded-r pl-10">
           <InvestmentsPanel info={TOTALWATCHLISTINFO} />
         </div>
         {/* Investment div */}

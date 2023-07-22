@@ -7,7 +7,7 @@ const HeaderLink = (props: {to: string, text: string}) => {
       className="w-20 h-10 rounded-md shadow bg-custom-tan mr-2 hover:scale-105 flex flex-row items-center justify-center "
     >
       <span
-        className="text-gray-500 text-1xl font-bold"
+        className="text-gray-700 text-1xl font-bold"
         style={{ letterSpacing: "-0.595px" }}
       >
         {props.text}
