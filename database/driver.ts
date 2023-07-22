@@ -120,7 +120,7 @@ class Companies {
 }
 
 class Users {
-  static async findPublicById(id: string): Promise<User> {
+  static async findPublicById(id: string): Promise<Partial<User>> { // TODO: figure out proper typing
     const user = await db.users.findFirst({
       where: { id },
     });
@@ -132,7 +132,7 @@ class Users {
     }
   }
 
-  static async findBySessionToken(sessionToken: string): Promise<User> {
+  static async findBySessionToken(sessionToken: string): Promise<Partial<User>> {
     const user = await db.users.findFirst({
       where: { sessionToken },
     });

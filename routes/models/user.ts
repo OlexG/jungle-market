@@ -1,12 +1,13 @@
 import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 import { DBDriver } from "../../database/driver.ts";
-import { OrderModel } from "./order.ts";
+import { OrderModel, Order } from "./order.ts";
 
 // Shared TS type
 export interface User {
   name: string;
   icon: string;
   id: string;
+  orders: Order[];
 }
 
 export const UserDBSchema = z.object({
@@ -27,7 +28,7 @@ export const userQLString = `
   }
 `
 
-export class UserModel implements User {
+export class UserModel {
   id: string
   name: string
   email: string
@@ -40,7 +41,7 @@ export class UserModel implements User {
     this.icon = user.icon
   }
 
-  async orders() {
+  orders() {
     return this.getOrders()
   }
 

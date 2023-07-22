@@ -1,7 +1,19 @@
 import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 import { DBDriver } from "../../database/driver.ts";
 import { UserModel } from "./user.ts";
-import { CompanyModel } from "./company.ts";
+import { CompanyModel, Company } from "./company.ts";
+
+export interface Order {
+  id: string;
+  company: Company;
+  createdAt: Date;
+  numberOfShares: number;
+  price: number;
+  type: "buy" | "sell";
+  user: UserModel;
+  classId: string;
+}
+
 export const OrderDBSchema = z.object({
   id: z.string().uuid().describe("primary, unique"),
   companyID: z.string().uuid(),

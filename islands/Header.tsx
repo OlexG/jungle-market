@@ -28,7 +28,7 @@ export function Header() {
   }, []);
 
   return (
-    <header className="w-screen h-16 bg-green-500 overflow-hidden fixed top-0 left-0 w-full z-50 shadow">
+    <header className="w-screen h-16 bg-custom-dark-green overflow-hidden fixed top-0 left-0 w-full z-50 shadow">
       <a 
         href={'/'}
         className="flex w-full h-full items-center pl-10 pr-4 text-custom-off-white text-5xl font-bold leading-normal">
