@@ -35,6 +35,7 @@ export default function ProfilePage(props: IProps) {
         icon
         orders {
           numberOfShares
+          createdAt
           price
           type
           company {
@@ -83,8 +84,17 @@ export default function ProfilePage(props: IProps) {
           <h1 className="text-custom-off-white text-xl font-bold mx-auto mb-5">
             Order History
           </h1>
-          {data?.user.orders.map((order: any) => (
+          {data?.user.orders.sort((a, b) => {
+            if (a.createdAt < b.createdAt) {
+              return 1;
+            }
+            if (a.createdAt > b.createdAt) {
+              return -1;
+            }
+            return 0;
+          }).map((order, index) => (
             <Order
+              key={index}
               numberOfShares={order.numberOfShares}
               price={order.price}
               type={order.type}
