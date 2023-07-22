@@ -153,7 +153,6 @@ class Users {
   }
 
   static async createOrFind(email: string, name: string, icon: string): Promise<string> {
-    console.log(email, name, icon)
     if (!email || !name || !icon) throw new Error("Missing required fields");
 
     const existingUser = await db.users.findFirst({
