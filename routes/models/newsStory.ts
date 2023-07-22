@@ -9,7 +9,7 @@ const fakeCompanies: Company[] = [
 
 
 export const NewsStoryDBSchema = z.object({
-  id: z.string().uuid().describe("primary, unique"),
+  id: z.string().uuid().describe("primary"),
   createdAt: z.date(),
   title: z.string(),
   description: z.string(),

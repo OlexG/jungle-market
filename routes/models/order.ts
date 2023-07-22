@@ -15,7 +15,7 @@ export interface Order {
 }
 
 export const OrderDBSchema = z.object({
-  id: z.string().uuid().describe("primary, unique"),
+  id: z.string().uuid().describe("primary"),
   companyID: z.string().uuid(),
   userID: z.string().uuid(),
   createdAt: z.date().optional(),

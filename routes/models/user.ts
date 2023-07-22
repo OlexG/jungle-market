@@ -1,30 +1,48 @@
 import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 import { DBDriver } from "../../database/driver.ts";
 import { OrderModel, Order } from "./order.ts";
+import { Company, CompanyModel } from "./company.ts";
 
 // Shared TS type
 export interface User {
   name: string;
   icon: string;
   id: string;
+  balance: number;
   orders: Order[];
+  portfolio: {
+    company: Company;
+    numberOfShares: number;
+  }[]
 }
 
 export const UserDBSchema = z.object({
-  id: z.string().uuid().describe("primary, unique"),
+  id: z.string().uuid().describe("primary"),
   createdAt: z.date().optional(),
+  balance: z.number(),
   name: z.string(),
   email: z.string(),
   sessionToken: z.string().optional(),
   icon: z.string(),
+  portfolio: z.array(z.object({
+    companyID: z.string().uuid(),
+    numberOfShares: z.number(),
+  })),
 });
 
 export const userQLString = `
+  type PortfolioItem {
+    company: Company!
+    numberOfShares: Int!
+  }
+
   type User {
     id: ID!
     name: String!
     icon: String!
+    balance: Float!
     orders: [Order!]!
+    portfolio: [PortfolioItem!]!
   }
 `
 
@@ -33,16 +51,33 @@ export class UserModel {
   name: string
   email: string
   icon: string
+  balance: number
 
   constructor(user: any) {
     this.id = user.id
     this.name = user.name
     this.email = user.email
     this.icon = user.icon
+    this.balance = user.balance
   }
 
   orders() {
     return this.getOrders()
+  }
+
+  portfolio() {
+    return this.getPortfolio()
+  }
+
+  async getPortfolio() {
+    const portfolio = await DBDriver.Users.getPortfolio(this.id)
+    return portfolio.map(async (portfolioItem: any) => {
+      const company = await DBDriver.Companies.findById(portfolioItem.companyID)
+      return {
+        company: new CompanyModel(company),
+        numberOfShares: portfolioItem.numberOfShares
+      }
+    })
   }
 
   async getOrders() {

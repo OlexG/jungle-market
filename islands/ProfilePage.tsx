@@ -33,6 +33,13 @@ export default function ProfilePage(props: IProps) {
         name
         id
         icon
+        portfolio {
+          numberOfShares
+          company {
+            ticker
+            name
+          }
+        }
         orders {
           numberOfShares
           createdAt

@@ -1,7 +1,7 @@
 /// <reference lib="deno.unstable" />
 
 import { generateRandomCompany } from "../generation/nameGeneration.ts";
-import { createPentagon } from "https://deno.land/x/pentagon@v0.0.3/mod.ts";
+import { createPentagon } from "https://deno.land/x/pentagon@v0.1.2/mod.ts";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { NewsStoryDBSchema } from "../routes/models/newsStory.ts";
 import { User, UserDBSchema } from "../routes/models/user.ts";
@@ -71,11 +71,22 @@ class Orders {
         type,
         price: company.currentPrice,
         createdAt: new Date(),
-        classId: "TODO", // TODO: fix this
+        classId: crypto.randomUUID(), // TODO: fix this
       },
     });
 
+    await DBDriver.Users.processPortofolioChange(
+      userID,
+      companyID,
+      numberOfShares,
+      type
+    );
+
     return order;
+  }
+
+  static async deleteAllRecords() {
+    await db.orders.deleteMany({});
   }
 }
 
@@ -90,8 +101,12 @@ class Companies {
           ...company,
           createdAt: new Date(),
           currentPrice: getRandomPrice(),
-          dailyPriceHistory: Array(60 * 24).fill(null).map(() => getRandomPrice()),
-          thirtyDaysPriceHistory: Array(30 * 24).fill(null).map(() => getRandomPrice()),
+          dailyPriceHistory: Array(60 * 24)
+            .fill(null)
+            .map(() => getRandomPrice()),
+          thirtyDaysPriceHistory: Array(30 * 24)
+            .fill(null)
+            .map(() => getRandomPrice()),
         }));
 
       await db.companies.createMany({
@@ -120,7 +135,8 @@ class Companies {
 }
 
 class Users {
-  static async findPublicById(id: string): Promise<Partial<User>> { // TODO: figure out proper typing
+  static async findPublicById(id: string): Promise<Partial<User>> {
+    // TODO: figure out proper typing
     const user = await db.users.findFirst({
       where: { id },
     });
@@ -129,10 +145,57 @@ class Users {
       id: user.id,
       name: user.name,
       icon: user.icon,
+    };
+  }
+
+  static async processPortofolioChange(
+    userID: string,
+    companyID: string,
+    numberOfShares: number,
+    type: "buy" | "sell"
+  ) {
+    const user = await db.users.findFirst({
+      where: { id: userID },
+    });
+    const portfolio = user.portfolio;
+    // If company is already in portfolio, update number of shares
+    if (portfolio.some((item) => item.companyID === companyID)) {
+      const newPortfolio = portfolio.map((item) => {
+        if (item.companyID === companyID) {
+          if (type === "buy") {
+            return {
+              ...item,
+              numberOfShares: item.numberOfShares + numberOfShares,
+            };
+          } else {
+            return {
+              ...item,
+              numberOfShares: item.numberOfShares - numberOfShares,
+            };
+          }
+        } else {
+          return item;
+        }
+      });
+      user.portfolio = newPortfolio;
+      await DBDriver.Users.updateUser(userID, user);
+    } else {
+      // If company is not in portfolio, add it
+      const newPortfolio = [
+        ...portfolio, 
+        {
+          companyID,
+          numberOfShares: type === "buy" ? numberOfShares : -numberOfShares,
+        },
+      ];
+      user.portfolio = newPortfolio;
+      await DBDriver.Users.updateUser(userID, user);
     }
   }
 
-  static async findBySessionToken(sessionToken: string): Promise<Partial<User>> {
+  static async findBySessionToken(
+    sessionToken: string
+  ): Promise<Partial<User>> {
     const user = await db.users.findFirst({
       where: { sessionToken },
     });
@@ -141,17 +204,30 @@ class Users {
       id: user.id,
       name: user.name,
       icon: user.icon,
-    }
+    };
   }
 
-  static async getUserIdFromSessionToken(sessionToken: string): Promise<string> {
+  static async getPortfolio(userId: string) {
+    const user = await db.users.findFirst({
+      where: { id: userId },
+    });
+    return user.portfolio;
+  }
+
+  static async getUserIdFromSessionToken(
+    sessionToken: string
+  ): Promise<string> {
     const user = await db.users.findFirst({
       where: { sessionToken },
     });
     return user.id;
   }
 
-  static async createOrFind(email: string, name: string, icon: string): Promise<string> {
+  static async createOrFind(
+    email: string,
+    name: string,
+    icon: string
+  ): Promise<string> {
     if (!email || !name || !icon) throw new Error("Missing required fields");
 
     const existingUser = await db.users.findFirst({
@@ -162,9 +238,9 @@ class Users {
 
     if (existingUser) {
       await Users.updateSessionToken(existingUser.id, newSessionToken);
-      return newSessionToken
+      return newSessionToken;
     }
-    
+
     const id = crypto.randomUUID();
 
     await db.users.create({
@@ -174,6 +250,8 @@ class Users {
         name,
         sessionToken: newSessionToken,
         icon,
+        balance: 10000, // TODO: make this configurable per class
+        portfolio: [],
       },
     });
 
@@ -187,6 +265,13 @@ class Users {
 
     if (!user) throw new Error("User not found");
 
+    await DBDriver.Users.updateUser(id, {
+      ...user,
+      sessionToken,
+    });
+  }
+
+  static async updateUser(id: string, user: any) {
     await db.users.delete({
       where: { id },
     });
@@ -196,8 +281,10 @@ class Users {
         id,
         email: user.email,
         name: user.name,
-        sessionToken,
+        sessionToken: user.sessionToken,
         icon: user.icon,
+        balance: user.balance,
+        portfolio: user.portfolio,
       },
     });
   }
