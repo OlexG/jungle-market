@@ -87,7 +87,6 @@ export class Users {
         },
       ];
       user.portfolio = newPortfolio;
-      console.log(user, userID)
       await DBDriver.Users.updateUser(userID, user);
     }
   }
