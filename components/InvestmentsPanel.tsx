@@ -35,21 +35,23 @@ export default function InvestmentsPanel(props: IProps) {
       <div className="text-white font-inter text-3xl font-bold mt-5 flex flex-col justify-center">
         Investments
       </div>
-      <div className="bg-white w-44 h-92 rounded-t-lg mt-4">
+      <div className="bg-white w-44 h-92 rounded-t-sm mt-4">
         {getInfo().map((info, index) => (
           <button
             key={index}
             className={`button-style w-3/4 h-10 ml-6 ${
               info.percentageChange < 0
                 ? "text-custom-red"
-                : "text-custom-dark-green"
+                : info.percentageChange > 0
+                ? "text-custom-dark-green"
+                : "text-gray-500"   // we need to make it so that when it is 0.0% it does not truncate.
             } font-inter font-bold text-20px hover:text-lg`}
           >
             {info.ticker} {info.percentageChange}%
           </button>
         ))}
       </div>
-      <div className="px-8 pb-4 bg-white rounded-b-lg h-10 w-44 flex flex-row justify-between">
+      <div className="px-8 pb-4 bg-white rounded-b-sm h-10 w-44 flex flex-row justify-between">
         <button
           className="text-3xl"
           onClick={setPreviousPage}

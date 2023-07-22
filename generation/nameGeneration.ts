@@ -100,7 +100,7 @@ const companyFirstNames: string[] = [
   "BambooBliss",
   "BananaBloom",
   "ApeSanctuary",
-  "JungleGlow",
+  "JungleGlow"
 ];
 
 const technologySector: string[] = [
@@ -122,7 +122,7 @@ const technologySector: string[] = [
   "Wireless",
   "Tools",
   "Media",
-  "Electric",
+  "Electric"
 ];
 
 const productionSector: string[] = [
@@ -137,7 +137,7 @@ const productionSector: string[] = [
   "Projects",
   "Farms",
   "Farmers",
-  "Public",
+  "Public"
 ];
 
 const healthcareSector: string[] = [
@@ -156,6 +156,9 @@ const healthcareSector: string[] = [
   "Biotech-Group",
   "Foundation",
   "Science",
+  "Px",
+  "Rx",
+  "Dx"
 ];
 
 const financialSector: string[] = [
@@ -169,11 +172,12 @@ const financialSector: string[] = [
   "Bank",
   "Insurance",
   "Trading",
+  "Capital"
 ];
 
 const energySector: string[] = ["Energy", "Utilities", "Logistics"];
 
-const realEstateSector: string[] = ["Real Estate", "Properties", "Development"];
+const realEstateSector: string[] = ["Real Estate", "Properties", "Development", "Condos", "Tree Houses"];
 
 export const sectorNames = [
   "Technology Sector",
@@ -181,7 +185,7 @@ export const sectorNames = [
   "Healthcare Sector",
   "Financial Sector",
   "Energy Sector",
-  "Real Estate Sector",
+  "Real Estate Sector"
 ];
 
 function generateCompanyName(): { name: string; sector: string } {
