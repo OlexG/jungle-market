@@ -1,5 +1,6 @@
 import Homepage from "../islands/Homepage.tsx";
 import Header from "../components/Header.tsx";
+import Footer from "../components/Footer.tsx";
 import { Head } from "$fresh/runtime.ts";
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
     <>
       <Header/>
       <Homepage />
+      <Footer />
     </>
   );
 }
