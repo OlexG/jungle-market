@@ -7,7 +7,7 @@ interface IProps {
   }[];
 }
 
-const PAGE_SIZE = 12;
+const PAGE_SIZE = 11;
 
 export default function InvestmentsPanel(props: IProps) {
   const [currentPage, setCurrentPage] = useState(0);
