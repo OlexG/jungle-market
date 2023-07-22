@@ -6,8 +6,8 @@ export default function JoinClassPage() {
   return (
     <>
       <Header/>
-      <JoinPage />
-      <Footer />
+      <JoinPage/>
+      <Footer/>
     </>
   );
 }

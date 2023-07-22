@@ -86,7 +86,8 @@ export default function Graph(props: IProps) {
         <LineChartDynamic
           height={400}
           width={550}
-          paddingTop={20} //@ts-ignore
+          paddingTop={0} //@ts-ignore
+          paddingBottom={-5} //@ts-ignore
           datasets={datasets} //@ts-ignore
           data={datasets[0].data}
           yAxisAuto={false}
