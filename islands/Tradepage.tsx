@@ -148,7 +148,7 @@ export default function Tradepage({ id }: { id: string }) {
               </div>
             </div>
 
-            <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b-sm flex flex-row items-center justify-center">
+            <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b-sm rounded-t-sm flex flex-row items-center justify-center">
               <div className="absolute top-4 flex flex-row gap-2 ">
                 <TimeButton
                   currentType={type}
