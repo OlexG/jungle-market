@@ -4,7 +4,7 @@ const HeaderLink = (props: {to: string, text: string}) => {
   return (
     <a
       href={props.to}
-      className="w-20 h-10 rounded-sm shadow bg-custom-tan mr-2 hover:scale-105 flex flex-row items-center justify-center "
+      className="w-20 h-10 rounded-md shadow bg-custom-tan mr-2 hover:scale-105 flex flex-row items-center justify-center "
     >
       <span
         className="text-gray-500 text-1xl font-bold"
