@@ -7,7 +7,7 @@ interface IProps {
   }[];
 }
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 12;
 
 export default function InvestmentsPanel(props: IProps) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -35,7 +35,7 @@ export default function InvestmentsPanel(props: IProps) {
       <div className="text-white font-inter text-3xl font-bold mt-5 flex flex-col justify-center">
         Investments
       </div>
-      <div className="bg-white w-56 h-92 rounded-t-sm mt-4">
+      <div className="bg-white w-56 h-105 rounded-t-sm mt-4">
         {getInfo().map((info, index) => (
           <button
             key={index}
