@@ -32,10 +32,10 @@ export default function InvestmentsPanel(props: IProps) {
 
   return (
     <div>
-      <div className="text-white font-inter text-3xl font-bold mt-5 flex flex-col justify-center">
+      <div className="text-custom-off-white font-inter text-3xl font-bold mt-5 flex flex-col justify-center">
         Investments
       </div>
-      <div className="bg-white w-56 h-105 rounded-t-md mt-4">
+      <div className="bg-custom-off-white w-56 h-105 rounded-t mt-4">
         {getInfo().map((info, index) => (
           <button
             key={index}
@@ -51,7 +51,7 @@ export default function InvestmentsPanel(props: IProps) {
           </button>
         ))}
       </div>
-      <div className="px-8 pb-4 bg-white rounded-b-md h-10 w-56 flex flex-row justify-between">
+      <div className="px-8 pb-4 bg-custom-off-white rounded-b h-10 w-56 flex flex-row justify-between">
         <button
           className="text-3xl"
           onClick={setPreviousPage}

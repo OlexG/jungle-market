@@ -253,7 +253,7 @@ export default function Tradepage({ id }: { id: string }) {
       </div>
       <div className="col-span-4 pt-20 h-full transform bg-custom-dark-main flex">
         <div className="w-4/6 bg-custom-light-main relative rounded-l">
-          <div className="w-5/6 mx-auto bg-white rounded-md mt-6 text-lg">
+          <div className="w-5/6 mx-auto bg-custom-off-white rounded mt-6 text-lg">
             <div
               className="relative"
               style={{
@@ -275,10 +275,10 @@ export default function Tradepage({ id }: { id: string }) {
             </div>
           </div>
 
-          <div className="w-5/6 h-2/7 mx-auto bg-custom-light-main rounded-t-md rounded-b-md mt-6 text-lg flex flex-col items-start justify-between">
+          <div className="w-5/6 h-2/7 mx-auto bg-custom-light-main rounded-t rounded-b mt-6 text-lg flex flex-col items-start justify-between">
             <div>
               <div className="flex justify-between">
-                <div className="text-white font-inter text-3xl font-bold">
+                <div className="text-custom-off-white font-inter text-3xl font-bold">
                   {data?.company.ticker + " $" + data?.company.currentPrice}
                 </div>
                 <div
@@ -293,13 +293,16 @@ export default function Tradepage({ id }: { id: string }) {
                   {percentageChange + "%"}
                 </div>
               </div>
-              <div className="text-white font-inter text-xs">
+              <div className="text-custom-off-white font-inter text-xs">
                 {data?.company.name}
               </div>
             </div>
 
-            <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b-md rounded-t-md flex flex-row items-center justify-center">
-              <div className="absolute top-4 flex flex-row gap-2 ">
+            <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b rounded-t flex flex-row items-center justify-center">           
+              <div className="absolute top-0">
+                <Graph data={getData(type)} type={type} />
+              </div>
+              <div className="absolute bottom-4 flex flex-row gap-2 ">
                 <TimeButton
                   currentType={type}
                   thisType={TimeType.THIRTY_DAYS}
@@ -325,7 +328,6 @@ export default function Tradepage({ id }: { id: string }) {
                   setCurrentType={setType}
                 />
               </div>
-              <Graph data={getData(type)} type={type} />
             </div>
           </div>
         </div>

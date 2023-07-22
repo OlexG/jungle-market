@@ -4,7 +4,7 @@ const HeaderLink = (props: {to: string, text: string}) => {
   return (
     <a
       href={props.to}
-      className="w-20 h-10 rounded-md shadow bg-custom-tan mr-2 hover:scale-105 flex flex-row items-center justify-center "
+      className="w-20 h-10 rounded shadow bg-custom-tan mr-2 hover:scale-105 flex flex-row items-center justify-center "
     >
       <span
         className="text-gray-700 text-1xl font-bold"
@@ -31,7 +31,7 @@ export function Header() {
     <header className="w-screen h-16 bg-green-500 overflow-hidden fixed top-0 left-0 w-full z-50 shadow">
       <a 
         href={'/'}
-        className="flex w-full h-full items-center pl-10 pr-4 text-white text-5xl font-bold leading-normal">
+        className="flex w-full h-full items-center pl-10 pr-4 text-custom-off-white text-5xl font-bold leading-normal">
         Jungle Market
       </a>
       <div className="absolute top-1 left-10">
@@ -49,7 +49,7 @@ export function Header() {
       </div>
 
       <div className="absolute top-0 right-0 flex items-center h-full pr-4">
-        <HeaderLink to="/class" text="Class" />
+        <HeaderLink to="/joinclass" text="Class" />
         {
           isSignedIn ?
             <HeaderLink to={`/profile/${userId}`} text="Profile" />

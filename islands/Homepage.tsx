@@ -52,16 +52,16 @@ export default function Homepage() {
 
   return (
     <div className="min-h-screen bg-custom-dark-main w-screen p-20">
-      <div class="flex gap-3 w-full p-4 flex-wrap mt-16 bg-custom-light-main rounded-md z-10">
+      <div class="flex gap-3 w-full p-4 flex-wrap mt-16 bg-custom-light-main rounded z-10">
         {data?.companies.map((company: any) => (
           <button
-            class={"w-40 h-40 flex flex-col items-start justify-center rounded-md shadow " +
+            class={"w-40 h-40 flex flex-col items-start justify-center rounded shadow " +
               `${getColorStyling(company.sector)}`}
             onClick = {() => sendToCompanyPage(company.id)}
           >
-            <h1 class="text-lg font-bold p-4 text-white text-left">{company.name}</h1>
+            <h1 class="text-lg font-bold p-4 text-custom-off-white text-left">{company.name}</h1>
             <p class="text-gray-500">{company.description}</p>
-            <p className="text-gray-700 bg-custom-tan rounded-md font-bold mx-4 p-2 mb-2 ">
+            <p className="text-gray-700 bg-custom-tan rounded font-bold mx-4 p-2 mb-2 ">
               ${company.ticker}
             </p>
           </button>
