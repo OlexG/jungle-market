@@ -1,4 +1,6 @@
 import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
+import { DBDriver } from "../../database/driver.ts";
+import { OrderModel } from "./order.ts";
 
 // Shared TS type
 export interface User {
@@ -21,6 +23,7 @@ export const userQLString = `
     id: ID!
     name: String!
     icon: String!
+    orders: [Order!]!
   }
 `
 
@@ -35,6 +38,15 @@ export class UserModel implements User {
     this.name = user.name
     this.email = user.email
     this.icon = user.icon
+  }
+
+  async orders() {
+    return this.getOrders()
+  }
+
+  async getOrders() {
+    const orders = await DBDriver.Orders.getByUserId(this.id) // TODO: find vs get
+    return orders.map((order: any) => new OrderModel(order))
   }
 }
 

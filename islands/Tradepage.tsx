@@ -6,6 +6,7 @@ import Graph from "./Graph.tsx";
 import TimeButton from "../components/TimeButton.tsx";
 import { TimeType } from "../components/types/types.tsx";
 import Footer from "../components/Footer.tsx";
+import { useGraphQLMutation } from "../hooks/useGraphQLMutation.ts";
 
 const TOTALWATCHLISTINFO = [
   { ticker: "PLMP", percentageChange: 5.6 },
@@ -40,6 +41,70 @@ const style = `
     }
   `;
 
+interface ModalProps {
+  type: string;
+  amount: number;
+  closeModal: () => void;
+  executeOrder: Function;
+  companyID: string;
+}
+
+function Modal({
+  type,
+  amount,
+  closeModal,
+  executeOrder,
+  companyID,
+}: ModalProps) {
+  const [userID, setUserID] = useState<string>(""); // TODO: fix ID and Id
+  useEffect(() => {
+    if (localStorage.getItem("userData")) {
+      const object = JSON.parse(localStorage.getItem("userData") as any);
+      setUserID(object.id);
+    }
+  }, []);
+
+  return (
+    <div className="text-white fixed z-50 inset-0 bg-custom-light-main bg-opacity-90 flex items-center justify-center">
+      <div className="shadow bg-custom-dark-main rounded-lg px-10 py-5 w-96 w-full text-center">
+        <h2 className="text-2xl font-bold mb-2">
+          {type === "buy" ? "Confirm Purchase" : "Confirm Sale"}
+        </h2>
+        <p className="mb-4">
+          {`Are you sure you want to ${type} ${amount} shares?`}
+        </p>
+        <div className="w-full flex flex-row items-center justify-center">
+          <button
+            className="px-3 py-2 bg-red-600 text-white rounded mr-2 font-bold hover:bg-red-700"
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+          <button
+            className={`${
+              amount === 0 ? "opacity-50" : ""
+            } px-3 py-2 bg-green-600 text-white rounded font-bold ${
+              amount === 0 ? "cursor-not-allowed" : "hover:bg-green-700"
+            }`}
+            onClick={() => {
+              executeOrder(
+                userID,
+                companyID,
+                amount,
+                type === "buy" ? "buy" : "sell"
+              );
+              closeModal();
+            }}
+            disabled={amount === 0}
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Tradepage({ id }: { id: string }) {
   const { data, error, loading } = useGraphQLQuery<{ company: Company } | null>(
     `{
@@ -52,21 +117,75 @@ export default function Tradepage({ id }: { id: string }) {
         dailyPriceHistory
         thirtyDaysPriceHistory
       } 
-    }`,
+    }`
   );
+
+  const {
+    data: orderData,
+    error: orderError,
+    loading: orderLoading,
+    mutate: executeOrderMutation,
+  } = useGraphQLMutation(); // TODO: make this easier to use
+
+  const executeOrder = (
+    userID: string,
+    companyID: string,
+    numberOfShares: number,
+    type: string
+  ) =>
+    executeOrderMutation(
+      `
+      mutation {
+        createOrder(
+          userID: "${userID}"
+          companyID: "${companyID}"
+          numberOfShares: ${numberOfShares}
+          type: ${type}
+        ) {
+          id
+          user {
+            id
+          }
+          company {
+            ticker
+          }
+          numberOfShares
+          type
+        }
+      }
+    `
+    );
 
   const [type, setType] = useState<TimeType>(TimeType.TEN_MINUTES);
   const [consoleText, setConsoleText] = useState(defaultConsoleText);
+  const [amount, setAmount] = useState(1);
+  const [currentOrderType, setCurrentOrderType] = useState("buy");
+  const [confirmBuyModalOpen, setConfirmBuyModalOpen] = useState(false);
+
   const percentageChange = "5.6";
+
+  const handleInputNumberChange = (e: any) => {
+    setAmount(e.target.value);
+  };
+
+  const handleBuyClick = () => {
+    setCurrentOrderType("buy");
+    setConfirmBuyModalOpen(true);
+  };
+
+  const handleSellClick = () => {
+    setCurrentOrderType("sell");
+    setConfirmBuyModalOpen(true);
+  };
 
   const processData = (
     priceHistory: number[] | undefined,
     numOfDataPoints: number,
-    stride: number,
+    stride: number
   ) => {
     if (!priceHistory) return [];
     const slicedData = priceHistory.slice(
-      priceHistory.length - numOfDataPoints,
+      priceHistory.length - numOfDataPoints
     );
     if (!slicedData) return [];
     const reducedData = [];
@@ -98,9 +217,39 @@ export default function Tradepage({ id }: { id: string }) {
 
   return (
     <div className="grid grid-cols-6 bg-custom-dark-main min-h-screen overflow-hidden">
+      {confirmBuyModalOpen && (
+        <Modal
+          type={currentOrderType}
+          amount={amount}
+          closeModal={() => setConfirmBuyModalOpen(false)}
+          executeOrder={executeOrder}
+          companyID={data?.company.id}
+        />
+      )}
       <style>{style}</style>
-      <div className="col-span-1">
-
+      <div className="col-span-1 pt-20 h-full">
+        <div className="mx-14 my-10 p-5 rounded bg-custom-light-main flex flex-col items-center">
+          <button
+            className="bg-green-600 hover:bg-green-700 px-8 py-2 text-white rounded font-bold"
+            onClick={handleBuyClick}
+          >
+            Buy
+          </button>
+          <button
+            className="mt-4 bg-red-600 hover:bg-red-700 px-8 py-2 text-white rounded font-bold"
+            onClick={handleSellClick}
+          >
+            Sell
+          </button>
+          <h1 className="text-white font-bold text-lg mt-4">Amount</h1>
+          <input
+            className="w-20 p-2 rounded-md shadow bg-white hover:scale-105 flex flex-row items-center justify-center "
+            type="number"
+            step="1"
+            onChange={(e) => handleInputNumberChange(e)}
+            value={amount}
+          />
+        </div>
       </div>
       <div className="col-span-4 pt-20 h-full transform bg-custom-dark-main flex">
         <div className="w-4/6 bg-custom-light-main relative rounded-l">
@@ -178,11 +327,6 @@ export default function Tradepage({ id }: { id: string }) {
               </div>
               <Graph data={getData(type)} type={type} />
             </div>
-          </div>
-          <div className="px-14 py-10">
-            <h1 className="text-white font-bold text-xl">
-              Buy Stock:
-            </h1>
           </div>
         </div>
         {/* Stock graph div */}

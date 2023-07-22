@@ -12,9 +12,20 @@ export default function ProfilePage(props: IProps) {
         name
         id
         icon
+        orders {
+          numberOfShares
+          price
+          type
+          company {
+            name
+            ticker
+          }
+        }
       } 
     }`,
   );
+
+  console.log(data, error, loading)
 
   const [isUser, setIsUser] = useState<boolean>(false);
   useEffect(() => {

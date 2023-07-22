@@ -1,6 +1,7 @@
 import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 import { DBDriver } from "../../database/driver.ts";
-
+import { UserModel } from "./user.ts";
+import { CompanyModel } from "./company.ts";
 export const OrderDBSchema = z.object({
   id: z.string().uuid().describe("primary, unique"),
   companyID: z.string().uuid(),
@@ -25,6 +26,7 @@ export const orderQLString = `
     numberOfShares: Int!
     price: Float!
     type: OrderType!
+    user: User!
     classId: String!
   }
 `;
@@ -50,11 +52,21 @@ export class OrderModel {
     this.classId = order.classId;
   }
 
-  get user() {
-    return DBDriver.Users.findPublicById(this.userID);
+  user() {
+    return this.getUser();
   }
 
-  get company() {
-    return DBDriver.Companies.findById(this.companyID);
+  company() {
+    return this.getCompany();
+  }
+
+  async getUser() {
+    const user = await DBDriver.Users.findPublicById(this.userID);
+    return new UserModel(user);
+  }
+
+  async getCompany() {
+    const company = await DBDriver.Companies.findById(this.companyID);
+    return new CompanyModel(company);
   }
 }

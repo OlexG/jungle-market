@@ -120,7 +120,6 @@ class Companies {
 }
 
 class Users {
-
   static async findPublicById(id: string): Promise<User> {
     const user = await db.users.findFirst({
       where: { id },
