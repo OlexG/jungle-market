@@ -179,6 +179,11 @@ export default function Tradepage({ id }: { id: string }) {
               <Graph data={getData(type)} type={type} />
             </div>
           </div>
+          <div className="px-14 py-10">
+            <h1 className="text-white font-bold text-xl">
+              Buy Stock:
+            </h1>
+          </div>
         </div>
         {/* Stock graph div */}
 
