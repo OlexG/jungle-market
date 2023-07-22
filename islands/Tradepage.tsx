@@ -215,6 +215,7 @@ export default function Tradepage({ id }: { id: string }) {
     return <div>Loading...</div>;
   }
 
+  // TODO: split these into components
   return (
     <div className="grid grid-cols-6 bg-custom-dark-main min-h-screen overflow-hidden">
       {confirmBuyModalOpen && (
@@ -227,116 +228,125 @@ export default function Tradepage({ id }: { id: string }) {
         />
       )}
       <style>{style}</style>
-      <div className="col-span-1 pt-20 h-full">
-        <div className="mx-14 my-10 p-5 rounded bg-custom-light-main flex flex-col items-center">
-          <button
-            className="bg-green-600 hover:bg-green-700 px-8 py-2 text-white rounded font-bold"
-            onClick={handleBuyClick}
-          >
-            Buy
-          </button>
-          <button
-            className="mt-4 bg-red-600 hover:bg-red-700 px-8 py-2 text-white rounded font-bold"
-            onClick={handleSellClick}
-          >
-            Sell
-          </button>
-          <h1 className="text-white font-bold text-lg mt-4">Amount</h1>
-          <input
-            className="w-20 p-2 rounded-md shadow bg-white hover:scale-105 flex flex-row items-center justify-center "
-            type="number"
-            step="1"
-            onChange={(e) => handleInputNumberChange(e)}
-            value={amount}
-          />
-        </div>
-      </div>
-      <div className="col-span-4 pt-20 h-full transform bg-custom-dark-main flex">
-        <div className="w-4/6 bg-custom-light-main relative rounded-l">
-          <div className="w-5/6 mx-auto bg-custom-off-white rounded mt-6 text-lg">
-            <div
-              className="relative"
-              style={{
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              <p
-                className="text-custom-dark-green font-inter font-bold text-20px leading-normal tracking-tighter rotating-text"
+      <div className="col-span-1 pt-20 h-full"></div>
+      <div className="col-span-4 pt-20 h-full transform bg-custom-dark-main">
+        <div className="w-full flex flex-row">
+          <div className="h-120 w-4/6 bg-custom-light-main relative rounded mr-4 shadow-lg shadow-gray-200">
+            <div className="w-5/6 mx-auto bg-custom-off-white rounded mt-6 text-lg">
+              <div
+                className="relative bg-custom-dark-main"
                 style={{
-                  animationName: "rotate",
-                  animationDuration: "10s",
-                  animationTimingFunction: "linear",
-                  animationIterationCount: "infinite",
+                  position: "relative",
+                  overflow: "hidden",
                 }}
               >
-                {consoleText}
-              </p>
-            </div>
-          </div>
-
-          <div className="w-5/6 h-2/7 mx-auto bg-custom-light-main rounded-t rounded-b mt-6 text-lg flex flex-col items-start justify-between">
-            <div>
-              <div className="flex justify-between">
-                <div className="text-custom-off-white font-inter text-3xl font-bold">
-                  {data?.company.ticker + " $" + data?.company.currentPrice}
-                </div>
-                <div
-                  className={`mt-2 ml-2 font-bold text-xl ${
-                    parseFloat(percentageChange) > 0
-                      ? "text-custom-dark-green"
-                      : parseFloat(percentageChange) < 0
-                      ? "text-custom-red"
-                      : "text-gray-500"
-                  }`}
+                <p
+                  className="bg-custom-dark-main text-custom-off-white font-inter font-bold text-20px leading-normal tracking-tighter rotating-text"
+                  style={{
+                    animationName: "rotate",
+                    animationDuration: "10s",
+                    animationTimingFunction: "linear",
+                    animationIterationCount: "infinite",
+                  }}
                 >
-                  {percentageChange + "%"}
-                </div>
-              </div>
-              <div className="text-custom-off-white font-inter text-xs">
-                {data?.company.name}
+                  {consoleText}
+                </p>
               </div>
             </div>
 
-            <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b rounded-t flex flex-row items-center justify-center">           
-              <div className="absolute top-0">
-                <Graph data={getData(type)} type={type} />
+            <div className="w-5/6 mx-auto bg-custom-light-main rounded-t rounded-b mt-6 text-lg flex flex-col items-start justify-between">
+              <div>
+                <div className="flex justify-between">
+                  <div className="text-custom-off-white font-inter text-3xl font-bold">
+                    {data?.company.ticker + " $" + data?.company.currentPrice}
+                  </div>
+                  <div
+                    className={`mt-2 ml-2 font-bold text-xl ${
+                      parseFloat(percentageChange) > 0
+                        ? "text-custom-dark-green"
+                        : parseFloat(percentageChange) < 0
+                        ? "text-custom-red"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {percentageChange + "%"}
+                  </div>
+                </div>
+                <div className="text-custom-off-white font-inter text-xs">
+                  {data?.company.name}
+                </div>
               </div>
-              <div className="absolute bottom-4 flex flex-row gap-2 ">
-                <TimeButton
-                  currentType={type}
-                  thisType={TimeType.THIRTY_DAYS}
-                  thisText={"30 Days"}
-                  setCurrentType={setType}
-                />
-                <TimeButton
-                  currentType={type}
-                  thisType={TimeType.DAILY}
-                  thisText={"1 Day"}
-                  setCurrentType={setType}
-                />
-                <TimeButton
-                  currentType={type}
-                  thisType={TimeType.HOURLY}
-                  thisText={"1 Hour"}
-                  setCurrentType={setType}
-                />
-                <TimeButton
-                  currentType={type}
-                  thisType={TimeType.TEN_MINUTES}
-                  thisText={"10 Min"}
-                  setCurrentType={setType}
-                />
+
+              <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b rounded-t flex flex-row items-center justify-center">
+                <div className="absolute top-0">
+                  <Graph data={getData(type)} type={type} />
+                </div>
+                <div className="absolute bottom-4 flex flex-row gap-2">
+                  <TimeButton
+                    currentType={type}
+                    thisType={TimeType.THIRTY_DAYS}
+                    thisText={"30 Days"}
+                    setCurrentType={setType}
+                  />
+                  <TimeButton
+                    currentType={type}
+                    thisType={TimeType.DAILY}
+                    thisText={"1 Day"}
+                    setCurrentType={setType}
+                  />
+                  <TimeButton
+                    currentType={type}
+                    thisType={TimeType.HOURLY}
+                    thisText={"1 Hour"}
+                    setCurrentType={setType}
+                  />
+                  <TimeButton
+                    currentType={type}
+                    thisType={TimeType.TEN_MINUTES}
+                    thisText={"10 Min"}
+                    setCurrentType={setType}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        {/* Stock graph div */}
+          {/* Stock graph div */}
 
-        <div className="w-1/3 bg-custom-light-main rounded-r pl-10">
-          <InvestmentsPanel info={TOTALWATCHLISTINFO} />
+          <div className="w-1/3 shadow-lg shadow-gray-200 flex flex-col gap-4">
+            <div className="h-100 rounded bg-custom-light-main">
+              <InvestmentsPanel info={TOTALWATCHLISTINFO} />
+            </div>
+            <div className="rounded bg-custom-light-main flex flex-col items-center pb-4">
+              <div className="flex flex-row h-10 gap-3 mt-5">
+                <button
+                  className="bg-custom-dark-green hover:bg-green-700 px-8 py-2 text-white rounded font-bold"
+                  onClick={handleBuyClick}
+                >
+                  Buy
+                </button>
+                <button
+                  className="bg-red-600 hover:bg-red-700 px-8 py-2 text-white rounded font-bold"
+                  onClick={handleSellClick}
+                >
+                  Sell
+                </button>
+              </div>
+              <h1 className="text-white font-bold text-lg mt-5">Amount</h1>
+              <input
+                className="w-20 p-2 rounded-md shadow bg-white hover:scale-105 flex flex-row items-center justify-center "
+                type="number"
+                step="1"
+                onChange={(e) => handleInputNumberChange(e)}
+                value={amount}
+              />
+            </div>
+          </div>
         </div>
-        {/* Investment div */}
+        <div className="bg-custom-light-main rounded mt-4 p-10">
+          <h1 className="text-white font-bold">
+            News
+          </h1>
+        </div>
       </div>
     </div>
   );

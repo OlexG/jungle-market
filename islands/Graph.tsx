@@ -84,7 +84,7 @@ export default function Graph(props: IProps) {
     <>
       <div class="flex flex-row justify-evenly bg-green-50 ml-8">
         <LineChartDynamic
-          height={400}
+          height={370}
           width={550}
           paddingTop={0} //@ts-ignore
           paddingBottom={-5} //@ts-ignore

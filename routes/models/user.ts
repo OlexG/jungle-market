@@ -13,6 +13,7 @@ export interface User {
   portfolio: {
     company: Company;
     numberOfShares: number;
+    totalSpent: number;
   }[]
 }
 
@@ -27,6 +28,7 @@ export const UserDBSchema = z.object({
   portfolio: z.array(z.object({
     companyID: z.string().uuid(),
     numberOfShares: z.number(),
+    totalSpent: z.number(),
   })),
 });
 
@@ -34,6 +36,7 @@ export const userQLString = `
   type PortfolioItem {
     company: Company!
     numberOfShares: Int!
+    totalSpent: Float!
   }
 
   type User {
@@ -75,7 +78,8 @@ export class UserModel {
       const company = await DBDriver.Companies.findById(portfolioItem.companyID)
       return {
         company: new CompanyModel(company),
-        numberOfShares: portfolioItem.numberOfShares
+        numberOfShares: portfolioItem.numberOfShares,
+        totalSpent: portfolioItem.totalSpent
       }
     })
   }

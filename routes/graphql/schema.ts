@@ -109,6 +109,7 @@ export const rootValue = {
       input.companyID,
       input.numberOfShares,
       input.type,
+      DBDriver,
     );
     return new OrderModel(order);
   }

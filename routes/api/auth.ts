@@ -41,7 +41,7 @@ export const handler = async (_req: Request): Promise<Response> => {
   let sessionToken;
   let user
   try {
-    sessionToken = await DBDriver.Users.createOrFind(data.email, data.name, data.picture);
+    sessionToken = await DBDriver.Users.createOrFind(data.email, data.name, data.picture, DBDriver);
     user = await DBDriver.Users.findBySessionToken(sessionToken);
   } catch (err) {
     // TODO: add proper logging

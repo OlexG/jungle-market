@@ -1,6 +1,9 @@
 import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
 import { useEffect, useState } from "preact/hooks";
 import { User } from "../routes/models/user.ts";
+import { makeCent } from "../generation/priceGeneration.ts";
+// TODO: Look into properly rounding
+
 interface IProps {
   id: string;
 }
@@ -10,6 +13,7 @@ interface OrderProps {
   price: number;
   type: string;
   ticker: string;
+  companyID: string;
 }
 
 function Order(props: OrderProps) {
@@ -19,7 +23,7 @@ function Order(props: OrderProps) {
         props.type === "buy" ? "bg-custom-dark-green" : "bg-custom-red"
       } rounded shadow flex flex-col justify-center flex-grow py-10 px-5 my-2`}
     >
-      <h2 className="text-custom-off-white font-bold">${props.ticker}</h2>
+      <a href={`/${props.companyID}/trading`} className="underline text-custom-off-white font-bold">${props.ticker}</a>
       <p className="text-custom-off-white">Shares: {props.numberOfShares}</p>
       <p className="text-custom-off-white">Price: ${props.price}</p>
     </div>
@@ -35,9 +39,11 @@ export default function ProfilePage(props: IProps) {
         icon
         portfolio {
           numberOfShares
+          totalSpent
           company {
             ticker
             name
+            id
           }
         }
         orders {
@@ -71,7 +77,7 @@ export default function ProfilePage(props: IProps) {
   return (
     <div className="bg-custom-dark-main h-screen pt-0.5 flex flex-row justify-center w-full gap-4 px-96">
       <div className="flex flex-col h-full pb-10">
-        <div className="bg-custom-light-main w-96 h-30 rounded self-start mt-20 py-10 shadow flex flex-row items-center">
+        <div className="bg-custom-light-main shadow-lg shadow-gray-200 w-96 h-30 rounded self-start mt-20 py-10 shadow flex flex-row items-center">
           <img
             className="w-20 h-20 rounded-full mx-5 z-10 border-2 shadow border-custom-white"
             src={data?.user.icon}
@@ -87,7 +93,7 @@ export default function ProfilePage(props: IProps) {
             </div>
           </div>
         </div>
-        <div className="bg-custom-light-main w-96 mt-5 rounded shadow flex flex-col flex-grow overflow-y-auto pt-5 px-5">
+        <div className="shadow-lg shadow-gray-200 bg-custom-light-main w-96 mt-5 rounded shadow flex flex-col flex-grow overflow-y-auto pt-5 px-5">
           <h1 className="text-custom-off-white text-xl font-bold mx-auto mb-5">
             Order History
           </h1>
@@ -106,15 +112,25 @@ export default function ProfilePage(props: IProps) {
               price={order.price}
               type={order.type}
               ticker={order.company.ticker}
+              companyID={order.company.id}
             />
           ))}
         </div>
       </div>
       {isUser && (
-        <div className="flex flex-col bg-custom-light-main w-96 mt-20 mb-10 rounded shadow flex-grow overflow-y-auto">
-          <h1 className="text-custom-off-white text-xl font-bold mx-auto pt-5">
+        <div className="shadow-lg shadow-gray-200 bg-custom-light-main w-96 mt-20 rounded shadow flex flex-col flex-grow overflow-y-auto pt-5 px-5 mb-10">
+          <h1 className="text-custom-off-white text-xl font-bold mx-auto mb-5">
             Portfolio
           </h1>
+          {
+            data?.user.portfolio.map((stock, index) => (
+              <div className="bg-custom-light-green rounded shadow flex flex-col justify-center py-10 px-5 my-2 h-46">
+                <a href={`/${stock.company.id}/trading`} className="text-custom-off-white font-bold underline">{stock.company.name}</a>
+                <p className="text-custom-off-white">Shares: {stock.numberOfShares}</p>
+                <p className="text-custom-off-white">Total spent: ${makeCent(stock.totalSpent)}</p> 
+              </div>
+            ))
+          }
         </div>
       )}
     </div>

@@ -15,4 +15,10 @@ import twindConfig from "./twind.config.ts";
 import { DBDriver } from "./database/driver.ts";
 DBDriver.init();
 
+/* --- Uncomment to delete all records in the database --- */
+
+/*await DBDriver.Companies.deleteAllRecords();
+await DBDriver.Users.deleteAllRecords();
+await DBDriver.Orders.deleteAllRecords();*/
+
 await start(manifest, { plugins: [twindPlugin(twindConfig)] });
