@@ -1,12 +1,4 @@
-import { h } from "preact";
-
-function userSigned() {
-  const userData = localStorage.getItem("userData");
-  if (userData) {
-    return true;
-  }
-  return false;
-}
+import { useEffect, useState } from "preact/hooks";
 
 const HeaderLink = (props: {to: string, text: string}) => {
   return (
@@ -25,8 +17,18 @@ const HeaderLink = (props: {to: string, text: string}) => {
 };
 
 export function Header() {
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [userId, setUserId] = useState(0);
+  useEffect(() => {
+    if (localStorage.getItem("userData")) {
+      const object = JSON.parse(localStorage.getItem("userData") as any);
+      setUserId(object.id);
+      setIsSignedIn(true);
+    }
+  }, []);
+
   return (
-    <header className="w-screen h-16 bg-green-500 overflow-hidden fixed top-0 left-0 w-full z-50">
+    <header className="w-screen h-16 bg-green-500 overflow-hidden fixed top-0 left-0 w-full z-50 shadow">
       <a 
         href={'/'}
         className="flex w-full h-full items-center pl-10 pr-4 text-white text-5xl font-bold leading-normal">
@@ -47,9 +49,13 @@ export function Header() {
       </div>
 
       <div className="absolute top-0 right-0 flex items-center h-full pr-4">
-        <HeaderLink to="/trading" text="Trade" />
         <HeaderLink to="/class" text="Class" />
-        <HeaderLink to="/profile" text="Profile" />
+        {
+          isSignedIn ?
+            <HeaderLink to={`/profile/${userId}`} text="Profile" />
+            :
+            <HeaderLink to="/signin" text="Sign In" />
+        }
       </div>
     </header>
   );

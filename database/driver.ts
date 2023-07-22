@@ -48,6 +48,35 @@ class Orders {
       where: { id },
     });
   }
+
+  static async createOrder(
+    userID: string,
+    companyID: string,
+    numberOfShares: number,
+    type: "buy" | "sell"
+  ) {
+    const id = crypto.randomUUID();
+    const company = await db.companies.findFirst({
+      where: { id: companyID },
+    });
+
+    if (!company) throw new Error("Company not found");
+
+    const order = await db.orders.create({
+      data: {
+        id,
+        userID,
+        companyID,
+        numberOfShares,
+        type,
+        price: company.currentPrice,
+        createdAt: new Date(),
+        classId: "TODO", // TODO: fix this
+      },
+    });
+
+    return order;
+  }
 }
 
 class Companies {
@@ -91,17 +120,36 @@ class Companies {
 }
 
 class Users {
-  static async findById(id: string): Promise<User> {
+
+  static async findPublicById(id: string): Promise<User> {
     const user = await db.users.findFirst({
       where: { id },
     });
-
+    if (!user) throw new Error("User not found");
     return {
       id: user.id,
       name: user.name,
-      email: user.email,
       icon: user.icon,
     }
+  }
+
+  static async findBySessionToken(sessionToken: string): Promise<User> {
+    const user = await db.users.findFirst({
+      where: { sessionToken },
+    });
+    if (!user) throw new Error("User not found");
+    return {
+      id: user.id,
+      name: user.name,
+      icon: user.icon,
+    }
+  }
+
+  static async getUserIdFromSessionToken(sessionToken: string): Promise<string> {
+    const user = await db.users.findFirst({
+      where: { sessionToken },
+    });
+    return user.id;
   }
 
   static async createOrFind(email: string, name: string, icon: string): Promise<string> {

@@ -42,7 +42,20 @@ export const schema = buildSchema(`
     newsStories: [NewsStory!]!
     newsStory(id: ID!): NewsStory!
     orders(userID: ID!): [Order!]!
-    order(id: ID!): Order!
+    user(id: ID!): User!
+    order(
+      userID: ID! 
+      id: ID!
+    ): Order!
+  }
+
+  type Mutation {
+    createOrder(
+      userID: ID!
+      companyID: ID!
+      numberOfShares: Int!
+      type: OrderType!
+    ) : Order!
   }
 `);
 
@@ -66,7 +79,7 @@ export const rootValue = {
     return new NewsModel(newsStory as any);
   },
   user: async (input: { id: string }) => {
-    const user = await DBDriver.Users.findById(input.id);
+    const user = await DBDriver.Users.findPublicById(input.id);
     return new UserModel(user);
   },
 
@@ -77,8 +90,26 @@ export const rootValue = {
     return orders.map((order) => new OrderModel(order));
   },
 
-  order: async (input: { id: string }) => {
+  order: async (input: { userID: string, id: string }) => {
     const order = await DBDriver.Orders.getById(input.id);
+    if (order.userID !== input.userID) {
+      throw new Error("Order does not belong to user");
+    }
+    return new OrderModel(order);
+  },
+
+  createOrder: async (input: {
+    userID: string;
+    companyID: string;
+    numberOfShares: number;
+    type: "buy" | "sell";
+  } ) => {
+    const order = await DBDriver.Orders.createOrder(
+      input.userID,
+      input.companyID,
+      input.numberOfShares,
+      input.type,
+    );
     return new OrderModel(order);
   }
 };

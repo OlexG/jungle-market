@@ -13,12 +13,15 @@ import * as $7 from "./routes/models/company.ts";
 import * as $8 from "./routes/models/newsStory.ts";
 import * as $9 from "./routes/models/order.ts";
 import * as $10 from "./routes/models/user.ts";
-import * as $11 from "./routes/signin.tsx";
+import * as $11 from "./routes/profile/[id].tsx";
+import * as $12 from "./routes/signin.tsx";
 import * as $$0 from "./islands/Graph.tsx";
-import * as $$1 from "./islands/Homepage.tsx";
-import * as $$2 from "./islands/JoinClassPage.tsx";
-import * as $$3 from "./islands/Signin.tsx";
-import * as $$4 from "./islands/Tradepage.tsx";
+import * as $$1 from "./islands/Header.tsx";
+import * as $$2 from "./islands/Homepage.tsx";
+import * as $$3 from "./islands/JoinClassPage.tsx";
+import * as $$4 from "./islands/ProfilePage.tsx";
+import * as $$5 from "./islands/Signin.tsx";
+import * as $$6 from "./islands/Tradepage.tsx";
 
 const manifest = {
   routes: {
@@ -33,14 +36,17 @@ const manifest = {
     "./routes/models/newsStory.ts": $8,
     "./routes/models/order.ts": $9,
     "./routes/models/user.ts": $10,
-    "./routes/signin.tsx": $11,
+    "./routes/profile/[id].tsx": $11,
+    "./routes/signin.tsx": $12,
   },
   islands: {
     "./islands/Graph.tsx": $$0,
-    "./islands/Homepage.tsx": $$1,
-    "./islands/JoinClassPage.tsx": $$2,
-    "./islands/Signin.tsx": $$3,
-    "./islands/Tradepage.tsx": $$4,
+    "./islands/Header.tsx": $$1,
+    "./islands/Homepage.tsx": $$2,
+    "./islands/JoinClassPage.tsx": $$3,
+    "./islands/ProfilePage.tsx": $$4,
+    "./islands/Signin.tsx": $$5,
+    "./islands/Tradepage.tsx": $$6,
   },
   baseUrl: import.meta.url,
 };

@@ -39,8 +39,10 @@ export const handler = async (_req: Request): Promise<Response> => {
   // return user info
   // TODO: save user info to database
   let sessionToken;
+  let user
   try {
     sessionToken = await DBDriver.Users.createOrFind(data.email, data.name, data.picture);
+    user = await DBDriver.Users.findBySessionToken(sessionToken);
   } catch (err) {
     // TODO: add proper logging
     console.log(err);
@@ -54,13 +56,15 @@ export const handler = async (_req: Request): Promise<Response> => {
 
   return new Response(JSON.stringify({
     sessionToken,
-    picture: data.picture,
-    name: data.name,
-    email: data.email
+    icon: user.icon,
+    name: user.name,
+    id: user.id,
   }), {
     status: 200,
     headers: {
       "Content-Type": "application/json",
+      // set a CSRF token
+      "Set-Cookie": `session-token=${sessionToken}; HttpOnly; Path=/; SameSite=Strict`,
     },
   });
 };

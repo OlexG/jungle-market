@@ -1,15 +1,13 @@
-
+import ProfilePage from "../../islands/ProfilePage.tsx";
 import { PageProps } from "$fresh/server.ts";
 import Header from '../../islands/Header.tsx'
-import Tradepage from '../../islands/Tradepage.tsx'
-import { Head, asset } from "$fresh/runtime.ts";
 
-export default function TradePage(props: PageProps) {
+export default function Profile(props: PageProps) {
   const { id } = props.params;
   return (
     <>
       <Header />
-      <Tradepage 
+      <ProfilePage 
         id={id}
       />
     </>

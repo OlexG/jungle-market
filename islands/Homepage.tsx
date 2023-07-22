@@ -2,8 +2,6 @@ import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
 import { Company } from "../routes/models/company.ts";
 import { sectorNames } from "../generation/nameGeneration.ts";
 
-console.log(sectorNames);
-
 const colors = [
   "yellow",
   "blue",

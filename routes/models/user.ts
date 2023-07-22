@@ -3,7 +3,6 @@ import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 // Shared TS type
 export interface User {
   name: string;
-  email: string;
   icon: string;
   id: string;
 }
@@ -21,7 +20,7 @@ export const userQLString = `
   type User {
     id: ID!
     name: String!
-    email: String!
+    icon: String!
   }
 `
 

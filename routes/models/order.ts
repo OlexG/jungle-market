@@ -51,7 +51,7 @@ export class OrderModel {
   }
 
   get user() {
-    return DBDriver.Users.findById(this.userID);
+    return DBDriver.Users.findPublicById(this.userID);
   }
 
   get company() {
