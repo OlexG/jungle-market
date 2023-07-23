@@ -1,16 +1,9 @@
 import { db } from "./database.ts";
-import { generateRandomCompany } from "../generation/nameGeneration.ts";
-import { createPentagon } from "https://deno.land/x/pentagon@v0.1.2/mod.ts";
-import { CompanyDBSchema } from "../routes/models/company.ts";
-import { NewsStoryDBSchema } from "../routes/models/newsStory.ts";
-import { User, UserDBSchema } from "../routes/models/user.ts";
-import { OrderDBSchema } from "../routes/models/order.ts";
-import { getRandomPrice } from "../generation/priceGeneration.ts";
-
-const NUMBER_OF_COMPANIES = 10;
+import { User, PublicUser, UserDBSchema } from "../routes/models/user.ts";
+import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
 
 export class Users {
-  static async findPublicById(id: string): Promise<Partial<User>> {
+  static async findPublicById(id: string): Promise<PublicUser> {
     // TODO: figure out proper typing
     const user = await db.users.findFirst({
       where: { id },
@@ -20,19 +13,16 @@ export class Users {
       id: user.id,
       name: user.name,
       icon: user.icon,
+      balance: user.balance,
     };
   }
 
   static async processPortofolioChange(
-    userID: string,
+    user: z.infer<typeof UserDBSchema>,
     companyID: string,
     numberOfShares: number,
     type: "buy" | "sell",
-    DBDriver: any
   ) {
-    const user = await db.users.findFirst({
-      where: { id: userID },
-    });
     const portfolio = user.portfolio;
     const company = await db.companies.findFirst({
       where: { id: companyID },
@@ -70,10 +60,10 @@ export class Users {
           (item) => item.numberOfShares !== 0
         );
         user.portfolio = filteredPortfolio;
-        await DBDriver.Users.updateUser(userID, user);
+        await this.updateUser(user.id, user);
       } else {
         user.portfolio = newPortfolio;
-        await DBDriver.Users.updateUser(userID, user);
+        await this.updateUser(user.id, user);
       }
     } else {
       // If company is not in portfolio, add it
@@ -87,13 +77,13 @@ export class Users {
         },
       ];
       user.portfolio = newPortfolio;
-      await DBDriver.Users.updateUser(userID, user);
+      await this.updateUser(user.id, user);
     }
   }
 
   static async findBySessionToken(
     sessionToken: string
-  ): Promise<Partial<User>> {
+  ): Promise<PublicUser> {
     const user = await db.users.findFirst({
       where: { sessionToken },
     });
@@ -102,6 +92,7 @@ export class Users {
       id: user.id,
       name: user.name,
       icon: user.icon,
+      balance: user.balance,
     };
   }
 
@@ -125,7 +116,6 @@ export class Users {
     email: string,
     name: string,
     icon: string,
-    DBDriver: any
   ): Promise<string> {
     if (!email || !name || !icon) throw new Error("Missing required fields");
 
@@ -139,7 +129,6 @@ export class Users {
       await Users.updateSessionToken(
         existingUser.id,
         newSessionToken,
-        DBDriver
       );
       return newSessionToken;
     }
@@ -164,7 +153,6 @@ export class Users {
   static async updateSessionToken(
     id: string,
     sessionToken: string,
-    DBDriver: any
   ) {
     const user = await db.users.findFirst({
       where: { id },
@@ -178,7 +166,7 @@ export class Users {
     });
   }
 
-  static async updateUser(id: string, user: any) {
+  static async updateUser(id: string, user: z.infer<typeof UserDBSchema>) {
     await db.users.delete({
       where: { id },
     });
@@ -206,3 +194,5 @@ export class Users {
     });
   }
 }
+
+import { DBDriver } from "./driver.ts";

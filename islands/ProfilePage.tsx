@@ -21,7 +21,7 @@ function Order(props: OrderProps) {
     <div
       className={`${
         props.type === "buy" ? "bg-custom-dark-green" : "bg-custom-red"
-      } rounded shadow flex flex-col justify-center flex-grow py-10 px-5 my-2`}
+      } rounded shadow flex flex-col justify-center h-40 px-5 my-2 flex-shrink-0`}
     >
       <a href={`/${props.companyID}/trading`} className="underline text-custom-off-white font-bold">${props.ticker}</a>
       <p className="text-custom-off-white">Shares: {props.numberOfShares}</p>
@@ -37,6 +37,7 @@ export default function ProfilePage(props: IProps) {
         name
         id
         icon
+        balance
         portfolio {
           numberOfShares
           totalSpent
@@ -86,9 +87,14 @@ export default function ProfilePage(props: IProps) {
             <h1 className="font-bold text-custom-off-white text-xl">
               {data?.user.name}
             </h1>
-            <p className="font-bold text-custom-off-white">In 4 classes</p>
             <div className="font-bold text-custom-off-white">
-              <span>Total profits and losses: </span>
+              <span className="text-custom-off-white">Current balance: </span>
+              <span className="text-custom-dark-green">
+                {data?.user.balance ? '$' + makeCent(data.user.balance) : "$0.00"}
+              </span>
+            </div>
+            <div className="font-bold text-custom-off-white">
+              <span className="text-custom-off-white">Total profits and losses: </span>
               <span className="text-custom-dark-green">$0.00</span>
             </div>
           </div>
@@ -124,7 +130,7 @@ export default function ProfilePage(props: IProps) {
           </h1>
           {
             data?.user.portfolio.map((stock, index) => (
-              <div className="bg-custom-light-green rounded shadow flex flex-col justify-center py-10 px-5 my-2 h-46">
+              <div className="bg-custom-light-green rounded shadow flex flex-col justify-center py-10 px-5 my-2 h-46 flex-shrink-0">
                 <a href={`/${stock.company.id}/trading`} className="text-custom-off-white font-bold underline">{stock.company.name}</a>
                 <p className="text-custom-off-white">Shares: {stock.numberOfShares}</p>
                 <p className="text-custom-off-white">Total spent: ${makeCent(stock.totalSpent)}</p> 

@@ -3,12 +3,76 @@ import { LineChartDynamic } from "https://deno.land/x/d3nochart@v0.0.2-alpha/cha
 
 interface IProps {
   data: number[];
-  type: string;
+  type: "10 minutes" | "hourly" | "daily" | "30 days";
 }
 
 export default function Graph(props: IProps) {
   const timems = useRef(Date.now());
   const [datasets, setData] = useState<any>(null);
+  let mins = {
+    "10 minutes": 0,
+    hourly: 0,
+    daily: 0,
+    "30 days": 0,
+  };
+
+  let maxs = {
+    "10 minutes": 1000,
+    hourly: 1000,
+    daily: 1000,
+    "30 days": 1000,
+  };
+
+  function getMinsAndMaxes() {
+    if (datasets && datasets[0].data && datasets[0].data.length > 0) {
+      const yData = datasets[0].data.map((value: any) => value.y);
+      if (props.type === "10 minutes") {
+        const min = Math.min(...yData) - 10;
+        // Round down to nearest 10, but dont accept anything more than 0
+        const roundedMin = Math.max(Math.floor(min / 10) * 10, 0);
+        if (mins["10 minutes"] === 0 || mins["10 minutes"] > roundedMin) {
+          mins = { ...mins, "10 minutes": roundedMin };
+        }
+
+        const max = Math.max(...yData) + 10;
+        // Round up to nearest 10
+        const roundedMax = Math.ceil(max / 10) * 10;
+        if (maxs["10 minutes"] === 1000 || maxs["10 minutes"] < roundedMax) {
+          maxs = { ...maxs, "10 minutes": roundedMax };
+        }
+      } else if (props.type === "hourly") {
+        const min = Math.min(...yData) - 20;
+        // Round down to nearest 20, but dont accept anything more than 0
+        const roundedMin = Math.max(Math.floor(min / 20) * 20, 0);
+        if (mins.hourly === 0 || mins.hourly > roundedMin) {
+          mins = { ...mins, hourly: roundedMin };
+        }
+
+        const max = Math.max(...yData) + 20;
+        // Round up to nearest 20
+        const roundedMax = Math.ceil(max / 20) * 20;
+        if (maxs.hourly === 1000 || maxs.hourly < roundedMax) {
+          maxs = { ...maxs, hourly: roundedMax };
+        }
+      } else if (props.type === "daily") {
+        const min = Math.min(...yData) - 50;
+        // Round down to nearest 50, but dont accept anything more than 0
+        const roundedMin = Math.max(Math.floor(min / 50) * 50, 0);
+        if (mins.daily === 0 || mins.daily > roundedMin) {
+          mins = { ...mins, daily: roundedMin };
+        }
+
+        const max = Math.max(...yData) + 50;
+        // Round up to nearest 50
+        const roundedMax = Math.ceil(max / 50) * 50;
+        if (maxs.daily === 1000 || maxs.daily < roundedMax) {
+          maxs = { ...maxs, daily: roundedMax };
+        }
+      }
+    }
+    return { mins, maxs };
+  }
+
   useEffect(() => {
     if (props.type === "10 minutes") {
       setData([
@@ -59,8 +123,6 @@ export default function Graph(props: IProps) {
 
   const updateTriggerRef = useRef(0);
   const [updateTrigger, setupdateTrigger] = useState(0);
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(1000);
 
   useEffect(() => {
     // get "chart-container div"
@@ -91,8 +153,8 @@ export default function Graph(props: IProps) {
           datasets={datasets} //@ts-ignore
           data={datasets[0].data}
           yAxisAuto={false}
-          yAxisMin={min}
-          yAxisMax={max}
+          yAxisMin={getMinsAndMaxes().mins[props.type]}
+          yAxisMax={getMinsAndMaxes().maxs[props.type]}
           updateTrigger={updateTrigger}
           addLabel={false}
           addLegend={false}

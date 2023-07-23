@@ -23,3 +23,5 @@ export function getNextPrice(price: number) {
   const newPrice = price + changeAmount;
   return makeCent(newPrice);
 }
+
+

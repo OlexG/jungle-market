@@ -9,12 +9,20 @@ export interface User {
   icon: string;
   id: string;
   balance: number;
+  email: string;
   orders: Order[];
   portfolio: {
     company: Company;
     numberOfShares: number;
     totalSpent: number;
   }[]
+}
+
+export interface PublicUser {
+  id: string;
+  icon: string;
+  name: string;
+  balance: number;
 }
 
 export const UserDBSchema = z.object({

@@ -106,7 +106,7 @@ function Modal({
 }
 
 export default function Tradepage({ id }: { id: string }) {
-  const { data, error, loading } = useGraphQLQuery<{ company: Company } | null>(
+  let { data, error, loading } = useGraphQLQuery<{ company: Company } | null>(
     `{
       company(id: "${id}") {
         name
@@ -119,6 +119,25 @@ export default function Tradepage({ id }: { id: string }) {
       } 
     }`
   );
+
+  let { data: priceData, error: priceError, loading: priceLoading, refetch } = useGraphQLQuery<{ company: Company } | null>(
+    `{
+      company(id: "${id}") {
+        currentPrice
+        dailyPriceHistory
+        thirtyDaysPriceHistory
+      }
+    }`,
+    true
+  );
+
+  useEffect(() => {
+    // get the company every minute
+    const interval = setInterval(() => {
+      refetch()
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
 
   const {
     data: orderData,
@@ -197,15 +216,16 @@ export default function Tradepage({ id }: { id: string }) {
   };
 
   const getData = (type: TimeType) => {
+    const dataToProcess = priceData ? priceData : data; // Price data is undefined at first
     switch (type) {
       case TimeType.TEN_MINUTES:
-        return processData(data?.company.dailyPriceHistory, 10, 1);
+        return processData(dataToProcess?.company.dailyPriceHistory, 10, 1);
       case TimeType.HOURLY:
-        return processData(data?.company.dailyPriceHistory, 60, 5);
+        return processData(dataToProcess?.company.dailyPriceHistory, 60, 5);
       case TimeType.DAILY:
-        return processData(data?.company.dailyPriceHistory, 24 * 60, 60);
+        return processData(dataToProcess?.company.dailyPriceHistory, 24 * 60, 60);
       case TimeType.THIRTY_DAYS:
-        return processData(data?.company.thirtyDaysPriceHistory, 30 * 24, 24);
+        return processData(dataToProcess?.company.thirtyDaysPriceHistory, 30 * 24, 24);
       default:
         return [];
     }
@@ -258,7 +278,11 @@ export default function Tradepage({ id }: { id: string }) {
               <div>
                 <div className="flex justify-between">
                   <div className="text-custom-off-white font-inter text-3xl font-bold">
-                    {data?.company.ticker + " $" + data?.company.currentPrice}
+                    {data?.company.ticker + " $" + (
+                      priceData?.company.currentPrice ? 
+                      priceData?.company.currentPrice :
+                      data?.company.currentPrice
+                    )}
                   </div>
                   <div
                     className={`mt-2 ml-2 font-bold text-xl ${
