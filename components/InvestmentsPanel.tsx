@@ -4,7 +4,7 @@ interface IProps {
   info: {
     ticker: string;
     percentageChange: number;
-  }[];
+  }[] | undefined;
 }
 
 const PAGE_SIZE = 7;
@@ -13,12 +13,14 @@ export default function InvestmentsPanel(props: IProps) {
   const [currentPage, setCurrentPage] = useState(0);
 
   const getInfo = () => {
+    if (!props.info) return [];
     const start = currentPage * PAGE_SIZE;
     const end = start + PAGE_SIZE;
     return props.info.slice(start, end);
   };
 
   const setNextPage = () => {
+    if (!props.info) return;
     if (currentPage < props.info.length / PAGE_SIZE - 1) {
       setCurrentPage(currentPage + 1);
     }
@@ -36,7 +38,7 @@ export default function InvestmentsPanel(props: IProps) {
         Investments
       </div>
       <div className="bg-custom-off-white w-56 rounded-t mt-4 h-72">
-        {getInfo().map((info, index) => (
+        {props.info ? getInfo().map((info, index) => (
           <button
             key={index}
             className={`button-style w-3/4 h-10 ml-6 ${
@@ -49,7 +51,11 @@ export default function InvestmentsPanel(props: IProps) {
           >
             {info.ticker} {info.percentageChange}%
           </button>
-        ))}
+        )) : 
+        <p className="text-center px-2 py-2">
+          Please login to see portfolio
+        </p>
+      }
       </div>
       <div className="px-8 pb-4 bg-custom-off-white rounded-b h-10 w-56 flex flex-row justify-between">
         <button

@@ -8,26 +8,10 @@ import { TimeType } from "../components/types/types.tsx";
 import { useGraphQLMutation } from "../hooks/useGraphQLMutation.ts";
 import ErrorAlert from "../components/Error.tsx";
 import SuccessAlert from "../components/Success.tsx";
+import { User } from "../routes/models/user.ts";
+import { makeCent } from "../generation/priceGeneration.ts";
+import { IS_BROWSER } from "$fresh/runtime.ts";
 
-const TOTALWATCHLISTINFO = [
-  { ticker: "PLMP", percentageChange: 5.6 },
-  { ticker: "AAPL", percentageChange: -1.2 },
-  { ticker: "GOOGL", percentageChange: 3.8 },
-  { ticker: "AMZN", percentageChange: 2.1 },
-  { ticker: "TSLA", percentageChange: 1.2 },
-  { ticker: "MSFT", percentageChange: 0.5 },
-  { ticker: "FB", percentageChange: 0.2 },
-  { ticker: "NVDA", percentageChange: 0.1 },
-  { ticker: "PYPL", percentageChange: 0.0 },
-  { ticker: "ADBE", percentageChange: -0.1 },
-  { ticker: "NFLX", percentageChange: -0.2 },
-  { ticker: "INTC", percentageChange: -0.3 },
-  { ticker: "CMCSA", percentageChange: -0.4 },
-  { ticker: "PEP", percentageChange: -0.5 },
-  { ticker: "CSCO", percentageChange: -0.6 },
-  { ticker: "AVGO", percentageChange: -0.7 },
-  { ticker: "TMUS", percentageChange: -0.8 },
-];
 
 const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
 
@@ -121,7 +105,12 @@ export default function Tradepage({ id }: { id: string }) {
     }`
   );
 
-  let { data: priceData, error: priceError, loading: priceLoading, refetch } = useGraphQLQuery<{ company: Company } | null>(
+  let {
+    data: priceData,
+    error: priceError,
+    loading: priceLoading,
+    refetch,
+  } = useGraphQLQuery<{ company: Company } | null>(
     `{
       company(id: "${id}") {
         currentPrice
@@ -132,10 +121,39 @@ export default function Tradepage({ id }: { id: string }) {
     true
   );
 
+  const [userID, setUserID] = useState<string | null>(null);
+  useEffect(() => {
+    if (IS_BROWSER && localStorage.getItem("userData")) {
+      const object = JSON.parse(localStorage.getItem("userData") as any);
+      setUserID(object.id);
+    }
+  }, [IS_BROWSER]); // TODO: make this a custom hook and replace in other places
+
+  const {
+    data: portfolioData,
+    error: portfolioError,
+    loading: portfolioLoading,
+    refetch: portfolioRefetch,
+  } = useGraphQLQuery<{ user: User } | null>(
+    `{
+        user(id: "${userID}") {
+          portfolio {
+            numberOfShares
+            totalSpent
+            company {
+              ticker
+              currentPrice
+            }
+          }
+        } 
+      }`
+  );
+
   useEffect(() => {
     // get the company every minute
     const interval = setInterval(() => {
-      refetch()
+      refetch();
+      portfolioRefetch();
     }, 6000);
     return () => clearInterval(interval);
   }, []);
@@ -183,6 +201,7 @@ export default function Tradepage({ id }: { id: string }) {
       setIsError(true);
     }
     if (orderData && !orderError) {
+      portfolioRefetch();
       setIsSuccess(true);
     }
   }, [orderError, orderData]);
@@ -235,9 +254,17 @@ export default function Tradepage({ id }: { id: string }) {
       case TimeType.HOURLY:
         return processData(dataToProcess?.company.dailyPriceHistory, 60, 5);
       case TimeType.DAILY:
-        return processData(dataToProcess?.company.dailyPriceHistory, 24 * 60, 60);
+        return processData(
+          dataToProcess?.company.dailyPriceHistory,
+          24 * 60,
+          60
+        );
       case TimeType.THIRTY_DAYS:
-        return processData(dataToProcess?.company.thirtyDaysPriceHistory, 30 * 24, 24);
+        return processData(
+          dataToProcess?.company.thirtyDaysPriceHistory,
+          30 * 24,
+          24
+        );
       default:
         return [];
     }
@@ -250,24 +277,20 @@ export default function Tradepage({ id }: { id: string }) {
   // TODO: split these into components
   return (
     <div className="grid grid-cols-6 bg-custom-dark-main min-h-screen overflow-hidden">
-      {
-        orderError && (
-          <ErrorAlert
-            message={(orderError as Error).message}
-            setIsOpen={setIsError}
-            isOpen={isError}
-          />
-        )
-      }
-      {
-        orderData && (
-          <SuccessAlert
-            message={"Order successfully executed!"}
-            setIsOpen={setIsSuccess}
-            isOpen={isSuccess}
-          />
-        )
-      }
+      {orderError && (
+        <ErrorAlert
+          message={(orderError as Error).message}
+          setIsOpen={setIsError}
+          isOpen={isError}
+        />
+      )}
+      {orderData && (
+        <SuccessAlert
+          message={"Order successfully executed!"}
+          setIsOpen={setIsSuccess}
+          isOpen={isSuccess}
+        />
+      )}
       {confirmBuyModalOpen && (
         <Modal
           type={currentOrderType}
@@ -308,11 +331,11 @@ export default function Tradepage({ id }: { id: string }) {
               <div>
                 <div className="flex justify-between">
                   <div className="text-custom-off-white font-inter text-3xl font-bold">
-                    {data?.company.ticker + " $" + (
-                      priceData?.company.currentPrice ? 
-                      priceData?.company.currentPrice :
-                      data?.company.currentPrice
-                    )}
+                    {data?.company.ticker +
+                      " $" +
+                      (priceData?.company.currentPrice
+                        ? priceData?.company.currentPrice
+                        : data?.company.currentPrice)}
                   </div>
                   <div
                     className={`mt-2 ml-2 font-bold text-xl ${
@@ -368,7 +391,24 @@ export default function Tradepage({ id }: { id: string }) {
 
           <div className="w-1/3 shadow-lg shadow-gray-200 flex flex-col gap-4">
             <div className="h-100 rounded bg-custom-light-main">
-              <InvestmentsPanel info={TOTALWATCHLISTINFO} />
+              <InvestmentsPanel
+                info={
+                  userID
+                    ? portfolioData?.user.portfolio.map((e) => {
+                        const totalSpent = e.totalSpent;
+                        const currentValue =
+                          e.company.currentPrice * e.numberOfShares;
+                        const percentageChange =
+                          ((currentValue - totalSpent) / totalSpent) * 100;
+                        console.log(e);
+                        return {
+                          ticker: "$" + e.company.ticker,
+                          percentageChange: makeCent(percentageChange),
+                        };
+                      })
+                    : undefined
+                }
+              />
             </div>
             <div className="rounded bg-custom-light-main flex flex-col items-center pb-4">
               <div className="flex flex-row h-10 gap-3 mt-5">
@@ -397,9 +437,7 @@ export default function Tradepage({ id }: { id: string }) {
           </div>
         </div>
         <div className="bg-custom-light-main rounded mt-4 p-10">
-          <h1 className="text-white font-bold">
-            News
-          </h1>
+          <h1 className="text-white font-bold">News</h1>
         </div>
       </div>
     </div>
