@@ -5,6 +5,7 @@ interface IProps {
   data: number[];
   type: "10 minutes" | "hourly" | "daily" | "30 days";
 }
+const MAX_PRICE = 2000
 
 export default function Graph(props: IProps) {
   const timems = useRef(Date.now());
@@ -17,10 +18,10 @@ export default function Graph(props: IProps) {
   };
 
   let maxs = {
-    "10 minutes": 1000,
-    hourly: 1000,
-    daily: 1000,
-    "30 days": 1000,
+    "10 minutes": MAX_PRICE,
+    hourly: MAX_PRICE,
+    daily: MAX_PRICE,
+    "30 days": MAX_PRICE,
   };
 
   function getMinsAndMaxes() {
@@ -37,7 +38,7 @@ export default function Graph(props: IProps) {
         const max = Math.max(...yData) + 10;
         // Round up to nearest 10
         const roundedMax = Math.ceil(max / 10) * 10;
-        if (maxs["10 minutes"] === 1000 || maxs["10 minutes"] < roundedMax) {
+        if (maxs["10 minutes"] === MAX_PRICE || maxs["10 minutes"] < roundedMax) {
           maxs = { ...maxs, "10 minutes": roundedMax };
         }
       } else if (props.type === "hourly") {
@@ -51,7 +52,7 @@ export default function Graph(props: IProps) {
         const max = Math.max(...yData) + 20;
         // Round up to nearest 20
         const roundedMax = Math.ceil(max / 20) * 20;
-        if (maxs.hourly === 1000 || maxs.hourly < roundedMax) {
+        if (maxs.hourly === MAX_PRICE || maxs.hourly < roundedMax) {
           maxs = { ...maxs, hourly: roundedMax };
         }
       } else if (props.type === "daily") {
@@ -65,7 +66,7 @@ export default function Graph(props: IProps) {
         const max = Math.max(...yData) + 50;
         // Round up to nearest 50
         const roundedMax = Math.ceil(max / 50) * 50;
-        if (maxs.daily === 1000 || maxs.daily < roundedMax) {
+        if (maxs.daily === MAX_PRICE || maxs.daily < roundedMax) {
           maxs = { ...maxs, daily: roundedMax };
         }
       }
