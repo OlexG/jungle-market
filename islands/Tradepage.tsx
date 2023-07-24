@@ -5,7 +5,6 @@ import InvestmentsPanel from "../components/InvestmentsPanel.tsx";
 import Graph from "./Graph.tsx";
 import TimeButton from "../components/TimeButton.tsx";
 import { TimeType } from "../components/types/types.tsx";
-import Footer from "../components/Footer.tsx";
 import { useGraphQLMutation } from "../hooks/useGraphQLMutation.ts";
 
 const TOTALWATCHLISTINFO = [
@@ -66,7 +65,7 @@ function Modal({
 
   return (
     <div className="text-white fixed z-50 inset-0 bg-custom-light-main bg-opacity-90 flex items-center justify-center">
-      <div className="shadow bg-custom-dark-main rounded-lg px-10 py-5 w-96 w-full text-center">
+      <div className="shadow bg-custom-dark-main rounded px-10 py-5 w-96 w-full text-center">
         <h2 className="text-2xl font-bold mb-2">
           {type === "buy" ? "Confirm Purchase" : "Confirm Sale"}
         </h2>
@@ -254,7 +253,7 @@ export default function Tradepage({ id }: { id: string }) {
           <div className="h-120 w-4/6 bg-custom-light-main relative rounded mr-4 shadow-lg shadow-gray-200">
             <div className="w-5/6 mx-auto bg-custom-off-white rounded mt-6 text-lg">
               <div
-                className="relative bg-custom-dark-main"
+                className="relative bg-custom-dark-main rounded"
                 style={{
                   position: "relative",
                   overflow: "hidden",
