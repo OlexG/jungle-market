@@ -35,7 +35,7 @@ export default function InvestmentsPanel(props: IProps) {
       <div className="text-custom-off-white font-inter text-3xl font-bold mt-5 flex flex-col justify-center">
         Investments
       </div>
-      <div className="bg-custom-off-white w-56 rounded-t mt-4">
+      <div className="bg-custom-off-white w-56 rounded-t mt-4 h-72">
         {getInfo().map((info, index) => (
           <button
             key={index}

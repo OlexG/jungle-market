@@ -20,7 +20,9 @@ export function useGraphQLMutation() {
         throw new Error(json.errors[0].message);
       }
       setData(json.data);
+      setError(null);
     } catch (error) {
+      setData(null);
       setError(error);
     }
     setLoading(false);

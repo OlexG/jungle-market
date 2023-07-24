@@ -6,6 +6,8 @@ import Graph from "./Graph.tsx";
 import TimeButton from "../components/TimeButton.tsx";
 import { TimeType } from "../components/types/types.tsx";
 import { useGraphQLMutation } from "../hooks/useGraphQLMutation.ts";
+import ErrorAlert from "../components/Error.tsx";
+import SuccessAlert from "../components/Success.tsx";
 
 const TOTALWATCHLISTINFO = [
   { ticker: "PLMP", percentageChange: 5.6 },
@@ -174,6 +176,17 @@ export default function Tradepage({ id }: { id: string }) {
     `
     );
 
+  const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  useEffect(() => {
+    if (orderError) {
+      setIsError(true);
+    }
+    if (orderData && !orderError) {
+      setIsSuccess(true);
+    }
+  }, [orderError, orderData]);
+
   const [type, setType] = useState<TimeType>(TimeType.TEN_MINUTES);
   const [consoleText, setConsoleText] = useState(defaultConsoleText);
   const [amount, setAmount] = useState(1);
@@ -237,6 +250,24 @@ export default function Tradepage({ id }: { id: string }) {
   // TODO: split these into components
   return (
     <div className="grid grid-cols-6 bg-custom-dark-main min-h-screen overflow-hidden">
+      {
+        orderError && (
+          <ErrorAlert
+            message={(orderError as Error).message}
+            setIsOpen={setIsError}
+            isOpen={isError}
+          />
+        )
+      }
+      {
+        orderData && (
+          <SuccessAlert
+            message={"Order successfully executed!"}
+            setIsOpen={setIsSuccess}
+            isOpen={isSuccess}
+          />
+        )
+      }
       {confirmBuyModalOpen && (
         <Modal
           type={currentOrderType}
