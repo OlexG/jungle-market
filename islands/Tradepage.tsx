@@ -273,7 +273,6 @@ export default function Tradepage({ id }: { id: string }) {
   if (loading || !data?.company) {
     return <div>Loading...</div>;
   }
-
   // TODO: split these into components
   return (
     <div className="grid grid-cols-6 bg-custom-dark-main min-h-screen overflow-hidden">

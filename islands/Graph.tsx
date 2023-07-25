@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import { LineChartDynamic } from "https://deno.land/x/d3nochart@v0.0.2-alpha/charts.ts";
+import { IS_BROWSER } from "$fresh/runtime.ts";
 
 interface IProps {
   data: number[];
@@ -25,8 +26,8 @@ export default function Graph(props: IProps) {
   };
 
   function getMinsAndMaxes() {
-    if (datasets && datasets[0].data && datasets[0].data.length > 0) {
-      const yData = datasets[0].data.map((value: any) => value.y);
+    if (datasets && datasets.data && datasets.data.length > 0) {
+      const yData = datasets.data.map((value: any) => value.y);
       if (props.type === "10 minutes") {
         const min = Math.min(...yData) - 10;
         // Round down to nearest 10, but dont accept anything more than 0
@@ -76,7 +77,7 @@ export default function Graph(props: IProps) {
 
   useEffect(() => {
     if (props.type === "10 minutes") {
-      setData([
+      setData(
         {
           label: "Last 10 minutes",
           color: "green",
@@ -85,9 +86,9 @@ export default function Graph(props: IProps) {
             y: value,
           })),
         },
-      ]);
+      );
     } else if (props.type === "hourly") {
-      setData([
+      setData(
         {
           label: "Last hour, every 5 minutes",
           color: "green",
@@ -96,9 +97,9 @@ export default function Graph(props: IProps) {
             y: value,
           })),
         },
-      ]);
+      );
     } else if (props.type === "daily") {
-      setData([
+      setData(
         {
           label: "Last day, hourly",
           color: "green",
@@ -107,9 +108,9 @@ export default function Graph(props: IProps) {
             y: value,
           })),
         },
-      ]);
+      );
     } else if (props.type === "30 days") {
-      setData([
+      setData(
         {
           label: "Last 30 days, daily",
           color: "green",
@@ -118,7 +119,7 @@ export default function Graph(props: IProps) {
             y: value,
           })),
         },
-      ]);
+      );
     }
   }, [props.data, props.type]);
 
@@ -126,6 +127,9 @@ export default function Graph(props: IProps) {
   const [updateTrigger, setupdateTrigger] = useState(0);
 
   useEffect(() => {
+    if (!IS_BROWSER) return;
+    if (!datasets) return;
+    if (!datasets?.data?.length) return;
     // get "chart-container div"
     const chartContainer =
       document.getElementsByClassName("chart-container")[0];
@@ -139,7 +143,8 @@ export default function Graph(props: IProps) {
       parent.style.padding = "0px";
       parent.style.backgroundColor = "rgba(255, 255, 0, 0)";
     }
-  }, [datasets]);
+  }, [datasets, IS_BROWSER, datasets?.data.length]);
+
   if (!datasets) {
     return <div></div>;
   }
@@ -151,8 +156,8 @@ export default function Graph(props: IProps) {
           width={550}
           paddingTop={0} //@ts-ignore
           paddingBottom={-5} //@ts-ignore
-          datasets={datasets} //@ts-ignore
-          data={datasets[0].data}
+          datasets={[datasets]} //@ts-ignore
+          data={datasets.data}
           yAxisAuto={false}
           yAxisMin={getMinsAndMaxes().mins[props.type]}
           yAxisMax={getMinsAndMaxes().maxs[props.type]}

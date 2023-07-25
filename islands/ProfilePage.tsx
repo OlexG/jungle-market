@@ -2,6 +2,7 @@ import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
 import { useEffect, useState } from "preact/hooks";
 import { User } from "../routes/models/user.ts";
 import { makeCent } from "../generation/priceGeneration.ts";
+import { IS_BROWSER } from "$fresh/runtime.ts";
 // TODO: Look into properly rounding
 
 interface IProps {
@@ -61,8 +62,6 @@ export default function ProfilePage(props: IProps) {
       } 
     }`
   );
-
-  console.log(data, error, loading);
 
   const [isUser, setIsUser] = useState<boolean>(false);
   useEffect(() => {

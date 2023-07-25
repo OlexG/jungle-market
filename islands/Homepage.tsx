@@ -1,6 +1,7 @@
 import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
 import { Company } from "../routes/models/company.ts";
 import { sectorNames } from "../generation/nameGeneration.ts";
+import { IS_BROWSER } from "$fresh/runtime.ts";
 
 const colors = [
   "yellow",
