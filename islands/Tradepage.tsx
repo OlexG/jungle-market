@@ -10,10 +10,9 @@ import ErrorAlert from "../components/Error.tsx";
 import SuccessAlert from "../components/Success.tsx";
 import { User } from "../routes/models/user.ts";
 import { makeCent } from "../generation/priceGeneration.ts";
-import { IS_BROWSER } from "$fresh/runtime.ts";
 import BuyPanel from "../components/BuyPanel.tsx";
 import useUserID from "../hooks/useUserID.ts";
-
+import Modal from "../components/TradePageModal.tsx";
 
 const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
 
@@ -28,64 +27,6 @@ const style = `
     }
   `;
 
-interface ModalProps {
-  type: string;
-  amount: number;
-  closeModal: () => void;
-  executeOrder: Function;
-  companyID: string;
-  userID: string | null;
-}
-
-function Modal({
-  type,
-  amount,
-  closeModal,
-  executeOrder,
-  companyID,
-  userID
-}: ModalProps) {
-
-  return (
-    <div className="text-white fixed z-50 inset-0 bg-custom-light-main bg-opacity-90 flex items-center justify-center">
-      <div className="shadow bg-custom-dark-main rounded px-10 py-5 w-96 w-full text-center">
-        <h2 className="text-2xl font-bold mb-2">
-          {type === "buy" ? "Confirm Purchase" : "Confirm Sale"}
-        </h2>
-        <p className="mb-4">
-          {`Are you sure you want to ${type} ${amount} shares?`}
-        </p>
-        <div className="w-full flex flex-row items-center justify-center">
-          <button
-            className="px-3 py-2 bg-red-600 text-white rounded mr-2 font-bold hover:bg-red-700"
-            onClick={closeModal}
-          >
-            Cancel
-          </button>
-          <button
-            className={`${
-              amount === 0 ? "opacity-50" : ""
-            } px-3 py-2 bg-green-600 text-white rounded font-bold ${
-              amount === 0 ? "cursor-not-allowed" : "hover:bg-green-700"
-            }`}
-            onClick={() => {
-              executeOrder(
-                userID,
-                companyID,
-                amount,
-                type === "buy" ? "buy" : "sell"
-              );
-              closeModal();
-            }}
-            disabled={amount === 0}
-          >
-            Confirm
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function Tradepage({ id }: { id: string }) {
   const { data, loading } = useGraphQLQuery<{ company: Company } | null>(
