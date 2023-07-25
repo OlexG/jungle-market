@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import useUserID from "../hooks/useUserID.ts";
 
 const HeaderLink = (props: {to: string, text: string}) => {
   return (
@@ -17,15 +18,7 @@ const HeaderLink = (props: {to: string, text: string}) => {
 };
 
 export function Header() {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [userId, setUserId] = useState(0);
-  useEffect(() => {
-    if (localStorage.getItem("userData")) {
-      const object = JSON.parse(localStorage.getItem("userData") as any);
-      setUserId(object.id);
-      setIsSignedIn(true);
-    }
-  }, []);
+  const userID = useUserID();
 
   return (
     <header className="w-screen h-16 bg-custom-dark-green overflow-hidden fixed top-0 left-0 w-full z-50 shadow">
@@ -51,8 +44,8 @@ export function Header() {
       <div className="absolute top-0 right-0 flex items-center h-full pr-4">
         <HeaderLink to="/joinclass" text="Class" />
         {
-          isSignedIn ?
-            <HeaderLink to={`/profile/${userId}`} text="Profile" />
+          userID ?
+            <HeaderLink to={`/profile/${userID}`} text="Profile" />
             :
             <HeaderLink to="/signin" text="Sign In" />
         }

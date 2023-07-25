@@ -11,6 +11,8 @@ import SuccessAlert from "../components/Success.tsx";
 import { User } from "../routes/models/user.ts";
 import { makeCent } from "../generation/priceGeneration.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
+import BuyPanel from "../components/BuyPanel.tsx";
+import useUserID from "../hooks/useUserID.ts";
 
 
 const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
@@ -32,6 +34,7 @@ interface ModalProps {
   closeModal: () => void;
   executeOrder: Function;
   companyID: string;
+  userID: string | null;
 }
 
 function Modal({
@@ -40,14 +43,8 @@ function Modal({
   closeModal,
   executeOrder,
   companyID,
+  userID
 }: ModalProps) {
-  const [userID, setUserID] = useState<string>(""); // TODO: fix ID and Id
-  useEffect(() => {
-    if (localStorage.getItem("userData")) {
-      const object = JSON.parse(localStorage.getItem("userData") as any);
-      setUserID(object.id);
-    }
-  }, []);
 
   return (
     <div className="text-white fixed z-50 inset-0 bg-custom-light-main bg-opacity-90 flex items-center justify-center">
@@ -91,7 +88,7 @@ function Modal({
 }
 
 export default function Tradepage({ id }: { id: string }) {
-  let { data, error, loading } = useGraphQLQuery<{ company: Company } | null>(
+  const { data, loading } = useGraphQLQuery<{ company: Company } | null>(
     `{
       company(id: "${id}") {
         name
@@ -105,10 +102,8 @@ export default function Tradepage({ id }: { id: string }) {
     }`
   );
 
-  let {
+  const {
     data: priceData,
-    error: priceError,
-    loading: priceLoading,
     refetch,
   } = useGraphQLQuery<{ company: Company } | null>(
     `{
@@ -120,19 +115,11 @@ export default function Tradepage({ id }: { id: string }) {
     }`,
     true
   );
-
-  const [userID, setUserID] = useState<string | null>(null);
-  useEffect(() => {
-    if (IS_BROWSER && localStorage.getItem("userData")) {
-      const object = JSON.parse(localStorage.getItem("userData") as any);
-      setUserID(object.id);
-    }
-  }, [IS_BROWSER]); // TODO: make this a custom hook and replace in other places
+  
+  const userID = useUserID();
 
   const {
     data: portfolioData,
-    error: portfolioError,
-    loading: portfolioLoading,
     refetch: portfolioRefetch,
   } = useGraphQLQuery<{ user: User } | null>(
     `{
@@ -297,6 +284,7 @@ export default function Tradepage({ id }: { id: string }) {
           closeModal={() => setConfirmBuyModalOpen(false)}
           executeOrder={executeOrder}
           companyID={data?.company.id}
+          userID={userID}
         />
       )}
       <style>{style}</style>
@@ -409,30 +397,12 @@ export default function Tradepage({ id }: { id: string }) {
                 }
               />
             </div>
-            <div className="rounded bg-custom-light-main flex flex-col items-center pb-4">
-              <div className="flex flex-row h-10 gap-3 mt-5">
-                <button
-                  className="bg-custom-dark-green hover:bg-green-700 px-8 py-2 text-white rounded font-bold"
-                  onClick={handleBuyClick}
-                >
-                  Buy
-                </button>
-                <button
-                  className="bg-red-600 hover:bg-red-700 px-8 py-2 text-white rounded font-bold"
-                  onClick={handleSellClick}
-                >
-                  Sell
-                </button>
-              </div>
-              <h1 className="text-white font-bold text-lg mt-5">Amount</h1>
-              <input
-                className="w-20 p-2 rounded-md shadow bg-white hover:scale-105 flex flex-row items-center justify-center "
-                type="number"
-                step="1"
-                onChange={(e) => handleInputNumberChange(e)}
-                value={amount}
-              />
-            </div>
+            <BuyPanel
+              handleBuyClick={handleBuyClick}
+              handleSellClick={handleSellClick}
+              handleInputNumberChange={handleInputNumberChange}
+              amount={amount}
+            />
           </div>
         </div>
         <div className="bg-custom-light-main rounded mt-4 p-10">

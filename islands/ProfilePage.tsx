@@ -3,6 +3,7 @@ import { useEffect, useState } from "preact/hooks";
 import { User } from "../routes/models/user.ts";
 import { makeCent } from "../generation/priceGeneration.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
+import useUserID from "../hooks/useUserID.ts";
 // TODO: Look into properly rounding
 
 interface IProps {
@@ -63,16 +64,9 @@ export default function ProfilePage(props: IProps) {
     }`
   );
 
-  const [isUser, setIsUser] = useState<boolean>(false);
-  useEffect(() => {
-    const user = localStorage.getItem("userData");
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      if (parsedUser.id === props.id) {
-        setIsUser(true);
-      }
-    }
-  }, [props.id]);
+  const userID = useUserID();
+  const isUser = userID === props.id;
+
 
   return (
     <div className="bg-custom-dark-main h-screen pt-0.5 flex flex-row justify-center w-full gap-4 px-96">
