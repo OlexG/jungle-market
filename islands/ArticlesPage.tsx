@@ -1,23 +1,56 @@
 import { useEffect, useState } from "preact/hooks";
 import { generateRandomName } from "../generation/articles/executiveNameGeneration.ts";
-
+import { generateRandomArticle } from "../generation/articles/articleGeneration.ts";
+import { h } from "preact";
 
 export default function ArticlesPage() {
   const cursiveFontStyle = {
-    fontFamily: "YourChosenCursiveFont, cursive",
-  };
+    fontFamily: "'YourChosenCursiveFont', cursive",
+  };  
+  
+  let testing = "";
+  let i = 0;
+  for (; i < 200; i++) {
+    testing += "Testing here ";
+  }
+
+  const article = generateRandomArticle();
 
   return (
-    <div className="bg-custom-light-main min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="w-2/5 h-full center bg-custom-dark-main absolute">
-        <div className="text-white text-center text-6xl mt-10"style={cursiveFontStyle}>
-          The Mon(k)ey Times
+    <div className="bg-black min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <div className="w-120 center bg-white absolute " style={{ overflow: "auto" }}>
+        <div
+          className="text-black text-center text-6xl mt-6 m-10"
+          style={cursiveFontStyle}
+        >
+          The Monkey Times
         </div>
-        <div className="text-white text-center text-1xl mt-2">
-           { generateRandomName() }
+        <div
+          className="text-black text-3xl ml-10"
+          style={{ fontFamily: "Times New Roman, serif" }}
+        >
+          {article.Title}
         </div>
-
-
+        <div
+          className="text-black text-1xl ml-10"
+          style={{ fontFamily: "Times New Roman, serif" }}
+        >
+          {article.Author}
+        </div>
+        <div
+          className="text-gray-500 text-xs ml-10"
+          style={{ fontFamily: "Times New Roman, serif" }}
+        >
+          {"Published on " + article.DateWritten}
+        </div>
+        <img
+          class="w-60 h-60 m-10 mt-2 float-right"
+          src="../art/TheMonkeyTimesLogo.jpg"
+          alt="filler image"
+        />
+        <p className="text-black text-left text-xs mt-2 ml-10 w-110" style={{ fontFamily: "Times New Roman, serif" }}>
+          {/* article.Body */ testing}
+        </p>
       </div>
     </div>
   );
