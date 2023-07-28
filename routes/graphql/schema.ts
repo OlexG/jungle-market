@@ -1,35 +1,16 @@
-import { buildSchema } from "https://esm.sh/graphql@15.5.0";
-import { Company } from "../models/company.ts";
+import { buildSchema } from "graphql";
+import { Company, CompanyDBSchema } from "../models/company.ts";
 import { OrderModel, orderQLString } from "../models/order.ts";
 
 import { CompanyModel, companyQLString } from "../models/company.ts";
 
-import { NewsModel, newsStoryQLString } from "../models/newsStory.ts";
+import { NewsModel, NewsStoryDBSchema, newsStoryQLString } from "../models/newsStory.ts";
 
 import { UserModel, userQLString } from "../models/user.ts";
 
 import { DBDriver } from "../../database/driver.ts";
+import z from "https://deno.land/x/zod@v3.21.4/index.ts";
 
-const fakeNewsStories = [
-  {
-    id: "1",
-    title: "News Story 1",
-    description: "News Story 1 description",
-    url: "https://www.google.com",
-    image: "https://www.google.com",
-    publishedAt: 123456789,
-    companyID: "1",
-  },
-  {
-    id: "2",
-    title: "News Story 2",
-    description: "News Story 2 description",
-    url: "https://www.google.com",
-    image: "https://www.google.com",
-    publishedAt: 123456789,
-    companyID: "2",
-  },
-];
 
 export const schema = buildSchema(`
   ${companyQLString}
@@ -41,18 +22,18 @@ export const schema = buildSchema(`
     company(id: ID!): Company!
     newsStories: [NewsStory!]!
     newsStory(id: ID!): NewsStory!
-    orders(userID: ID!): [Order!]!
+    orders(userId: ID!): [Order!]!
     user(id: ID!): User!
     order(
-      userID: ID! 
+      userId: ID! 
       id: ID!
     ): Order!
   }
 
   type Mutation {
     createOrder(
-      userID: ID!
-      companyID: ID!
+      userId: ID!
+      companyId: ID!
       numberOfShares: Int!
       type: OrderType!
     ) : Order!
@@ -67,16 +48,11 @@ export const rootValue = {
   company: async (input: { id: string }) => {
     const company = await DBDriver.Companies.findById(input.id);
     /* TODO: Figure out error handling */
-    return new CompanyModel(company as Company);
+    return new CompanyModel(company as z.infer<typeof CompanyDBSchema>);
   },
-  newsStories: () => {
-    return fakeNewsStories.map((newsStory) => new NewsModel(newsStory));
-  },
-  newStory: (input: { id: string }) => {
-    const newsStory = fakeNewsStories.find(
-      (newsStory) => newsStory.id === input.id
-    );
-    return new NewsModel(newsStory as any);
+  newStory: async (input: { id: string }) => {
+    const newsStory = await DBDriver.NewsStories.findById(input.id);
+    return new NewsModel(newsStory as z.infer<typeof NewsStoryDBSchema>);
   },
   user: async (input: { id: string }) => {
     const user = await DBDriver.Users.findPublicById(input.id);
@@ -85,28 +61,28 @@ export const rootValue = {
 
   /*---- PROTECTED ----*/
   // TODO: Add authentication
-  orders: async (input: { userID: string }) => {
-    const orders = await DBDriver.Orders.getByUserId(input.userID);
+  orders: async (input: { userId: string }) => {
+    const orders = await DBDriver.Orders.findByuserId(input.userId);
     return orders.map((order) => new OrderModel(order));
   },
 
-  order: async (input: { userID: string, id: string }) => {
-    const order = await DBDriver.Orders.getById(input.id);
-    if (order.userID !== input.userID) {
+  order: async (input: { userId: string, id: string }) => {
+    const order = await DBDriver.Orders.findById(input.id);
+    if (order.userId !== input.userId) {
       throw new Error("Order does not belong to user");
     }
     return new OrderModel(order);
   },
 
   createOrder: async (input: {
-    userID: string;
-    companyID: string;
+    userId: string;
+    companyId: string;
     numberOfShares: number;
     type: "buy" | "sell";
   } ) => {
     const order = await DBDriver.Orders.createOrder(
-      input.userID,
-      input.companyID,
+      input.userId,
+      input.companyId,
       input.numberOfShares,
       input.type,
     );

@@ -14,9 +14,8 @@ import * as $8 from "./routes/models/company.ts";
 import * as $9 from "./routes/models/newsStory.ts";
 import * as $10 from "./routes/models/order.ts";
 import * as $11 from "./routes/models/user.ts";
-import * as $12 from "./routes/profile.tsx";
-import * as $13 from "./routes/profile/[id].tsx";
-import * as $14 from "./routes/signin.tsx";
+import * as $12 from "./routes/profile/[id].tsx";
+import * as $13 from "./routes/signin.tsx";
 import * as $$0 from "./islands/ArticlesPage.tsx";
 import * as $$1 from "./islands/Graph.tsx";
 import * as $$2 from "./islands/Header.tsx";
@@ -41,9 +40,8 @@ const manifest = {
     "./routes/models/newsStory.ts": $9,
     "./routes/models/order.ts": $10,
     "./routes/models/user.ts": $11,
-    "./routes/profile.tsx": $12,
-    "./routes/profile/[id].tsx": $13,
-    "./routes/signin.tsx": $14,
+    "./routes/profile/[id].tsx": $12,
+    "./routes/signin.tsx": $13,
   },
   islands: {
     "./islands/ArticlesPage.tsx": $$0,

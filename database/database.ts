@@ -1,7 +1,7 @@
 /// <reference lib="deno.unstable" />
 
 import { generateRandomCompany } from "../generation/nameGeneration.ts";
-import { createPentagon } from "https://deno.land/x/pentagon@v0.1.2/mod.ts";
+import { createPentagon } from "pentagon";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { NewsStoryDBSchema } from "../routes/models/newsStory.ts";
 import { User, UserDBSchema } from "../routes/models/user.ts";
@@ -18,20 +18,20 @@ export const db = createPentagon(kv, {
   companies: {
     schema: CompanyDBSchema,
     relations: {
-      newsStories: ["newsStories", [NewsStoryDBSchema], "id", "companyID"],
+      newsStories: ["newsStories", [NewsStoryDBSchema], "id", "companyId"],
     },
   },
   newsStories: {
     schema: NewsStoryDBSchema,
     relations: {
-      company: ["companies", CompanyDBSchema, "companyID", "id"],
+      company: ["companies", CompanyDBSchema, "companyId", "id"],
     },
   },
   orders: {
     schema: OrderDBSchema,
     relations: {
-      user: ["users", UserDBSchema, "userID", "id"],
-      company: ["companies", CompanyDBSchema, "companyID", "id"],
+      user: ["users", UserDBSchema, "userId", "id"],
+      company: ["companies", CompanyDBSchema, "companyId", "id"],
     },
   },
 });

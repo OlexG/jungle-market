@@ -3,8 +3,8 @@ interface ModalProps {
   amount: number;
   closeModal: () => void;
   executeOrder: Function;
-  companyID: string;
-  userID: string | null;
+  companyId: string;
+  userId: string | null;
 }
 
 export default function Modal({
@@ -12,8 +12,8 @@ export default function Modal({
   amount,
   closeModal,
   executeOrder,
-  companyID,
-  userID
+  companyId,
+  userId
 }: ModalProps) {
 
   return (
@@ -40,8 +40,8 @@ export default function Modal({
             }`}
             onClick={() => {
               executeOrder(
-                userID,
-                companyID,
+                userId,
+                companyId,
                 amount,
                 type === "buy" ? "buy" : "sell"
               );

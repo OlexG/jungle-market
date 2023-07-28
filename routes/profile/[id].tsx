@@ -11,7 +11,6 @@ export default function Profile(props: PageProps) {
       <ProfilePage 
         id={id}
       />
-      <Footer/>
     </>
   );
 }

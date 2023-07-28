@@ -3,7 +3,7 @@ import { useEffect, useState } from "preact/hooks";
 import { User } from "../routes/models/user.ts";
 import { makeCent } from "../generation/priceGeneration.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import useUserID from "../hooks/useUserID.ts";
+import useuserId from "../hooks/useUserID.ts";
 // TODO: Look into properly rounding
 
 interface IProps {
@@ -15,7 +15,7 @@ interface OrderProps {
   price: number;
   type: string;
   ticker: string;
-  companyID: string;
+  companyId: string;
 }
 
 function Order(props: OrderProps) {
@@ -25,7 +25,7 @@ function Order(props: OrderProps) {
         props.type === "buy" ? "bg-custom-dark-green" : "bg-custom-red"
       } rounded shadow flex flex-col justify-center h-40 px-5 my-2 flex-shrink-0`}
     >
-      <a href={`/${props.companyID}/trading`} className="underline text-custom-off-white font-bold">${props.ticker}</a>
+      <a href={`/${props.companyId}/trading`} className="underline text-custom-off-white font-bold">${props.ticker}</a>
       <p className="text-custom-off-white">Shares: {props.numberOfShares}</p>
       <p className="text-custom-off-white">Price: ${props.price}</p>
     </div>
@@ -64,8 +64,8 @@ export default function ProfilePage(props: IProps) {
     }`
   );
 
-  const userID = useUserID();
-  const isUser = userID === props.id;
+  const userId = useuserId();
+  const isUser = userId === props.id;
 
 
   return (
@@ -111,7 +111,7 @@ export default function ProfilePage(props: IProps) {
               price={order.price}
               type={order.type}
               ticker={order.company.ticker}
-              companyID={order.company.id}
+              companyId={order.company.id}
             />
           ))}
         </div>

@@ -1,8 +1,6 @@
-import { graphql } from "https://esm.sh/graphql@15.5.0";
-
+import { graphql } from "graphql";
 import { rootValue, schema } from "../graphql/schema.ts";
-
-import gql from "https://esm.sh/graphql-tag@2.12.6";
+import gql from "graphql-tag";
 import { DBDriver } from "../../database/driver.ts";
 
 const protectedMutations = [
@@ -34,12 +32,12 @@ export const handler = async (_req: Request): Promise<Response> => {
     }
     const graphQLArguments =
       queryObject.definitions[0].selectionSet.selections[0].arguments;
-    const userIdArg = graphQLArguments.find((arg: any) => arg.name.value === "userID");
+    const userIdArg = graphQLArguments.find((arg: any) => arg.name.value === "userId");
     const userId = userIdArg ? userIdArg.value.value : null;
-    const actualUserId = await DBDriver.Users.getUserIdFromSessionToken(
+    const actualuserId = await DBDriver.Users.getuserIdFromSessionToken(
       sessionToken,
     );
-    if (userId !== actualUserId) {
+    if (userId !== actualuserId) {
       return new Response(
         JSON.stringify({
           error: "Unauthorized",

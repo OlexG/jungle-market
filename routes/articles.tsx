@@ -6,7 +6,6 @@ export default function Articles() {
   return (
     <>
       <ArticlesPage/>
-      <Footer/>
     </>
   );
 }

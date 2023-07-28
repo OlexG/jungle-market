@@ -1,4 +1,4 @@
-import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
+import { z } from "zod";
 import { DBDriver } from "../../database/driver.ts";
 import { NewsModel } from "./newsStory.ts";
 
@@ -77,7 +77,7 @@ export class CompanyModel {
   }
 
   async getNewsStories() {
-    const newsStories = await DBDriver.NewsStories.getByCompanyId(this.id);
+    const newsStories = await DBDriver.NewsStories.findBycompanyId(this.id);
     return newsStories.map((newsStory) => new NewsModel(newsStory));
   }
 

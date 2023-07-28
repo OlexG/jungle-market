@@ -2,7 +2,7 @@ import { db } from "./database.ts";
 import { generateRandomCompany } from "../generation/nameGeneration.ts";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { getRandomPrice, getNextPrice } from "../generation/priceGeneration.ts";
-import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
+import { z } from "zod";
 
 const NUMBER_OF_COMPANIES = 10;
 
