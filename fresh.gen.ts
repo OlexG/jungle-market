@@ -20,10 +20,11 @@ import * as $$0 from "./islands/ArticlesPage.tsx";
 import * as $$1 from "./islands/Graph.tsx";
 import * as $$2 from "./islands/Header.tsx";
 import * as $$3 from "./islands/Homepage.tsx";
-import * as $$4 from "./islands/JoinClassPage.tsx";
-import * as $$5 from "./islands/ProfilePage.tsx";
-import * as $$6 from "./islands/Signin.tsx";
-import * as $$7 from "./islands/Tradepage.tsx";
+import * as $$4 from "./islands/InvestmentsPanel.tsx";
+import * as $$5 from "./islands/JoinClassPage.tsx";
+import * as $$6 from "./islands/ProfilePage.tsx";
+import * as $$7 from "./islands/Signin.tsx";
+import * as $$8 from "./islands/Tradepage.tsx";
 
 const manifest = {
   routes: {
@@ -47,10 +48,11 @@ const manifest = {
     "./islands/Graph.tsx": $$1,
     "./islands/Header.tsx": $$2,
     "./islands/Homepage.tsx": $$3,
-    "./islands/JoinClassPage.tsx": $$4,
-    "./islands/ProfilePage.tsx": $$5,
-    "./islands/Signin.tsx": $$6,
-    "./islands/Tradepage.tsx": $$7,
+    "./islands/InvestmentsPanel.tsx": $$4,
+    "./islands/JoinClassPage.tsx": $$5,
+    "./islands/ProfilePage.tsx": $$6,
+    "./islands/Signin.tsx": $$7,
+    "./islands/Tradepage.tsx": $$8,
   },
   baseUrl: import.meta.url,
 };
