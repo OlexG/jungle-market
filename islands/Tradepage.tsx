@@ -14,6 +14,7 @@ import BuyPanel from "../components/BuyPanel.tsx";
 import useuserId from "../hooks/useUserID.ts";
 import Modal from "../components/TradePageModal.tsx";
 import TradepageNewsComponent from "../components/TradepageNewsComponent.tsx";
+import FlashingPrice from "../components/FlashingPrice.tsx";
 
 const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
 
@@ -28,8 +29,13 @@ const style = `
     }
   `;
 
-
 export default function Tradepage({ id }: { id: string }) {
+  const [isAnimating, setIsAnimating] = useState(true);
+
+  const handleCompleteAnimation = () => {
+    setIsAnimating(false);
+  };
+
   const { data, loading } = useGraphQLQuery<{ company: Company } | null>(
     `{
       company(id: "${id}") {
@@ -51,11 +57,9 @@ export default function Tradepage({ id }: { id: string }) {
     }`
   );
 
-
-  const {
-    data: priceData,
-    refetch,
-  } = useGraphQLQuery<{ company: Company } | null>(
+  const { data: priceData, refetch } = useGraphQLQuery<{
+    company: Company;
+  } | null>(
     `{
       company(id: "${id}") {
         currentPrice
@@ -65,13 +69,12 @@ export default function Tradepage({ id }: { id: string }) {
     }`,
     true
   );
-  
+
   const userId = useuserId();
 
-  const {
-    data: portfolioData,
-    refetch: portfolioRefetch,
-  } = useGraphQLQuery<{ user: User } | null>(
+  const { data: portfolioData, refetch: portfolioRefetch } = useGraphQLQuery<{
+    user: User;
+  } | null>(
     `{
         user(id: "${userId}") {
           portfolio {
@@ -269,11 +272,14 @@ export default function Tradepage({ id }: { id: string }) {
               <div>
                 <div className="flex justify-between">
                   <div className="text-custom-grey font-inter text-3xl">
-                    {data?.company.ticker +
-                      " $" +
-                      (priceData?.company.currentPrice
-                        ? priceData?.company.currentPrice
-                        : data?.company.currentPrice)}
+                    {data?.company.ticker} {/* @ts-ignore */}
+                    <FlashingPrice
+                      price={
+                        (priceData?.company.currentPrice
+                          ? priceData?.company.currentPrice
+                          : data?.company.currentPrice)
+                      }
+                    />
                   </div>
                   <div
                     className={`mt-2 ml-2 font-bold text-xl ${
@@ -360,12 +366,14 @@ export default function Tradepage({ id }: { id: string }) {
         <div className="border border-yellow-500 bg-white rounded mt-4 p-10 mb-4">
           <h1 className="text-custom-grey text-lg">News</h1>
           <div className="flex flex-col gap-4 mt-4">
-            {
-              data?.company.newsStories.map((story) => (
-                <TradepageNewsComponent title={story.title} id={story.id} date={story.createdAt} />
-              ))
-            }
-            </div>
+            {data?.company.newsStories.map((story) => (
+              <TradepageNewsComponent
+                title={story.title}
+                id={story.id}
+                date={story.createdAt}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
