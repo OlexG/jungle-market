@@ -1,32 +1,32 @@
 import { db } from "./database.ts";
 
 export class Orders {
-  static getByUserId(userId: string) {
+  static findByuserId(userId: string) {
     return db.orders.findMany({
-      where: { userID: userId },
+      where: { userId: userId },
     });
   }
 
-  static getById(id: string) {
+  static findById(id: string) {
     return db.orders.findFirst({
       where: { id },
     });
   }
 
   static async createOrder(
-    userID: string,
-    companyID: string,
+    userId: string,
+    companyId: string,
     numberOfShares: number,
     type: "buy" | "sell",
   ) {
     const id = crypto.randomUUID();
     const company = await db.companies.findFirst({
-      where: { id: companyID },
+      where: { id: companyId },
     });
 
     if (!company) throw new Error("Company not found");
     const user = await db.users.findFirst({
-      where: { id: userID },
+      where: { id: userId },
     });
     
     if (!user) throw new Error("User not found");
@@ -37,7 +37,7 @@ export class Orders {
     /* We know order is valid */
     await DBDriver.Users.processPortofolioChange(
       user,
-      companyID,
+      companyId,
       numberOfShares,
       type,
     );
@@ -50,13 +50,13 @@ export class Orders {
         : user.balance + numberOfShares * company.currentPrice;
     
     user.balance = newBalance;
-    await DBDriver.Users.updateUser(userID, user);
+    await DBDriver.Users.updateUser(userId, user);
   
     const order = await db.orders.create({
       data: {
         id,
-        userID,
-        companyID,
+        userId,
+        companyId,
         numberOfShares,
         type,
         price: company.currentPrice,

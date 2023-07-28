@@ -77,7 +77,7 @@ export class CompanyModel {
   }
 
   async getNewsStories() {
-    const newsStories = await DBDriver.NewsStories.getByCompanyId(this.id);
+    const newsStories = await DBDriver.NewsStories.findBycompanyId(this.id);
     return newsStories.map((newsStory) => new NewsModel(newsStory));
   }
 

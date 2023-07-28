@@ -22,18 +22,18 @@ export const schema = buildSchema(`
     company(id: ID!): Company!
     newsStories: [NewsStory!]!
     newsStory(id: ID!): NewsStory!
-    orders(userID: ID!): [Order!]!
+    orders(userId: ID!): [Order!]!
     user(id: ID!): User!
     order(
-      userID: ID! 
+      userId: ID! 
       id: ID!
     ): Order!
   }
 
   type Mutation {
     createOrder(
-      userID: ID!
-      companyID: ID!
+      userId: ID!
+      companyId: ID!
       numberOfShares: Int!
       type: OrderType!
     ) : Order!
@@ -51,7 +51,7 @@ export const rootValue = {
     return new CompanyModel(company as z.infer<typeof CompanyDBSchema>);
   },
   newStory: async (input: { id: string }) => {
-    const newsStory = await DBDriver.NewsStories.getById(input.id);
+    const newsStory = await DBDriver.NewsStories.findById(input.id);
     return new NewsModel(newsStory as z.infer<typeof NewsStoryDBSchema>);
   },
   user: async (input: { id: string }) => {
@@ -61,28 +61,28 @@ export const rootValue = {
 
   /*---- PROTECTED ----*/
   // TODO: Add authentication
-  orders: async (input: { userID: string }) => {
-    const orders = await DBDriver.Orders.getByUserId(input.userID);
+  orders: async (input: { userId: string }) => {
+    const orders = await DBDriver.Orders.findByuserId(input.userId);
     return orders.map((order) => new OrderModel(order));
   },
 
-  order: async (input: { userID: string, id: string }) => {
-    const order = await DBDriver.Orders.getById(input.id);
-    if (order.userID !== input.userID) {
+  order: async (input: { userId: string, id: string }) => {
+    const order = await DBDriver.Orders.findById(input.id);
+    if (order.userId !== input.userId) {
       throw new Error("Order does not belong to user");
     }
     return new OrderModel(order);
   },
 
   createOrder: async (input: {
-    userID: string;
-    companyID: string;
+    userId: string;
+    companyId: string;
     numberOfShares: number;
     type: "buy" | "sell";
   } ) => {
     const order = await DBDriver.Orders.createOrder(
-      input.userID,
-      input.companyID,
+      input.userId,
+      input.companyId,
       input.numberOfShares,
       input.type,
     );

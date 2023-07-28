@@ -11,7 +11,7 @@ import SuccessAlert from "../components/Success.tsx";
 import { User } from "../routes/models/user.ts";
 import { makeCent } from "../generation/priceGeneration.ts";
 import BuyPanel from "../components/BuyPanel.tsx";
-import useUserID from "../hooks/useUserID.ts";
+import useuserId from "../hooks/useUserID.ts";
 import Modal from "../components/TradePageModal.tsx";
 import TradepageNewsComponent from "../components/TradepageNewsComponent.tsx";
 
@@ -66,14 +66,14 @@ export default function Tradepage({ id }: { id: string }) {
     true
   );
   
-  const userID = useUserID();
+  const userId = useuserId();
 
   const {
     data: portfolioData,
     refetch: portfolioRefetch,
   } = useGraphQLQuery<{ user: User } | null>(
     `{
-        user(id: "${userID}") {
+        user(id: "${userId}") {
           portfolio {
             numberOfShares
             totalSpent
@@ -104,8 +104,8 @@ export default function Tradepage({ id }: { id: string }) {
   } = useGraphQLMutation(); // TODO: make this easier to use
 
   const executeOrder = (
-    userID: string,
-    companyID: string,
+    userId: string,
+    companyId: string,
     numberOfShares: number,
     type: string
   ) =>
@@ -113,8 +113,8 @@ export default function Tradepage({ id }: { id: string }) {
       `
       mutation {
         createOrder(
-          userID: "${userID}"
-          companyID: "${companyID}"
+          userId: "${userId}"
+          companyId: "${companyId}"
           numberOfShares: ${numberOfShares}
           type: ${type}
         ) {
@@ -234,8 +234,8 @@ export default function Tradepage({ id }: { id: string }) {
           amount={amount}
           closeModal={() => setConfirmBuyModalOpen(false)}
           executeOrder={executeOrder}
-          companyID={data?.company.id}
-          userID={userID}
+          companyId={data?.company.id}
+          userId={userId}
         />
       )}
       <style>{style}</style>
@@ -331,7 +331,7 @@ export default function Tradepage({ id }: { id: string }) {
             <div className="h-100 rounded border border-custom-light-green shadow bg-white">
               <InvestmentsPanel
                 info={
-                  userID
+                  userId
                     ? portfolioData?.user.portfolio.map((e) => {
                         const totalSpent = e.totalSpent;
                         const currentValue =

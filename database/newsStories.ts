@@ -20,7 +20,7 @@ export class NewsStories {
     const newsStory = await db.newsStories.create({
       data: {
         id,
-        companyID: company.id,
+        companyId: company.id,
         title: "News Story",
         description: "Wowiie, this company did something",
         image: "https://google.com",
@@ -29,13 +29,13 @@ export class NewsStories {
     });
   }
 
-  static async getByCompanyId(companyId: string) {
+  static async findBycompanyId(companyId: string) {
     return await db.newsStories.findMany({
-      where: { companyID: companyId },
+      where: { companyId: companyId },
     });
   }
 
-  static async getById(id: string) {
+  static async findById(id: string) {
     return await db.newsStories.findFirst({
       where: { id },
     });

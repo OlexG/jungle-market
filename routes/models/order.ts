@@ -16,8 +16,8 @@ export interface Order {
 
 export const OrderDBSchema = z.object({
   id: z.string().uuid().describe("primary"),
-  companyID: z.string().uuid(),
-  userID: z.string().uuid(),
+  companyId: z.string().uuid(),
+  userId: z.string().uuid(),
   createdAt: z.date().optional(),
   numberOfShares: z.number(),
   price: z.number(),
@@ -45,8 +45,8 @@ export const orderQLString = `
 
 export class OrderModel {
   id: string;
-  companyID: string;
-  userID: string;
+  companyId: string;
+  userId: string;
   createdAt: Date;
   numberOfShares: number;
   price: number;
@@ -55,8 +55,8 @@ export class OrderModel {
 
   constructor(order: any) {
     this.id = order.id;
-    this.companyID = order.companyID;
-    this.userID = order.userID;
+    this.companyId = order.companyId;
+    this.userId = order.userId;
     this.createdAt = order.createdAt;
     this.numberOfShares = order.numberOfShares;
     this.price = order.price;
@@ -73,12 +73,12 @@ export class OrderModel {
   }
 
   async getUser() {
-    const user = await DBDriver.Users.findPublicById(this.userID);
+    const user = await DBDriver.Users.findPublicById(this.userId);
     return new UserModel(user);
   }
 
   async getCompany() {
-    const company = await DBDriver.Companies.findById(this.companyID);
+    const company = await DBDriver.Companies.findById(this.companyId);
     return new CompanyModel(company);
   }
 }

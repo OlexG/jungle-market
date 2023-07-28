@@ -34,7 +34,7 @@ export const UserDBSchema = z.object({
   sessionToken: z.string().optional(),
   icon: z.string(),
   portfolio: z.array(z.object({
-    companyID: z.string().uuid(),
+    companyId: z.string().uuid(),
     numberOfShares: z.number(),
     totalSpent: z.number(),
   })),
@@ -83,7 +83,7 @@ export class UserModel {
   async getPortfolio() {
     const portfolio = await DBDriver.Users.getPortfolio(this.id)
     return portfolio.map(async (portfolioItem: any) => {
-      const company = await DBDriver.Companies.findById(portfolioItem.companyID)
+      const company = await DBDriver.Companies.findById(portfolioItem.companyId)
       return {
         company: new CompanyModel(company),
         numberOfShares: portfolioItem.numberOfShares,
@@ -93,7 +93,7 @@ export class UserModel {
   }
 
   async getOrders() {
-    const orders = await DBDriver.Orders.getByUserId(this.id) // TODO: find vs get
+    const orders = await DBDriver.Orders.findByuserId(this.id) // TODO: find vs get
     return orders.map((order: any) => new OrderModel(order))
   }
 }

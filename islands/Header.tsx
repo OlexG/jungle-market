@@ -1,5 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
-import useUserID from "../hooks/useUserID.ts";
+import useuserId from "../hooks/useUserID.ts";
 
 const HeaderLink = (props: {to: string, text: string}) => {
   return (
@@ -18,13 +18,13 @@ const HeaderLink = (props: {to: string, text: string}) => {
 };
 
 export function Header() {
-  const userID = useUserID();
+  const userId = useuserId();
 
   return (
     <header className="w-screen h-14 bg-custom-light-green overflow-hidden fixed top-0 left-0 w-full z-50 shadow">
       <a 
         href={'/'}
-        className="flex w-full h-full items-center pl-10 pr-4 text-white text-5xl font-semibold leading-normal">
+        className="flex w-98 h-full items-center pl-10 pr-4 text-white text-5xl font-semibold leading-normal">
         Jungle Market
       </a>
       <div className="absolute top-0 left-12">
@@ -45,8 +45,8 @@ export function Header() {
         <HeaderLink to="/joinclass" text="Class" />
         <HeaderLink to="/news" text="News" />
         {
-          userID ?
-            <HeaderLink to={`/profile/${userID}`} text="Profile" />
+          userId ?
+            <HeaderLink to={`/profile/${userId}`} text="Profile" />
             :
             <HeaderLink to="/signin" text="Sign In" />
         }

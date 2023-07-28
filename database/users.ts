@@ -19,19 +19,19 @@ export class Users {
 
   static async processPortofolioChange(
     user: z.infer<typeof UserDBSchema>,
-    companyID: string,
+    companyId: string,
     numberOfShares: number,
     type: "buy" | "sell",
   ) {
     const portfolio = user.portfolio;
     const company = await db.companies.findFirst({
-      where: { id: companyID },
+      where: { id: companyId },
     });
 
     // If company is already in portfolio, update number of shares
-    if (portfolio.some((item) => item.companyID === companyID)) {
+    if (portfolio.some((item) => item.companyId === companyId)) {
       const newPortfolio = portfolio.map((item) => {
-        if (item.companyID === companyID) {
+        if (item.companyId === companyId) {
           if (type === "buy") {
             return {
               ...item,
@@ -71,7 +71,7 @@ export class Users {
       const newPortfolio = [
         ...portfolio,
         {
-          companyID,
+          companyId,
           numberOfShares,
           totalSpent: numberOfShares * company.currentPrice,
         },
@@ -103,7 +103,7 @@ export class Users {
     return user.portfolio;
   }
 
-  static async getUserIdFromSessionToken(
+  static async getuserIdFromSessionToken(
     sessionToken: string
   ): Promise<string> {
     const user = await db.users.findFirst({
@@ -188,7 +188,7 @@ export class Users {
     await db.users.deleteMany({});
   }
 
-  async getById(id: string) {
+  async findById(id: string) {
     return await db.users.findFirst({
       where: { id },
     });

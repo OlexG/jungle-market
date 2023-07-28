@@ -18,20 +18,20 @@ export const db = createPentagon(kv, {
   companies: {
     schema: CompanyDBSchema,
     relations: {
-      newsStories: ["newsStories", [NewsStoryDBSchema], "id", "companyID"],
+      newsStories: ["newsStories", [NewsStoryDBSchema], "id", "companyId"],
     },
   },
   newsStories: {
     schema: NewsStoryDBSchema,
     relations: {
-      company: ["companies", CompanyDBSchema, "companyID", "id"],
+      company: ["companies", CompanyDBSchema, "companyId", "id"],
     },
   },
   orders: {
     schema: OrderDBSchema,
     relations: {
-      user: ["users", UserDBSchema, "userID", "id"],
-      company: ["companies", CompanyDBSchema, "companyID", "id"],
+      user: ["users", UserDBSchema, "userId", "id"],
+      company: ["companies", CompanyDBSchema, "companyId", "id"],
     },
   },
 });

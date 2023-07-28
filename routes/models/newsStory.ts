@@ -12,7 +12,7 @@ export const NewsStoryDBSchema = z.object({
   title: z.string(),
   description: z.string(),
   image: z.string(),
-  companyID: z.string().uuid(),
+  companyId: z.string().uuid(),
 });
 
 export const newsStoryQLString = `
@@ -32,7 +32,7 @@ export class NewsModel {
   description: string
   image: string
   createdAt: string
-  companyID: string
+  companyId: string
 
   constructor(newsStory: z.infer<typeof NewsStoryDBSchema>) {
     this.id = newsStory.id
@@ -40,12 +40,12 @@ export class NewsModel {
     this.description = newsStory.description
     this.image = newsStory.image
     this.createdAt = newsStory.createdAt
-    this.companyID = newsStory.companyID
+    this.companyId = newsStory.companyId
   }
 
 
   async getCompany() {
-    return new CompanyModel(await DBDriver.Companies.findById(this.companyID))
+    return new CompanyModel(await DBDriver.Companies.findById(this.companyId))
   }
 
   get company() {
