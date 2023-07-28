@@ -6,22 +6,25 @@ import * as $0 from "./routes/[id]/trading.tsx";
 import * as $1 from "./routes/_app.tsx";
 import * as $2 from "./routes/api/auth.ts";
 import * as $3 from "./routes/api/graphql.ts";
-import * as $4 from "./routes/graphql/schema.ts";
-import * as $5 from "./routes/index.tsx";
-import * as $6 from "./routes/joinclass.tsx";
-import * as $7 from "./routes/models/company.ts";
-import * as $8 from "./routes/models/newsStory.ts";
-import * as $9 from "./routes/models/order.ts";
-import * as $10 from "./routes/models/user.ts";
-import * as $11 from "./routes/profile/[id].tsx";
-import * as $12 from "./routes/signin.tsx";
-import * as $$0 from "./islands/Graph.tsx";
-import * as $$1 from "./islands/Header.tsx";
-import * as $$2 from "./islands/Homepage.tsx";
-import * as $$3 from "./islands/JoinClassPage.tsx";
-import * as $$4 from "./islands/ProfilePage.tsx";
-import * as $$5 from "./islands/Signin.tsx";
-import * as $$6 from "./islands/Tradepage.tsx";
+import * as $4 from "./routes/articles.tsx";
+import * as $5 from "./routes/graphql/schema.ts";
+import * as $6 from "./routes/index.tsx";
+import * as $7 from "./routes/joinclass.tsx";
+import * as $8 from "./routes/models/company.ts";
+import * as $9 from "./routes/models/newsStory.ts";
+import * as $10 from "./routes/models/order.ts";
+import * as $11 from "./routes/models/user.ts";
+import * as $12 from "./routes/profile.tsx";
+import * as $13 from "./routes/profile/[id].tsx";
+import * as $14 from "./routes/signin.tsx";
+import * as $$0 from "./islands/ArticlesPage.tsx";
+import * as $$1 from "./islands/Graph.tsx";
+import * as $$2 from "./islands/Header.tsx";
+import * as $$3 from "./islands/Homepage.tsx";
+import * as $$4 from "./islands/JoinClassPage.tsx";
+import * as $$5 from "./islands/ProfilePage.tsx";
+import * as $$6 from "./islands/Signin.tsx";
+import * as $$7 from "./islands/Tradepage.tsx";
 
 const manifest = {
   routes: {
@@ -29,24 +32,27 @@ const manifest = {
     "./routes/_app.tsx": $1,
     "./routes/api/auth.ts": $2,
     "./routes/api/graphql.ts": $3,
-    "./routes/graphql/schema.ts": $4,
-    "./routes/index.tsx": $5,
-    "./routes/joinclass.tsx": $6,
-    "./routes/models/company.ts": $7,
-    "./routes/models/newsStory.ts": $8,
-    "./routes/models/order.ts": $9,
-    "./routes/models/user.ts": $10,
-    "./routes/profile/[id].tsx": $11,
-    "./routes/signin.tsx": $12,
+    "./routes/articles.tsx": $4,
+    "./routes/graphql/schema.ts": $5,
+    "./routes/index.tsx": $6,
+    "./routes/joinclass.tsx": $7,
+    "./routes/models/company.ts": $8,
+    "./routes/models/newsStory.ts": $9,
+    "./routes/models/order.ts": $10,
+    "./routes/models/user.ts": $11,
+    "./routes/profile.tsx": $12,
+    "./routes/profile/[id].tsx": $13,
+    "./routes/signin.tsx": $14,
   },
   islands: {
-    "./islands/Graph.tsx": $$0,
-    "./islands/Header.tsx": $$1,
-    "./islands/Homepage.tsx": $$2,
-    "./islands/JoinClassPage.tsx": $$3,
-    "./islands/ProfilePage.tsx": $$4,
-    "./islands/Signin.tsx": $$5,
-    "./islands/Tradepage.tsx": $$6,
+    "./islands/ArticlesPage.tsx": $$0,
+    "./islands/Graph.tsx": $$1,
+    "./islands/Header.tsx": $$2,
+    "./islands/Homepage.tsx": $$3,
+    "./islands/JoinClassPage.tsx": $$4,
+    "./islands/ProfilePage.tsx": $$5,
+    "./islands/Signin.tsx": $$6,
+    "./islands/Tradepage.tsx": $$7,
   },
   baseUrl: import.meta.url,
 };
