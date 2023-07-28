@@ -10,14 +10,14 @@ interface IProps {
 export default function TimeButton(props: IProps) {
   return (
     <button
-      className={`w-20 h-10 rounded shadow bg-custom-dark-green mr-2 hover:scale-105 flex flex-row items-center justify-center ${
-        props.currentType === props.thisType ? "bg-custom-light-green" : ""
+      className={`text-blue-500 w-20 h-10 rounded shadow border border-blue-500 mr-2 hover:scale-105 flex flex-row items-center justify-center ${
+        props.currentType === props.thisType ? "bg-blue-500 text-white" : "bg-white "
       }`}
       onClick={() => props.setCurrentType(props.thisType)}
       disabled={props.currentType === props.thisType}
     >
       <span
-        className={`text-custom-off-white text-1xl font-bold`}
+        className={`text-1xl`}
         style={{ letterSpacing: "-0.595px" }}
       >
         {props.thisText}

@@ -1,4 +1,5 @@
 import { Company } from "../routes/models/company.ts";
+import { generateRandomName } from "./executiveNameGeneration.ts";
 
 const companyFirstNames: string[] = [
   "Banana",
@@ -219,7 +220,7 @@ function getRandomSector(): string {
   ];
 }
 
-function CompanyNameToTicker(companyName: string): string {
+function companyNameToTicker(companyName: string): string {
   const firstName = companyName.split(" ")[0].toLowerCase();
 
   let ticker = "";
@@ -262,18 +263,21 @@ export function generateRandomCompany(): {
   name: string;
   ticker: string;
   sector: string;
+  ceo: string;
 } {
   const company = {
     id: crypto.randomUUID(),
     name: "",
     ticker: "",
     sector: "",
+    ceo: ""
   };
   const { name, sector } = generateCompanyName();
-  const ticker = CompanyNameToTicker(name);
+  const ticker = companyNameToTicker(name);
 
   company.name = name + " " + sector;
   company.ticker = ticker;
   company.sector = nameToSector(sector);
+  company.ceo = generateRandomName()
   return company;
 }

@@ -19,6 +19,8 @@ DBDriver.init();
 
 /*await DBDriver.Companies.deleteAllRecords();
 await DBDriver.Users.deleteAllRecords();
-await DBDriver.Orders.deleteAllRecords();*/
+await DBDriver.Orders.deleteAllRecords();
+await DBDriver.NewsStories.deleteAllRecords();*/
+
 
 await start(manifest, { plugins: [twindPlugin(twindConfig)] });

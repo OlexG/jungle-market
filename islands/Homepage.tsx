@@ -3,26 +3,26 @@ import { Company } from "../routes/models/company.ts";
 import { sectorNames } from "../generation/nameGeneration.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 
-const colors = [
-  "yellow",
-  "blue",
-  "indigo",
-  "pink",
-  "red",
-  "green",
-];
 
-const sectorsToColorMap = sectorNames.map((sector, index) => ({
-  sector,
-  color: colors[index % colors.length],
-}));
+
+const sectorsToColorMap = {
+  "Technology Sector": "blue",
+  "Production Sector": "yellow",
+  "Healthcare Sector": "pink",
+  "Financial Sector": "green",
+  "Energy Sector": "red",
+  "Real Estate Sector": "indigo",
+}
 
 const getColorStyling = (sector: string) => {
-  const color = sectorsToColorMap.find((sectorToColor) =>
-    sectorToColor.sector === sector
-  )?.color;
-  return `bg-${color}-500 hover:bg-${color}-700`;
+  const color = (sectorsToColorMap as any)[sector]
+  return `border-${color}-500 hover:bg-${color}-700 text-${color}-500 hover:text-${color}-100`;
 };
+
+const getButtonColorStyling = (sector: string) => {
+  const color = (sectorsToColorMap as any)[sector]
+  return `bg-${color}-500 hover:bg-${color}-700 text-${color}-100`;
+}
 
 export default function Homepage() {
   const { data, error, loading } = useGraphQLQuery<
@@ -37,11 +37,6 @@ export default function Homepage() {
         ticker
         sector
         currentPrice
-        newsStories {
-          title
-          url
-          description
-        }
       } 
     }`);
 
@@ -52,17 +47,16 @@ export default function Homepage() {
   }
 
   return (
-    <div className="min-h-screen bg-custom-dark-main w-screen p-20">
-      <div class="flex gap-3 w-full p-4 flex-wrap mt-16 bg-custom-light-main rounded z-10">
+    <div className="min-h-screen w-screen p-20">
+      <div class="flex gap-3 w-full p-4 flex-wrap mt-16 bg-custom-off-white shadow rounded z-10">
         {data?.companies.map((company: any) => (
           <button
-            class={"w-40 h-40 flex flex-col items-start justify-center rounded shadow " +
+            class={"bg-white shadow border w-40 h-40 flex flex-col items-start justify-center rounded " +
               `${getColorStyling(company.sector)}`}
             onClick = {() => sendToCompanyPage(company.id)}
           >
-            <h1 class="text-lg font-bold p-4 text-custom-off-white text-left">{company.name}</h1>
-            <p class="text-gray-500">{company.description}</p>
-            <p className="text-gray-700 bg-custom-tan rounded font-bold mx-4 p-2 mb-2 ">
+            <h1 class="text-lg p-4 text-left h-24">{company.name}</h1>
+            <p className={`text-white rounded-r font-semibold p-2 mb-2 ${getButtonColorStyling(company.sector)}`}>
               ${company.ticker}
             </p>
           </button>

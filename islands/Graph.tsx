@@ -135,7 +135,6 @@ export default function Graph(props: IProps) {
       document.getElementsByClassName("chart-container")[0];
     // make it an HTMLElement
     const chartContainerElement = chartContainer as HTMLElement;
-    chartContainerElement.style.backgroundColor = "rgba(255, 255, 0, 0)";
     chartContainerElement.style.padding = "0px";
     // get the parent div and make it invisible
     const parent = chartContainer.parentElement;
@@ -150,7 +149,7 @@ export default function Graph(props: IProps) {
   }
   return (
     <>
-      <div class="flex flex-row justify-evenly bg-green-50 ml-8">
+      <div class="flex flex-row justify-evenly ml-8">
         <LineChartDynamic
           height={370}
           width={550}

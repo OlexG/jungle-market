@@ -13,6 +13,7 @@ import { makeCent } from "../generation/priceGeneration.ts";
 import BuyPanel from "../components/BuyPanel.tsx";
 import useUserID from "../hooks/useUserID.ts";
 import Modal from "../components/TradePageModal.tsx";
+import TradepageNewsComponent from "../components/TradepageNewsComponent.tsx";
 
 const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
 
@@ -39,9 +40,17 @@ export default function Tradepage({ id }: { id: string }) {
         currentPrice
         dailyPriceHistory
         thirtyDaysPriceHistory
+        ceo
+        newsStories {
+          title
+          description
+          id
+          createdAt
+        }
       } 
     }`
   );
+
 
   const {
     data: priceData,
@@ -203,7 +212,7 @@ export default function Tradepage({ id }: { id: string }) {
   }
   // TODO: split these into components
   return (
-    <div className="grid grid-cols-6 bg-custom-dark-main min-h-screen overflow-hidden">
+    <div className="grid grid-cols-6 min-h-screen overflow-hidden bg-gray-100">
       {orderError && (
         <ErrorAlert
           message={(orderError as Error).message}
@@ -230,19 +239,19 @@ export default function Tradepage({ id }: { id: string }) {
       )}
       <style>{style}</style>
       <div className="col-span-1 pt-20 h-full"></div>
-      <div className="col-span-4 pt-20 h-full transform bg-custom-dark-main">
+      <div className="col-span-4 pt-20 h-full transform">
         <div className="w-full flex flex-row">
-          <div className="h-120 w-4/6 bg-custom-light-main relative rounded mr-4 shadow-lg shadow-gray-200">
-            <div className="w-5/6 mx-auto bg-custom-off-white rounded mt-6 text-lg">
+          <div className="h-120 w-4/6 border border-blue-500 relative rounded mr-4 shadow-lg shadow-gray-200 bg-white">
+            <div className="w-5/6 mx-auto rounded mt-6 text-lg">
               <div
-                className="relative bg-custom-dark-main rounded"
+                className="relative border bg-blue-500 shadow rounded"
                 style={{
                   position: "relative",
                   overflow: "hidden",
                 }}
               >
                 <p
-                  className="bg-custom-dark-main text-custom-off-white font-inter font-bold text-20px leading-normal tracking-tighter rotating-text"
+                  className="bg-blue-500 text-white font-inter text-20px leading-normal tracking-tighter rotating-text"
                   style={{
                     animationName: "rotate",
                     animationDuration: "10s",
@@ -255,10 +264,10 @@ export default function Tradepage({ id }: { id: string }) {
               </div>
             </div>
 
-            <div className="w-5/6 mx-auto bg-custom-light-main rounded-t rounded-b mt-6 text-lg flex flex-col items-start justify-between">
+            <div className="w-5/6 mx-auto rounded-t rounded-b mt-6 text-lg flex flex-col items-start justify-between">
               <div>
                 <div className="flex justify-between">
-                  <div className="text-custom-off-white font-inter text-3xl font-bold">
+                  <div className="text-custom-grey font-inter text-3xl">
                     {data?.company.ticker +
                       " $" +
                       (priceData?.company.currentPrice
@@ -277,12 +286,12 @@ export default function Tradepage({ id }: { id: string }) {
                     {percentageChange + "%"}
                   </div>
                 </div>
-                <div className="text-custom-off-white font-inter text-xs">
+                <div className="text-custom-grey font-inter text-xs">
                   {data?.company.name}
                 </div>
               </div>
 
-              <div className="relative w-full h-100 bg-gray-700 mt-3 rounded-b rounded-t flex flex-row items-center justify-center">
+              <div className="relative w-full h-100 mt-3 rounded-b rounded-t flex flex-row items-center justify-center">
                 <div className="absolute top-0">
                   <Graph data={getData(type)} type={type} />
                 </div>
@@ -317,8 +326,8 @@ export default function Tradepage({ id }: { id: string }) {
           </div>
           {/* Stock graph div */}
 
-          <div className="w-1/3 shadow-lg shadow-gray-200 flex flex-col gap-4">
-            <div className="h-100 rounded bg-custom-light-main">
+          <div className="w-1/3 flex flex-col gap-4">
+            <div className="h-100 rounded border border-custom-light-green shadow bg-white">
               <InvestmentsPanel
                 info={
                   userID
@@ -346,8 +355,15 @@ export default function Tradepage({ id }: { id: string }) {
             />
           </div>
         </div>
-        <div className="bg-custom-light-main rounded mt-4 p-10">
-          <h1 className="text-white font-bold">News</h1>
+        <div className="border border-yellow-500 bg-white rounded mt-4 p-10">
+          <h1 className="text-custom-grey text-lg">News</h1>
+          <div className="flex flex-col gap-4 mt-4">
+            {
+              data?.company.newsStories.map((story) => (
+                <TradepageNewsComponent title={story.title} id={story.id} date={story.createdAt} />
+              ))
+            }
+            </div>
         </div>
       </div>
     </div>
