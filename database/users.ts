@@ -1,6 +1,6 @@
 import { db } from "./database.ts";
 import { User, PublicUser, UserDBSchema } from "../routes/models/user.ts";
-import { z } from "https://deno.land/x/zod@v3.21.4/mod.ts";
+import { z } from "zod";
 
 export class Users {
   static async findPublicById(id: string): Promise<PublicUser> {

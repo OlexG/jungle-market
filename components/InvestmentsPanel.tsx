@@ -1,13 +1,16 @@
 import { useState } from "preact/hooks";
 
 interface IProps {
-  info: {
-    ticker: string;
-    percentageChange: number;
-  }[] | undefined;
+  info:
+    | {
+        ticker: string;
+        percentageChange: number;
+        id: string;
+      }[]
+    | undefined;
 }
 
-const PAGE_SIZE = 7;
+const PAGE_SIZE = 5;
 
 export default function InvestmentsPanel(props: IProps) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -39,24 +42,32 @@ export default function InvestmentsPanel(props: IProps) {
       </div>
       <div className="">
         <div className="border border-custom-light-green shadow w-56 rounded-t mt-4 h-72">
-          {props.info ? getInfo().map((info, index) => (
-            <button
-              key={index}
-              className={`shadow mt-2 button-style w-3/4 h-10 ml-6 ${
-                info.percentageChange < 0
-                  ? "text-red-500 rounded border border-red-500 bg-white"
-                  : info.percentageChange > 0
-                  ? "text-green-500 rounded border border-green-500 bg-white"
-                  : "text-gray-500 rounded border border-gray-500 bg-white"   // we need to make it so that when it is 0.0% it does not truncate.
-              } font-inter text-20px hover:text-lg`}
-            >
-              {info.ticker} {info.percentageChange}%
-            </button>
-          )) : 
-          <p className="text-center px-2 py-2">
-            Please login to see portfolio
-          </p>
-        }
+          {props.info ? (
+            getInfo().map((info, index) => (
+              <a
+                key={index}
+                className={`inline-block shadow mt-2 button-style w-3/4 py-2.5 ml-6 text-center ${
+                  info.percentageChange < 0
+                    ? "text-red-500 rounded border border-red-500 bg-white"
+                    : info.percentageChange > 0
+                    ? "text-green-500 rounded border border-green-500 bg-white"
+                    : "text-gray-500 rounded border border-gray-500 bg-white" // we need to make it so that when it is 0.0% it does not truncate.
+                } font-inter text-20px hover:text-lg`}
+                href={`/${info.id}/trading`}
+              >
+                {info.ticker} {info.percentageChange}%
+              </a>
+            ))
+          ) : (
+            <p className="text-center px-2 py-2">
+              Please login to see portfolio
+            </p>
+          )}
+          {props.info && getInfo().length === 0 && (
+            <p className="text-center px-2 py-2 text-custom-grey">
+              No investments. Buy something!
+            </p>
+          )}
         </div>
         <div className="px-8 py-2 bg-custom-light-green w-56 flex flex-row justify-between items-center">
           <button

@@ -1,4 +1,4 @@
-import { config } from "https://deno.land/x/dotenv/mod.ts";
+import { config } from "mod";
 const { CLIENT_ID, CLIENT_SECRET } = config();
 import { DBDriver } from "../../database/driver.ts";
 async function getAccessToken(code: string) {

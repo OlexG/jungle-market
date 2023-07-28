@@ -1,7 +1,7 @@
 /// <reference lib="deno.unstable" />
 
 import { generateRandomCompany } from "../generation/nameGeneration.ts";
-import { createPentagon } from "https://deno.land/x/pentagon@v0.1.2/mod.ts";
+import { createPentagon } from "pentagon";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { NewsStoryDBSchema } from "../routes/models/newsStory.ts";
 import { User, UserDBSchema } from "../routes/models/user.ts";

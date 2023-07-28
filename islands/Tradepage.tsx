@@ -80,6 +80,7 @@ export default function Tradepage({ id }: { id: string }) {
             company {
               ticker
               currentPrice
+              id
             }
           }
         } 
@@ -341,6 +342,7 @@ export default function Tradepage({ id }: { id: string }) {
                         return {
                           ticker: "$" + e.company.ticker,
                           percentageChange: makeCent(percentageChange),
+                          id: e.company.id,
                         };
                       })
                     : undefined

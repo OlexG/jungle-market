@@ -35,6 +35,12 @@ export class NewsStories {
     });
   }
 
+  static async getById(id: string) {
+    return await db.newsStories.findFirst({
+      where: { id },
+    });
+  }
+
   static async deleteAllRecords() {
     for (const newsStory of await db.newsStories.findMany({})) {
       await db.newsStories.delete({

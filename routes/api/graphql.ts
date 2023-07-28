@@ -1,8 +1,6 @@
-import { graphql } from "https://esm.sh/graphql@15.5.0";
-
+import { graphql } from "graphql";
 import { rootValue, schema } from "../graphql/schema.ts";
-
-import gql from "https://esm.sh/graphql-tag@2.12.6";
+import gql from "graphql-tag";
 import { DBDriver } from "../../database/driver.ts";
 
 const protectedMutations = [

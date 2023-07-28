@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "preact/hooks";
-import { LineChartDynamic } from "https://deno.land/x/d3nochart@v0.0.2-alpha/charts.ts";
+import { LineChartDynamic } from "d3nochart";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 
 interface IProps {
