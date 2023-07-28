@@ -12,7 +12,6 @@ export default function TradePage(props: PageProps) {
       <Tradepage 
         id={id}
       />
-      <Footer />
     </>
   );
 }
