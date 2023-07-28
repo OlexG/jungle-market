@@ -357,7 +357,7 @@ export default function Tradepage({ id }: { id: string }) {
             />
           </div>
         </div>
-        <div className="border border-yellow-500 bg-white rounded mt-4 p-10">
+        <div className="border border-yellow-500 bg-white rounded mt-4 p-10 mb-4">
           <h1 className="text-custom-grey text-lg">News</h1>
           <div className="flex flex-col gap-4 mt-4">
             {
