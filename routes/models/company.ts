@@ -16,6 +16,12 @@ export interface Company {
   priceAdditionsSoFar: number;
   ceo: string;
   newsStories: NewsModel[];
+  description: string;
+  netIncome: number;
+  grossMargin: number;
+  deRatio: number;
+  peRatio: number;
+  roe: number;
 }
 
 export const CompanyDBSchema = z.object({
@@ -24,7 +30,7 @@ export const CompanyDBSchema = z.object({
   name: z.string(),
   ticker: z.string(),
   sector: z.string(),
-  description: z.string().optional(),
+  description: z.string(),
   logo: z.string().optional(),
   dailyPriceHistory: z.array(z.number()), // per minute
   thirtyDaysPriceHistory: z.array(z.number()), // hourly
@@ -32,6 +38,11 @@ export const CompanyDBSchema = z.object({
   lastTimeUpdated: z.number(),
   priceAdditionsSoFar: z.number(),
   ceo: z.string(),
+  netIncome: z.number(),
+  grossMargin: z.number(),
+  deRatio: z.number(),
+  peRatio: z.number(),
+  roe: z.number()
 });
 
 export const companyQLString = `
@@ -48,6 +59,11 @@ export const companyQLString = `
     newsStories: [NewsStory!]!
     lastTimeUpdated: Int!
     ceo: String!
+    netIncome: Float!
+    grossMargin: Float!
+    deRatio: Float!
+    peRatio: Float!
+    roe: Float!
   }
 `;
 
@@ -62,6 +78,12 @@ export class CompanyModel {
   thirtyDaysPriceHistory: number[];
   priceAdditionsSoFar: number;
   ceo: string;
+  description: string;
+  netIncome: number;
+  grossMargin: number;
+  deRatio: number;
+  peRatio: number;
+  roe: number;
 
   constructor(company: z.infer<typeof CompanyDBSchema>) {
     this.id = company.id;
@@ -74,6 +96,12 @@ export class CompanyModel {
     this.lastTimeUpdated = company.lastTimeUpdated;
     this.priceAdditionsSoFar = company.priceAdditionsSoFar;
     this.ceo = company.ceo;
+    this.description = company.description;
+    this.netIncome = company.netIncome;
+    this.grossMargin = company.grossMargin;
+    this.deRatio = company.deRatio;
+    this.peRatio = company.peRatio;
+    this.roe = company.roe;
   }
 
   async getNewsStories() {

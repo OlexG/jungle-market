@@ -5,6 +5,15 @@ export function makeCent(num: number) {
   return Math.round(num * 100) / 100;
 }
 
+export function makeWhole(num: number) {
+  return Math.round(num);
+}
+
+
+export function makeThousand(num: number) {
+  return Math.round(num / 1000) * 1000;
+}
+
 export function getRandomPrice() {
   const price = Math.random() * (MAX_PRICE - MIN_PRICE) + MIN_PRICE;
   return makeCent(price);
@@ -24,4 +33,36 @@ export function getNextPrice(price: number) {
   return makeCent(newPrice);
 }
 
+const MAXIMUM_NET_INCOME = 1000000000;
+export function generateNetIncome() {
+  return makeCent(makeThousand(Math.random() * MAXIMUM_NET_INCOME));
+}
+
+const MIN_GROSS_MARGIN = 0.1;
+const MAX_GROSS_MARGIN = 0.9;
+
+export function generateGrossMargin() {
+  return makeCent(Math.random() * (MAX_GROSS_MARGIN - MIN_GROSS_MARGIN) + MIN_GROSS_MARGIN);
+}
+
+const MIN_DE_RATIO = 0;
+const MAX_DE_RATIO = 5;
+
+export function generateDebtEquityRatio() {
+  return makeCent(Math.random() * (MAX_DE_RATIO - MIN_DE_RATIO) + MIN_DE_RATIO);
+}
+
+const MIN_PE_RATIO = 1;
+const MAX_PE_RATIO = 100;
+
+export function generatePERatio() {
+  return makeWhole(Math.random() * (MAX_PE_RATIO - MIN_PE_RATIO) + MIN_PE_RATIO);
+}
+
+const MIN_ROE = 0.1;
+const MAX_ROE = 2;
+
+export function generateROE() {
+  return makeCent(Math.random() * (MAX_ROE - MIN_ROE) + MIN_ROE);
+}
 

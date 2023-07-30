@@ -1,5 +1,7 @@
 import { Company } from "../routes/models/company.ts";
 import { generateRandomName } from "./executiveNameGeneration.ts";
+import { generateDebtEquityRatio, generateGrossMargin, generatePERatio, generateROE } from "./priceGeneration.ts";
+import { generateNetIncome } from "./priceGeneration.ts";
 
 const companyFirstNames: string[] = [
   "Banana",
@@ -264,13 +266,25 @@ export function generateRandomCompany(): {
   ticker: string;
   sector: string;
   ceo: string;
+  description: string;
+  netIncome: number;
+  grossMargin: number;
+  deRatio: number;
+  peRatio: number;
+  roe: number;
 } {
   const company = {
     id: crypto.randomUUID(),
     name: "",
     ticker: "",
     sector: "",
-    ceo: ""
+    ceo: "",
+    description: "This is a company. Description substituted for now.",
+    netIncome: generateNetIncome(),
+    grossMargin: generateGrossMargin(),
+    deRatio: generateDebtEquityRatio(),
+    peRatio: generatePERatio(),
+    roe: generateROE()
   };
   const { name, sector } = generateCompanyName();
   const ticker = companyNameToTicker(name);

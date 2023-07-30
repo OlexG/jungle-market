@@ -15,6 +15,7 @@ import useuserId from "../hooks/useUserID.ts";
 import Modal from "../components/TradePageModal.tsx";
 import TradepageNewsComponent from "../components/TradepageNewsComponent.tsx";
 import FlashingPrice from "../components/FlashingPrice.tsx";
+import Information from "../components/Information.tsx";
 
 const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
 
@@ -46,7 +47,13 @@ export default function Tradepage({ id }: { id: string }) {
         currentPrice
         dailyPriceHistory
         thirtyDaysPriceHistory
+        roe
+        peRatio
+        deRatio
+        grossMargin
+        netIncome
         ceo
+        description
         newsStories {
           title
           description
@@ -275,9 +282,9 @@ export default function Tradepage({ id }: { id: string }) {
                     {data?.company.ticker} {/* @ts-ignore */}
                     <FlashingPrice
                       price={
-                        (priceData?.company.currentPrice
+                        priceData?.company.currentPrice
                           ? priceData?.company.currentPrice
-                          : data?.company.currentPrice)
+                          : data?.company.currentPrice
                       }
                     />
                   </div>
@@ -363,6 +370,7 @@ export default function Tradepage({ id }: { id: string }) {
             />
           </div>
         </div>
+        <Information company={data?.company} />
         <div className="border border-yellow-500 bg-white rounded mt-4 p-10 mb-4">
           <h1 className="text-custom-grey text-lg">News</h1>
           <div className="flex flex-col gap-4 mt-4">
