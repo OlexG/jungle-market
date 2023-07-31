@@ -17,7 +17,7 @@ export default function Modal({
 }: ModalProps) {
 
   return (
-    <div className="text-custom-grey fixed z-50 inset-0 bg-custom-light-main bg-opacity-90 flex items-center justify-center">
+    <div className="text-custom-gray fixed z-50 inset-0 bg-white bg-opacity-90 flex items-center justify-center">
       <div className="shadow-lg bg-white rounded px-10 py-5 w-96 w-full text-center">
         <h2 className="text-2xl mb-2">
           {type === "buy" ? "Confirm Purchase" : "Confirm Sale"}

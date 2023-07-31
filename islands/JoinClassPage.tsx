@@ -32,7 +32,7 @@ export default function JoinPage() {
   };
 
   return (
-    <div className="bg-custom-dark-main min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div className="bg-gray-200 min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-custom-red absolute top-0 left-0">
       </div>
       <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-red absolute top-0 left-0">
@@ -43,11 +43,11 @@ export default function JoinPage() {
       <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-dark-green absolute bottom-0 right-0">
       </div>
 
-      <h1 className="text-custom-off-white text-5xl font-sans font-bold leading-normal tracking-wide mb-4">
+      <h1 className="text-custom-light-main text-5xl font-sans font-bold leading-normal tracking-wide mb-4">
         Join Class
       </h1>
 
-      <div className="w-[368px] h-[180px] bg-custom-light-main rounded font-sans shadow">
+      <div className="w-[368px] h-[180px] bg-white rounded font-sans shadow-lg">
         <div className="w-[295px] h-[52px] bg-custom-off-white mx-auto mt-7 flex flex-col justify-center rounded">
           <input
             type="text"

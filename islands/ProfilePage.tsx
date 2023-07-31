@@ -69,31 +69,31 @@ export default function ProfilePage(props: IProps) {
 
 
   return (
-    <div className="bg-custom-dark-main h-screen pt-0.5 flex flex-row justify-center w-full gap-4 px-96">
+    <div className="bg-gray-200 h-screen pt-0.5 flex flex-row justify-center w-full gap-4 px-96">
       <div className="flex flex-col h-full pb-10">
-        <div className="bg-custom-light-main shadow-lg shadow-gray-200 w-96 h-30 rounded self-start mt-20 py-10 shadow flex flex-row items-center">
+        <div className="bg-white shadow-lg shadow-gray-200 w-96 h-30 rounded self-start mt-20 py-10 shadow flex flex-row items-center">
           <img
-            className="w-20 h-20 rounded-full mx-5 z-10 border-2 shadow border-custom-white"
+            className="w-20 h-20 rounded-full mx-5 z-10 border-2 shadow border-custom-light-main"
             src={data?.user.icon}
           />
           <div>
-            <h1 className="font-bold text-custom-off-white text-xl">
+            <h1 className="font-bold text-custom-light-main text-xl">
               {data?.user.name}
             </h1>
-            <div className="font-bold text-custom-off-white">
-              <span className="text-custom-off-white">Current balance: </span>
+            <div className="font-bold text-custom-light-main">
+              <span className="text-custom-light-main">Current cash balance: </span>
               <span className="text-custom-dark-green">
                 {data?.user.balance ? '$' + makeCent(data.user.balance) : "$0.00"}
               </span>
             </div>
-            <div className="font-bold text-custom-off-white">
-              <span className="text-custom-off-white">Total profits and losses: </span>
+            <div className="font-bold text-custom-light-main">
+              <span className="text-custom-light-main">Total profits and losses: </span>
               <span className="text-custom-dark-green">$0.00</span>
             </div>
           </div>
         </div>
-        <div className="shadow-lg shadow-gray-200 bg-custom-light-main w-96 mt-5 rounded shadow flex flex-col flex-grow overflow-y-auto pt-5 px-5">
-          <h1 className="text-custom-off-white text-xl font-bold mx-auto mb-5">
+        <div className="shadow-lg bg-white w-96 mt-5 rounded shadow flex flex-col flex-grow overflow-y-auto pt-5 px-5">
+          <h1 className="text-custom-light-main text-xl font-bold mx-auto mb-5">
             Order History
           </h1>
           {data?.user.orders.sort((a, b) => {
@@ -117,8 +117,8 @@ export default function ProfilePage(props: IProps) {
         </div>
       </div>
       {isUser && (
-        <div className="shadow-lg shadow-gray-200 bg-custom-light-main w-96 mt-20 rounded shadow flex flex-col flex-grow overflow-y-auto pt-5 px-5 mb-10">
-          <h1 className="text-custom-off-white text-xl font-bold mx-auto mb-5">
+        <div className="shadow-lg shadow-gray-200 bg-white w-96 mt-20 rounded shadow flex flex-col flex-grow overflow-y-auto pt-5 px-5 mb-10">
+          <h1 className="text-custom-light-main text-xl font-bold mx-auto mb-5">
             Portfolio
           </h1>
           {

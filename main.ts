@@ -17,10 +17,10 @@ DBDriver.init();
 
 /* --- Uncomment to delete all records in the database --- */
 
-/*await DBDriver.Companies.deleteAllRecords();
-await DBDriver.Users.deleteAllRecords();
-await DBDriver.Orders.deleteAllRecords();
-await DBDriver.NewsStories.deleteAllRecords();*/
+// await DBDriver.Companies.deleteAllRecords();
+// await DBDriver.Users.deleteAllRecords();
+// await DBDriver.Orders.deleteAllRecords();
+// await DBDriver.NewsStories.deleteAllRecords();
 
 
 await start(manifest, { plugins: [twindPlugin(twindConfig)] });

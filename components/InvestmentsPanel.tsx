@@ -37,7 +37,7 @@ export default function InvestmentsPanel(props: IProps) {
 
   return (
     <div className="flex flex-col items-center h-full justify-between">
-      <div className="text-custom-gray font-inter text-3xl mt-5 flex flex-col justify-center">
+      <div className="text-custom-light-main font-inter text-3xl mt-5 flex flex-col justify-center">
         Investments
       </div>
       <div className="">
@@ -64,7 +64,7 @@ export default function InvestmentsPanel(props: IProps) {
             </p>
           )}
           {props.info && getInfo().length === 0 && (
-            <p className="text-center px-2 py-2 text-custom-grey">
+            <p className="text-center px-2 py-2 text-custom-gray">
               No investments. Buy something!
             </p>
           )}
