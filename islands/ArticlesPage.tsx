@@ -2,6 +2,7 @@ import { useEffect, useState } from "preact/hooks";
 import { generateRandomName } from "../generation/articles/executiveNameGeneration.ts";
 import { generateRandomArticle } from "../generation/articles/articleGeneration.ts";
 import { h } from "preact";
+import ArticleFooter from "../components/ArticleFooter.tsx";
 
 export default function ArticlesPage() {
   const cursiveFontStyle = {
@@ -52,6 +53,7 @@ export default function ArticlesPage() {
           {/* article.Body */ testing}
         </p>
       </div>
+      <ArticleFooter/>
     </div>
   );
 }
