@@ -20,7 +20,7 @@ export const schema = buildSchema(`
   type Query {
     companies: [Company!]!
     company(id: ID!): Company!
-    newsStories: [NewsStory!]!
+    newsStories(page: Int! pageSize: Int!): [NewsStory!]!
     newsStory(id: ID!): NewsStory!
     orders(userId: ID!): [Order!]!
     user(id: ID!): User!
@@ -54,6 +54,11 @@ export const rootValue = {
     const newsStory = await DBDriver.NewsStories.findById(input.id);
     return new NewsModel(newsStory as z.infer<typeof NewsStoryDBSchema>);
   },
+  newsStories: async (input: { page: number, pageSize: number }) => {
+    const newsStories = await DBDriver.NewsStories.getNewsByPage();
+    return newsStories.map((newsStory) => new NewsModel(newsStory));
+  },
+
   user: async (input: { id: string }) => {
     const user = await DBDriver.Users.findPublicById(input.id);
     return new UserModel(user);

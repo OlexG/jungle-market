@@ -48,12 +48,15 @@ export class NewsStories {
       });
     }
   }
+
+  static async getNewsByPage() {
+    const newsStories = await db.newsStories.findMany({});
+    // TODO: add pagination
+    return newsStories;
+  }
 }
 
-// Generate a new story for every company every 10 seconds
+// Generate a news story for a random company every minute
 setInterval(async () => {
-  const companies = await db.companies.findMany({});
-  for (const company of companies) {
-    await NewsStories.createNewsStory(company.id);
-  }
+  await NewsStories.createNewsStory();
 }, 60000);

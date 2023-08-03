@@ -5,6 +5,14 @@ import { z } from "zod";
 
 
 
+export interface NewsStory {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  company: CompanyModel;
+  createdAt: string;
+}
 
 export const NewsStoryDBSchema = z.object({
   id: z.string().uuid().describe("primary"),

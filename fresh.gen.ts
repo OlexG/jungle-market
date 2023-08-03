@@ -14,17 +14,19 @@ import * as $8 from "./routes/models/company.ts";
 import * as $9 from "./routes/models/newsStory.ts";
 import * as $10 from "./routes/models/order.ts";
 import * as $11 from "./routes/models/user.ts";
-import * as $12 from "./routes/profile/[id].tsx";
-import * as $13 from "./routes/signin.tsx";
+import * as $12 from "./routes/newsStories.tsx";
+import * as $13 from "./routes/profile/[id].tsx";
+import * as $14 from "./routes/signin.tsx";
 import * as $$0 from "./islands/ArticlesPage.tsx";
 import * as $$1 from "./islands/Graph.tsx";
 import * as $$2 from "./islands/Header.tsx";
 import * as $$3 from "./islands/Homepage.tsx";
 import * as $$4 from "./islands/InvestmentsPanel.tsx";
 import * as $$5 from "./islands/JoinClassPage.tsx";
-import * as $$6 from "./islands/ProfilePage.tsx";
-import * as $$7 from "./islands/Signin.tsx";
-import * as $$8 from "./islands/Tradepage.tsx";
+import * as $$6 from "./islands/NewsStoriesPage.tsx";
+import * as $$7 from "./islands/ProfilePage.tsx";
+import * as $$8 from "./islands/Signin.tsx";
+import * as $$9 from "./islands/Tradepage.tsx";
 
 const manifest = {
   routes: {
@@ -40,8 +42,9 @@ const manifest = {
     "./routes/models/newsStory.ts": $9,
     "./routes/models/order.ts": $10,
     "./routes/models/user.ts": $11,
-    "./routes/profile/[id].tsx": $12,
-    "./routes/signin.tsx": $13,
+    "./routes/newsStories.tsx": $12,
+    "./routes/profile/[id].tsx": $13,
+    "./routes/signin.tsx": $14,
   },
   islands: {
     "./islands/ArticlesPage.tsx": $$0,
@@ -50,9 +53,10 @@ const manifest = {
     "./islands/Homepage.tsx": $$3,
     "./islands/InvestmentsPanel.tsx": $$4,
     "./islands/JoinClassPage.tsx": $$5,
-    "./islands/ProfilePage.tsx": $$6,
-    "./islands/Signin.tsx": $$7,
-    "./islands/Tradepage.tsx": $$8,
+    "./islands/NewsStoriesPage.tsx": $$6,
+    "./islands/ProfilePage.tsx": $$7,
+    "./islands/Signin.tsx": $$8,
+    "./islands/Tradepage.tsx": $$9,
   },
   baseUrl: import.meta.url,
 };
