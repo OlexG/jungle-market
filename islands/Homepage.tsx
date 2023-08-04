@@ -47,11 +47,11 @@ export default function Homepage() {
   }
 
   return (
-    <div className="min-h-screen w-screen p-20">
-      <div class="flex gap-3 w-full p-4 flex-wrap mt-16 bg-custom-off-white shadow rounded z-10">
+    <div className="min-h-screen w-screen p-20 bg-gray-200">
+      <div class="flex gap-3 w-full p-4 flex-wrap mt-16 bg-white shadow-lg rounded z-10">
         {data?.companies.map((company: any) => (
           <button
-            class={"bg-white shadow border w-40 h-40 flex flex-col items-start justify-center rounded " +
+            class={"bg-white shadow-md border w-40 h-40 flex flex-col items-start justify-center rounded " +
               `${getColorStyling(company.sector)}`}
             onClick = {() => sendToCompanyPage(company.id)}
           >

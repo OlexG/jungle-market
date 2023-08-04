@@ -223,7 +223,7 @@ export default function Tradepage({ id }: { id: string }) {
   }
   // TODO: split these into components
   return (
-    <div className="grid grid-cols-6 min-h-screen overflow-hidden bg-gray-100">
+    <div className="grid grid-cols-6 min-h-screen overflow-hidden bg-gray-200">
       {orderError && (
         <ErrorAlert
           message={(orderError as Error).message}
@@ -252,10 +252,10 @@ export default function Tradepage({ id }: { id: string }) {
       <div className="col-span-1 pt-20 h-full"></div>
       <div className="col-span-4 pt-20 h-full transform">
         <div className="w-full flex flex-row">
-          <div className="h-120 w-4/6 border border-blue-500 relative rounded mr-4 shadow-lg shadow-gray-200 bg-white">
+          <div className="h-120 w-4/6 border border-blue-500 relative rounded mr-4 shadow-lg shadow-lg bg-white">
             <div className="w-5/6 mx-auto rounded mt-6 text-lg">
               <div
-                className="relative border bg-blue-500 shadow rounded"
+                className="relative border bg-blue-500 shadow-sm rounded"
                 style={{
                   position: "relative",
                   overflow: "hidden",
@@ -278,7 +278,7 @@ export default function Tradepage({ id }: { id: string }) {
             <div className="w-5/6 mx-auto rounded-t rounded-b mt-6 text-lg flex flex-col items-start justify-between">
               <div>
                 <div className="flex justify-between">
-                  <div className="text-custom-grey font-inter text-3xl">
+                  <div className="text-custom-light-main font-inter text-3xl">
                     {data?.company.ticker} {/* @ts-ignore */}
                     <FlashingPrice
                       price={
@@ -300,7 +300,7 @@ export default function Tradepage({ id }: { id: string }) {
                     {percentageChange + "%"}
                   </div>
                 </div>
-                <div className="text-custom-grey font-inter text-xs">
+                <div className="text-custom-gray font-inter text-xs">
                   {data?.company.name}
                 </div>
               </div>
@@ -341,7 +341,7 @@ export default function Tradepage({ id }: { id: string }) {
           {/* Stock graph div */}
 
           <div className="w-1/3 flex flex-col gap-4">
-            <div className="h-100 rounded border border-custom-light-green shadow bg-white">
+            <div className="h-100 rounded border border-custom-light-green shadow-lg bg-white">
               <InvestmentsPanel
                 info={
                   userId
@@ -371,8 +371,8 @@ export default function Tradepage({ id }: { id: string }) {
           </div>
         </div>
         <Information company={data?.company} />
-        <div className="border border-yellow-500 bg-white rounded mt-4 p-10 mb-4">
-          <h1 className="text-custom-grey text-lg">News</h1>
+        <div className="border border-yellow-500 bg-white rounded shadow-lg mt-4 p-10 mb-4">
+          <h1 className="text-yellow-500 font-semibold text-lg">News</h1>
           <div className="flex flex-col gap-4 mt-4">
             {data?.company.newsStories.map((story) => (
               <TradepageNewsComponent

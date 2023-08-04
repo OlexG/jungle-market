@@ -22,7 +22,7 @@ const formatPercent = (n: number | undefined) => {
 export default function Information(props: IProps) {
   return (
     <div className="w-full grid grid-cols-2 gap-2">
-      <div className="border border-indigo-500 bg-white rounded mt-4 p-10 shadow">
+      <div className="border border-indigo-500 bg-white rounded mt-4 p-10 shadow-lg">
         <h1 className="text-indigo-500 text-lg pb-2 mt-1 font-semibold">Information</h1>
         <p>
           <span className="font-semibold text-indigo-500">CEO: </span>
@@ -37,7 +37,7 @@ export default function Information(props: IProps) {
           {props.company?.description}
         </p>
       </div>
-      <div className="border border-pink-500 bg-white rounded mt-4 p-10 shadow">
+      <div className="border border-pink-500 bg-white rounded mt-4 p-10 shadow-lg">
         <h1 className="text-lg pb-2 mt-1 text-pink-500 font-semibold">Fundamentals</h1>
         <p>
           <span className="font-semibold text-pink-500 mt-1">Net Income: </span>

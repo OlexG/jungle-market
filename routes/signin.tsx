@@ -8,7 +8,6 @@ export default function Signin() {
     <>
       <Header/>
       <SigninPage/>
-      <Footer/>
     </>
   )
 }
