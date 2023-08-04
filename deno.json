@@ -19,7 +19,11 @@
     "d3nochart": "https://deno.land/x/d3nochart@v0.0.2-alpha/charts.ts",
     "mod": "https://deno.land/x/dotenv@v3.2.2/mod.ts",
     "graphql": "https://esm.sh/graphql@15.5.0",
-    "graphql-tag": "https://esm.sh/graphql-tag@2.12.6"
+    "graphql-tag": "https://esm.sh/graphql-tag@2.12.6",
+    "react": "https://esm.sh/preact/compat",
+    "react-dom": "https://esm.sh/preact/compat",
+    "react/jsx-runtime": "https://esm.sh/preact/jsx-runtime",
+    "<react-library>": "https://esm.sh/<react-library>?external=react,react-dom,react/jsx-runtime"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
