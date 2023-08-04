@@ -45,7 +45,7 @@ export default function NewsStoriesPage() {
   };
 
   return (
-    <div className="bg-gray-100">
+    <div className="relative bg-gray-100 min-h-screen">
       <h1 className="pt-24 font-semibold text-custom-grey text-xl mx-10">News Stories</h1>
       {currentItems.map((newsStory) => (
         <NewsStoriesPageComponent
@@ -66,7 +66,7 @@ export default function NewsStoriesPage() {
         firstLabel="<<"
         lastLabel=">>"
       />
-      <div className="py-4"></div>
+      <div className="py-12"></div>
     </div>
   );
 }
