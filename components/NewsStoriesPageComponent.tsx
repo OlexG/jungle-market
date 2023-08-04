@@ -20,7 +20,7 @@ export default function NewsStoriesPageComponent(props: IProps) {
   const createdAtDate = new Date(parseInt(props.createdAt));
   return (
     <a
-      className="mx-10 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center justify-between rounded shadow py-4
+      className="bg-white mx-10 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center justify-between rounded shadow py-4
       hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
       href={`/news/${props.id}`}
     >

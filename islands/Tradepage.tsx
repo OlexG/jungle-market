@@ -223,7 +223,7 @@ export default function Tradepage({ id }: { id: string }) {
   }
   // TODO: split these into components
   return (
-    <div className="grid grid-cols-6 min-h-screen overflow-hidden bg-gray-200">
+    <div className="grid grid-cols-6 min-h-screen overflow-hidden bg-gray-100">
       {orderError && (
         <ErrorAlert
           message={(orderError as Error).message}

@@ -29,14 +29,14 @@ export default function Paginate(props: IProps) {
   return (
     <div className="flex justify-center">
       <button
-        className="px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
+        className="bg-white px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
         onClick={() => handlePageClick(1)}
         disabled={currentPage === 1}
       >
         {props.firstLabel}
       </button>
       <button
-        className="px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
+        className="bg-white px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
         onClick={() => handlePageClick(currentPage - 1)}
         disabled={currentPage === 1}
       >
@@ -45,7 +45,7 @@ export default function Paginate(props: IProps) {
       {pageNumbers.map((number) => (
         <button
           key={number}
-          className={`px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 ${
+          className={`bg-white px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 ${
             number === currentPage
               ? 'bg-custom-light-green text-white'
               : 'hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg'
@@ -56,14 +56,14 @@ export default function Paginate(props: IProps) {
         </button>
       ))}
       <button
-        className="px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
+        className="bg-white px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
         onClick={() => handlePageClick(currentPage + 1)}
         disabled={currentPage === props.pageCount}
       >
         {props.nextLabel}
       </button>
       <button
-        className="px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
+        className="bg-white px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
         onClick={() => handlePageClick(props.pageCount)}
         disabled={currentPage === props.pageCount}
       >

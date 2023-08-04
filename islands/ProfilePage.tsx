@@ -69,7 +69,7 @@ export default function ProfilePage(props: IProps) {
 
 
   return (
-    <div className="bg-gray-200 h-screen pt-0.5 flex flex-row justify-center w-full gap-4 px-96">
+    <div className="bg-gray-100 h-screen pt-0.5 flex flex-row justify-center w-full gap-4 px-96">
       <div className="flex flex-col h-full pb-10">
         <div className="bg-white shadow-lg shadow-gray-200 w-96 h-30 rounded self-start mt-20 py-10 shadow flex flex-row items-center">
           <img

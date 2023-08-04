@@ -47,7 +47,7 @@ export default function Homepage() {
   }
 
   return (
-    <div className="min-h-screen w-screen p-20 bg-gray-200">
+    <div className="min-h-screen w-screen p-20 bg-gray-100">
       <div class="flex gap-3 w-full p-4 flex-wrap mt-16 bg-white shadow-lg rounded z-10">
         {data?.companies.map((company: any) => (
           <button
