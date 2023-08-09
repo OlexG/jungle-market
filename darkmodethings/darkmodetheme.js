@@ -45,4 +45,5 @@ moonIcon.addEventListener("click", () => {
 });
 
 // invoke theme check on initial load
-
+// This is the video I'm trying to track:
+// https://www.youtube.com/watch?v=oMOe_32M6ss
