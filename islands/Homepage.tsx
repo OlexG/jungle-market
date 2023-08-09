@@ -48,10 +48,15 @@ export default function Homepage() {
 
   return (
     <div className="min-h-screen w-screen p-20 bg-gray-100">
+      <p>----</p>
+      <img class="moon cursor-pointer" src="../darkmodethings/moon_icon.svg" alt="" />
+      <img class="sun cursor-pointer" src="../darkmodethings/sun_icon.svg" alt="" />
+      <p>----</p>
+
       <div class="flex gap-3 w-full p-4 flex-wrap mt-16 bg-white shadow-lg rounded z-10">
         {data?.companies.map((company: any) => (
           <button
-            class={"bg-white shadow-md border w-40 h-40 flex flex-col items-start justify-center rounded " +
+            class={"bg-white dark:bg-slate-700 shadow-md border w-40 h-40 flex flex-col items-start justify-center rounded " +
               `${getColorStyling(company.sector)}`}
             onClick = {() => sendToCompanyPage(company.id)}
           >
@@ -62,6 +67,7 @@ export default function Homepage() {
           </button>
         ))}
       </div>
+      <script src="../darkmodethings/darkmodetheme.js"></script>
     </div>
   );
 }
