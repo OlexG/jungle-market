@@ -14,7 +14,7 @@ export default {
         'custom-light-main': '#323332',
         'custom-off-white': '#EDEDED',
         'custom-red' : '#A95959',
-        "custom-grey": "#545454"
+        "custom-gray": "#545454"
       },
       height: {
         '92': '22.5rem',
