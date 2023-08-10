@@ -33,14 +33,14 @@ export default function JoinPage() {
 
   return (
     <div className="bg-gray-200 min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-custom-red absolute top-0 left-0">
+      <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-blue-500 absolute top-0 left-0">
       </div>
-      <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-red absolute top-0 left-0">
+      <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-blue-500 absolute top-0 left-0">
       </div>
 
-      <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-custom-dark-green absolute bottom-0 right-0">
+      <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-indigo-500 absolute bottom-0 right-0">
       </div>
-      <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-custom-dark-green absolute bottom-0 right-0">
+      <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-indigo-500 absolute bottom-0 right-0">
       </div>
 
       <h1 className="text-custom-light-main text-5xl font-sans font-bold leading-normal tracking-wide mb-4">
@@ -48,7 +48,7 @@ export default function JoinPage() {
       </h1>
 
       <div className="w-[368px] h-[180px] bg-white rounded font-sans shadow-lg">
-        <div className="w-[295px] h-[52px] bg-custom-off-white mx-auto mt-7 flex flex-col justify-center rounded">
+        {/* <div className="w-[295px] h-[52px] bg-custom-off-white mx-auto mt-7 flex flex-col justify-center rounded">
           <input
             type="text"
             className="flex-grow text-gray-700 bg-transparent text-2xl font-bold placeholder-gray-700 text-opacity-100 text-center focus:outline-none"
@@ -61,7 +61,7 @@ export default function JoinPage() {
         </div>
 
         <button
-          className={`w-[295px] h-[52px] bg-custom-tan mx-auto mt-5 flex justify-center hover:scale-105 focus:outline-none items-center rounded${
+          className={`w-[295px] h-[52px] bg-yellow-500 mx-auto mt-5 flex justify-center hover:scale-105 focus:outline-none items-center rounded${
             isClicked ? "animate-pulse " : ""
           }`}
           onClick={handleClick}
@@ -72,7 +72,10 @@ export default function JoinPage() {
           >
             Enter
           </span>
-        </button>
+        </button> */}
+        <div className= "font-bold text-2xl text-gray-700 flex text-center text-2xl mt-14">
+          Classroom function under development.</div>
+
       </div>
     </div>
   );
