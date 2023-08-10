@@ -119,12 +119,13 @@ export default function ProfilePage(props: IProps) {
       {isUser && (
         <div className="shadow-lg shadow-gray-200 bg-white w-96 mt-20 rounded shadow flex flex-col flex-grow overflow-y-auto pt-5 px-5 mb-10">
           <h1 className="text-custom-light-main text-xl font-bold mx-auto mb-5">
-            Portfolio
+            Portfolio & Positions
           </h1>
           {
             data?.user.portfolio.map((stock, index) => (
-              <div className="bg-custom-light-green rounded shadow flex flex-col justify-center py-10 px-5 my-2 h-46 flex-shrink-0">
-                <a href={`/${stock.company.id}/trading`} className="text-custom-off-white font-bold underline">{stock.company.name}</a>
+              <div className="bg-indigo-500 rounded shadow flex flex-col justify-center py-10 px-5 my-2 h-46 flex-shrink-0">
+                <a href={`/${stock.company.id}/trading`} className="text-custom-off-white font-bold underline">${stock.company.ticker}</a>
+                <p className="text-custom-off-white">{stock.company.name}</p>
                 <p className="text-custom-off-white">Shares: {stock.numberOfShares}</p>
                 <p className="text-custom-off-white">Total spent: ${makeCent(stock.totalSpent)}</p> 
               </div>
