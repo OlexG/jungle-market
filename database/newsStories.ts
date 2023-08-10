@@ -74,4 +74,4 @@ export class NewsStories {
 // Generate a news story for a random company every minute
 setInterval(async () => {
   await NewsStories.createNewsStory();
-}, 10000);
+}, 60000);
