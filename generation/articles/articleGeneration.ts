@@ -36,7 +36,7 @@ function stockChangeConverter(effect: number): string {
     case -1:
       return "decline slightly.";
     case 0:
-      return "remain stable.";
+      return "remain the same.";
     case 1:
       return "increase slightly.";
     case 2:
@@ -69,21 +69,31 @@ function generateDateWritten(): string {
   return dateWritten;
 }
 
-export default async function generateRandomArticle(): Promise<{
+export default async function generateRandomArticle(
+  companyName: string,
+  companyTicker: string,
+  CEOName: string,
+  industryType: string,
+  rating: number,
+): Promise<{
   Title: string;
   Body: string;
   Author: string;
   DateWritten: string;
 }> {
+  const wholeArticle = await generateArticleBody(
+    companyName,
+    companyTicker,
+    CEOName,
+    industryType,
+    rating,
+  )
+  const title = wholeArticle.split("\n")[0];
+  const body = wholeArticle.split("\n").slice(1).join("\n");
+
   const article = {
-    Title: generateArticleTitle(),
-    Body: await generateArticleBody(
-      "Palms Leaves Inc.",
-      "PALM",
-      "Alivn Bronson",
-      "Financial",
-      3,
-    ),
+    Title: title,
+    Body: body,
     Author: generateAuthor(),
     DateWritten: generateDateWritten(),
   };

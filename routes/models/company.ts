@@ -22,6 +22,7 @@ export interface Company {
   deRatio: number;
   peRatio: number;
   roe: number;
+  rating: number;
 }
 
 export const CompanyDBSchema = z.object({
@@ -42,7 +43,8 @@ export const CompanyDBSchema = z.object({
   grossMargin: z.number(),
   deRatio: z.number(),
   peRatio: z.number(),
-  roe: z.number()
+  roe: z.number(),
+  rating: z.number(),
 });
 
 export const companyQLString = `
@@ -64,6 +66,7 @@ export const companyQLString = `
     deRatio: Float!
     peRatio: Float!
     roe: Float!
+    rating: Float!
   }
 `;
 
@@ -84,6 +87,7 @@ export class CompanyModel {
   deRatio: number;
   peRatio: number;
   roe: number;
+  rating: number;
 
   constructor(company: z.infer<typeof CompanyDBSchema>) {
     this.id = company.id;
@@ -102,6 +106,7 @@ export class CompanyModel {
     this.deRatio = company.deRatio;
     this.peRatio = company.peRatio;
     this.roe = company.roe;
+    this.rating = company.rating;
   }
 
   async getNewsStories() {

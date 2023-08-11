@@ -9,14 +9,15 @@ import * as $3 from "./routes/api/graphql.ts";
 import * as $4 from "./routes/graphql/schema.ts";
 import * as $5 from "./routes/index.tsx";
 import * as $6 from "./routes/joinclass.tsx";
-import * as $7 from "./routes/models/company.ts";
-import * as $8 from "./routes/models/newsStory.ts";
-import * as $9 from "./routes/models/order.ts";
-import * as $10 from "./routes/models/user.ts";
-import * as $11 from "./routes/news/[id].tsx";
-import * as $12 from "./routes/newsStories.tsx";
-import * as $13 from "./routes/profile/[id].tsx";
-import * as $14 from "./routes/signin.tsx";
+import * as $7 from "./routes/loading.tsx";
+import * as $8 from "./routes/models/company.ts";
+import * as $9 from "./routes/models/newsStory.ts";
+import * as $10 from "./routes/models/order.ts";
+import * as $11 from "./routes/models/user.ts";
+import * as $12 from "./routes/news.tsx";
+import * as $13 from "./routes/news/[id].tsx";
+import * as $14 from "./routes/profile/[id].tsx";
+import * as $15 from "./routes/signin.tsx";
 import * as $$0 from "./islands/ArticlesPage.tsx";
 import * as $$1 from "./islands/Graph.tsx";
 import * as $$2 from "./islands/Header.tsx";
@@ -37,14 +38,15 @@ const manifest = {
     "./routes/graphql/schema.ts": $4,
     "./routes/index.tsx": $5,
     "./routes/joinclass.tsx": $6,
-    "./routes/models/company.ts": $7,
-    "./routes/models/newsStory.ts": $8,
-    "./routes/models/order.ts": $9,
-    "./routes/models/user.ts": $10,
-    "./routes/news/[id].tsx": $11,
-    "./routes/newsStories.tsx": $12,
-    "./routes/profile/[id].tsx": $13,
-    "./routes/signin.tsx": $14,
+    "./routes/loading.tsx": $7,
+    "./routes/models/company.ts": $8,
+    "./routes/models/newsStory.ts": $9,
+    "./routes/models/order.ts": $10,
+    "./routes/models/user.ts": $11,
+    "./routes/news.tsx": $12,
+    "./routes/news/[id].tsx": $13,
+    "./routes/profile/[id].tsx": $14,
+    "./routes/signin.tsx": $15,
   },
   islands: {
     "./islands/ArticlesPage.tsx": $$0,

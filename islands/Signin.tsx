@@ -12,9 +12,8 @@ export default function Signin() {
   };
 
   useEffect(() => {
-
     document.body.style.overflow = "hidden";
-    
+
     const url = new URL(window.location.href);
     if (url.searchParams.get("code")) {
       // Send the code to google to get the token
@@ -34,7 +33,7 @@ export default function Signin() {
   }, []);
 
   return (
-    <div className="bg-gray-200 min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div className="bg-custom-bg min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <div className="w-40 h-40 sm:w-80 sm:h-80 transform rotate-45 bg-indigo-500 absolute top-0 left-0">
       </div>
       <div className="w-20 h-20 sm:w-40 sm:h-40 transform bg-indigo-500 absolute top-0 left-0">
@@ -52,7 +51,8 @@ export default function Signin() {
       <div className="w-[368px] h-[180] bg-white rounded font-sans shadow flex flex-col items-center shadow-lg shadow-gray-200">
         <button
           className="text-center p-4 bg-yellow-500 rounded m-4 mb-7 mt-7 text-gray-700 text-2xl font-bold hover:scale-105 focus:outline-none"
-          onClick={loginWithGoogle}>
+          onClick={loginWithGoogle}
+        >
           Login with Google
         </button>
       </div>

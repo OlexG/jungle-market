@@ -16,6 +16,7 @@ import Modal from "../components/TradePageModal.tsx";
 import TradepageNewsComponent from "../components/TradepageNewsComponent.tsx";
 import FlashingPrice from "../components/FlashingPrice.tsx";
 import Information from "../components/Information.tsx";
+import Loading from "../components/Loading.tsx";
 
 const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
 
@@ -54,6 +55,7 @@ export default function Tradepage({ id }: { id: string }) {
         netIncome
         ceo
         description
+        rating
         newsStories {
           title
           description
@@ -63,6 +65,8 @@ export default function Tradepage({ id }: { id: string }) {
       } 
     }`
   );
+
+  console.log(data?.company?.rating);
 
   const { data: priceData, refetch } = useGraphQLQuery<{
     company: Company;
@@ -219,7 +223,7 @@ export default function Tradepage({ id }: { id: string }) {
   };
 
   if (loading || !data?.company) {
-    return <div>Loading...</div>;
+    return <Loading/>
   }
   // TODO: split these into components
   return (
