@@ -12,7 +12,17 @@ const protectedMutations = [
 export const handler = async (_req: Request): Promise<Response> => {
   const body = (await _req.json()).query;
   // get the session-token from cookies
-  const sessionToken = _req.headers.get("cookie")?.split("=")[1];
+  let sessionToken;
+  const cookieHeader = _req.headers.get("Cookie");
+  if (cookieHeader) {
+    const cookies = cookieHeader.split(";").map((cookie) => cookie.trim());
+    for (const cookie of cookies) {
+      const [name, value] = cookie.split("=");
+      if (name.trim() === "session-token") {
+        sessionToken = value.trim();
+      }
+    }
+  }
   const queryObject = gql`${body}`;
   const mutation =
     queryObject.definitions[0].selectionSet.selections[0].name.value;
@@ -32,7 +42,9 @@ export const handler = async (_req: Request): Promise<Response> => {
     }
     const graphQLArguments =
       queryObject.definitions[0].selectionSet.selections[0].arguments;
-    const userIdArg = graphQLArguments.find((arg: any) => arg.name.value === "userId");
+    const userIdArg = graphQLArguments.find((arg: any) =>
+      arg.name.value === "userId"
+    );
     const userId = userIdArg ? userIdArg.value.value : null;
     const actualuserId = await DBDriver.Users.getuserIdFromSessionToken(
       sessionToken,
