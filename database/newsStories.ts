@@ -2,7 +2,33 @@ import { z } from "zod";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { db } from "./database.ts";
 import generateRandomArticle from "../generation/articles/articleGeneration.ts";
+import { join } from "https://deno.land/std/path/mod.ts";
+
 const MAX_NEW_STORIES = 20;
+
+const articleArt: any = {
+  "-3": [],
+  "-2": [],
+  "-1": [],
+  "0": [],
+  "1": [],
+  "2": [],
+  "3": []
+};
+
+for (let i = -3; i <= 3; i++) {
+  const path = join(Deno.cwd(), `/static/art/articleArt/${i}`);
+
+  try {
+    for (const dirEntry of Deno.readDirSync(path)) {
+      if (dirEntry.isFile && /\.(jpg|jpeg|png|gif)$/i.test(dirEntry.name)) {
+        articleArt[i.toString()].push(dirEntry.name);
+      }
+    }
+  } catch (err) {
+    console.error(`Error reading directory ${path}:`, err);
+  }
+}
 
 export class NewsStories {
   static async createNewsStory(company: z.infer<typeof CompanyDBSchema>) {
@@ -18,14 +44,16 @@ export class NewsStories {
       company.sector,
       rating,
     );
-
+    
+    const possibleImages = articleArt[rating.toString()];
+    const image = possibleImages[Math.floor(Math.random() * possibleImages.length)];
     const newsStory = await db.newsStories.create({
       data: {
         id,
         companyId: company.id,
         title: article.Title,
         description: article.Body,
-        image: "https://google.com",
+        image: image,
         createdAt: new Date().getTime().toString(),
         author: article.Author,
         rating,

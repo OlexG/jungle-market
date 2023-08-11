@@ -31,11 +31,14 @@ export default function ArticlesPage(props: IProps) {
         author
         createdAt
         rating
+        image
       }
     }`
   );
 
-  console.log(data?.newsStory?.rating);
+  const image = data?.newsStory?.image;
+
+  console.log(image, data?.newsStory?.rating)
 
   const cursiveFontStyle = {
     fontFamily: "'YourChosenCursiveFont', cursive",
@@ -89,8 +92,8 @@ export default function ArticlesPage(props: IProps) {
           {formatDateAndTime(data.newsStory.createdAt)}
         </div>
         <img
-          class="w-60 h-60 my-4 mx-auto"
-          src="../art/TheMonkeyTimesLogo.jpg"
+          class="w-120 h-120 my-4 mx-auto"
+          src={`/art/articleArt/${data.newsStory.rating}/${image}`}
           alt="filler image"
         />
         <p
