@@ -6,6 +6,8 @@ export default function Loading() {
             <div class="w-14 h-14 border-t-4 border-indigo-500 border-solid rounded-full animate-spin justify-center"></div>
         </div>
       </div>
+
+      
     </>
   );
 }
