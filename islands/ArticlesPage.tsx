@@ -1,35 +1,57 @@
 import { useEffect, useState } from "preact/hooks";
 import { generateRandomName } from "../generation/articles/executiveNameGeneration.ts";
-import generateRandomArticle from "../generation/articles/articleGeneration.ts";
-import { h } from "preact";
-import ArticleFooter from "../components/ArticleFooter.tsx";
 
-//console.log(article.Title);
-//console.log(article.Body);
-//console.log(article.Author);
-//console.log(article.DateWritten);
+import ArticleFooter from "../components/ArticleFooter.tsx";
+import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
+import { NewsStory } from "../routes/models/newsStory.ts";
+
 interface IProps {
-  article: {
-    Title: string;
-    Body: string;
-    Author: string;
-    DateWritten: string;
-  };
+  id: string;
 }
 
+function formatDateAndTime(time: string) {
+  const date = new Date(parseInt(time));
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "pm" : "am";
+  const hour = hours % 12;
+  const minute = minutes < 10 ? `0${minutes}` : minutes;
+  return `${hour}:${minute}${ampm} ${date.toLocaleDateString()}`;
+}
+
+
 export default function ArticlesPage(props: IProps) {
+  const { data, error, loading } = useGraphQLQuery<{
+    newsStory: NewsStory;
+  } | null>(
+    `{
+      newsStory(id: "${props.id}") {
+        title
+        description
+        author
+        createdAt
+      }
+    }`
+  );
+
   const cursiveFontStyle = {
     fontFamily: "'YourChosenCursiveFont', cursive",
   };
 
-  const titleAndRest = props.article.Body.split("\n");
-  const title = titleAndRest[0];
-  const body = titleAndRest.slice(1).join("\n");
+  let testing = "";
+  let i = 0;
+  for (; i < 200; i++) {
+    testing += "Testing here ";
+  }
+
+  if (!data || loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="bg-black min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <div className="bg-black min-h-screen flex flex-col items-center relative">
       <div
-        className="w-120 center bg-white absolute "
+        className="w-120 center bg-white min-h-screen overflow-auto pb-10"
         style={{ overflow: "auto" }}
       >
         <div
@@ -42,19 +64,19 @@ export default function ArticlesPage(props: IProps) {
           className="text-black text-3xl ml-10"
           style={{ fontFamily: "Times New Roman, serif" }}
         >
-          {title}
+          {data.newsStory.title}
         </div>
         <div
           className="text-black text-1xl ml-10"
           style={{ fontFamily: "Times New Roman, serif" }}
         >
-          {props.article.Author}
+          {data.newsStory.author}
         </div>
         <div
           className="text-gray-500 text-xs ml-10"
           style={{ fontFamily: "Times New Roman, serif" }}
         >
-          {"Published on " + props.article.DateWritten}
+          {formatDateAndTime(data.newsStory.createdAt)}
         </div>
         <img
           class="w-60 h-60 m-10 mt-2 float-right"
@@ -65,7 +87,7 @@ export default function ArticlesPage(props: IProps) {
           className="text-black text-left text-xs mt-2 ml-10 w-110"
           style={{ fontFamily: "Times New Roman, serif" }}
         >
-          {/* article.Body */ body}
+          {/* article.Body */ data.newsStory.description}
         </p>
       </div>
       <ArticleFooter />

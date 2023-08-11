@@ -1,4 +1,5 @@
 import { db } from "./database.ts";
+const MAX_NEW_STORIES = 20;
 
 export class NewsStories {
   static async createNewsStory(companyId?: string) {
@@ -21,12 +22,27 @@ export class NewsStories {
       data: {
         id,
         companyId: company.id,
-        title: "News Story",
-        description: "Wowiie, this company did something",
+        title: "News Story" + id,
+        description: "Wowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did something",
         image: "https://google.com",
         createdAt: new Date().getTime().toString(),
+        author: "John Doe"
       },
     });
+
+    // If we are at more than MAX_NEW_STORIES, delete the oldest one
+    const newsStories = await db.newsStories.findMany({});
+    if (newsStories.length > MAX_NEW_STORIES) {
+      const oldestNewsStory = newsStories.reduce((prev, current) => {
+        return prev.createdAt < current.createdAt ? prev : current;
+      });
+
+      await db.newsStories.delete({
+        where: { id: oldestNewsStory.id },
+      });
+    }
+
+    return newsStory;
   }
 
   static async findBycompanyId(companyId: string) {
