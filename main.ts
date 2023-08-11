@@ -13,6 +13,7 @@ import twindPlugin from "$fresh/plugins/twind.ts";
 import twindConfig from "./twind.config.ts";
 
 import { DBDriver } from "./database/driver.ts";
+
 DBDriver.init();
 
 /* --- Uncomment to delete all records in the database --- */

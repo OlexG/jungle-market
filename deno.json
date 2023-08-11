@@ -5,7 +5,7 @@
     "update": "deno run -A -r https://fresh.deno.dev/update ."
   },
   "imports": {
-    "$fresh/": "https://deno.land/x/fresh@1.2.0/",
+    "$fresh/": "https://deno.land/x/fresh@1.3.1/",
     "preact": "https://esm.sh/preact@10.11.0",
     "preact/": "https://esm.sh/preact@10.11.0/",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.1.0",
@@ -23,7 +23,8 @@
     "react": "https://esm.sh/preact/compat",
     "react-dom": "https://esm.sh/preact/compat",
     "react/jsx-runtime": "https://esm.sh/preact/jsx-runtime",
-    "<react-library>": "https://esm.sh/<react-library>?external=react,react-dom,react/jsx-runtime"
+    "<react-library>": "https://esm.sh/<react-library>?external=react,react-dom,react/jsx-runtime",
+    "axios": "https://deno.land/x/axiod/mod.ts"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
