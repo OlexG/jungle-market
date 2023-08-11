@@ -101,8 +101,4 @@ export default async function generateRandomArticle(
 }
 
 // TESTING:
-/*const article = await generateRandomArticle();
-console.log(article.Title);
-console.log(article.Body);
-console.log(article.Author);
-console.log(article.DateWritten);*/
+/*const article = await generateRandomArticle();*/

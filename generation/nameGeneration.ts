@@ -272,6 +272,7 @@ export function generateRandomCompany(): {
   deRatio: number;
   peRatio: number;
   roe: number;
+  rating: number;
 } {
   const company = {
     id: crypto.randomUUID(),
@@ -284,7 +285,8 @@ export function generateRandomCompany(): {
     grossMargin: generateGrossMargin(),
     deRatio: generateDebtEquityRatio(),
     peRatio: generatePERatio(),
-    roe: generateROE()
+    roe: generateROE(),
+    rating: 0,
   };
   const { name, sector } = generateCompanyName();
   const ticker = companyNameToTicker(name);

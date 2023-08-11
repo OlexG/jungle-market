@@ -10,33 +10,45 @@ export class Companies {
   static async ensureCompaniesExist() {
     const companies = await db.companies.findMany({});
     if (companies.length < NUMBER_OF_COMPANIES) {
-      const currentCompanyPrice = getRandomPrice();
-      const thirtyDaysPriceHistory = [currentCompanyPrice]
-      const dailyPriceHistory = [currentCompanyPrice]
-      for (let i = 1; i < 30 * 24; i++) {
-        thirtyDaysPriceHistory.push(getNextPrice(thirtyDaysPriceHistory[i - 1]))
-      }
-      for (let i = 1; i < 24 * 60; i++) {
-        dailyPriceHistory.push(getNextPrice(dailyPriceHistory[i - 1]))
-      }
-
       const newCompanies = Array(NUMBER_OF_COMPANIES - companies.length)
         .fill(null)
         .map(() => generateRandomCompany())
-        .map((company) => ({
-          ...company,
-          createdAt: new Date(),
-          currentPrice: currentCompanyPrice,
-          thirtyDaysPriceHistory,
-          dailyPriceHistory,
-          lastTimeUpdated: Date.now(),
-          priceAdditionsSoFar: 0,
-          rating: 0
-        }));
+        .map((company) => {
+          const startingPrice = getRandomPrice();
+          const thirtyDaysPriceHistory = [startingPrice];
+          for (let i = 1; i < 29 * 24; i++) {
+            thirtyDaysPriceHistory.push(
+              getNextPrice(thirtyDaysPriceHistory[i - 1], company as any, 3)
+            );
+          }
+
+          const dailyPriceHistory = [thirtyDaysPriceHistory[thirtyDaysPriceHistory.length - 1]];
+          for (let i = 1; i <= 24 * 60; i++) {
+            dailyPriceHistory.push(getNextPrice(dailyPriceHistory[i - 1], company as any, 0.5));
+            if (i % 60 === 0) {
+              thirtyDaysPriceHistory.push(dailyPriceHistory[i]);
+            }
+          }
+
+          const currentCompanyPrice = dailyPriceHistory[dailyPriceHistory.length - 1];
+          return {
+            ...company,
+            createdAt: new Date(),
+            currentPrice: currentCompanyPrice,
+            thirtyDaysPriceHistory: thirtyDaysPriceHistory,
+            dailyPriceHistory: dailyPriceHistory,
+            lastTimeUpdated: Date.now(),
+            priceAdditionsSoFar: 0,
+          };
+        });
 
       await db.companies.createMany({
         data: newCompanies,
       });
+
+      for (let i = 1; i < 30 * 24; i++) {
+        Companies.updateCompanyPrices();
+      }
     }
   }
 
@@ -58,7 +70,7 @@ export class Companies {
     }
   }
 
-  static async getNewCompanyPrice(company: z.infer<typeof CompanyDBSchema>) {
+  static getNewCompanyPrice(company: z.infer<typeof CompanyDBSchema>) {
     const companyCopy = { ...company };
     const lastTimeUpdated = companyCopy.lastTimeUpdated;
     const timeSinceLastUpdate = Date.now() - lastTimeUpdated;
@@ -66,7 +78,7 @@ export class Companies {
     for (let i = 0; i < minutesSinceLastUpdate; i++) {
       companyCopy.dailyPriceHistory.shift();
       companyCopy.dailyPriceHistory.push(
-        getNextPrice(companyCopy.currentPrice)
+        getNextPrice(companyCopy.currentPrice, companyCopy, 0.5)
       );
     }
     companyCopy.currentPrice =
@@ -89,7 +101,7 @@ export class Companies {
 
     for (const company of newCompanies) {
       await db.companies.update({
-        where: { id: company.id }, 
+        where: { id: company.id },
         data: company,
       });
     }

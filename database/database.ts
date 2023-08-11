@@ -1,14 +1,11 @@
 /// <reference lib="deno.unstable" />
 
-import { generateRandomCompany } from "../generation/nameGeneration.ts";
 import { createPentagon } from "pentagon";
 import { CompanyDBSchema } from "../routes/models/company.ts";
 import { NewsStoryDBSchema } from "../routes/models/newsStory.ts";
-import { User, UserDBSchema } from "../routes/models/user.ts";
+import { UserDBSchema } from "../routes/models/user.ts";
 import { OrderDBSchema } from "../routes/models/order.ts";
-import { getRandomPrice } from "../generation/priceGeneration.ts";
 
-const NUMBER_OF_COMPANIES = 10;
 const kv = await Deno.openKv();
 
 export const db = createPentagon(kv, {

@@ -195,6 +195,7 @@ export default function Tradepage({ id }: { id: string }) {
       reducedData.push(slicedData[i]);
     }
     reducedData.reverse();
+    console.log(reducedData);
     return reducedData;
   };
 
