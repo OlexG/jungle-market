@@ -22,12 +22,20 @@ function Order(props: OrderProps) {
   return (
     <div
       className={`${
-        props.type === "buy" ? "bg-custom-dark-green" : "bg-custom-red"
+        props.type === "buy"
+          ? "border border-custom-dark-green"
+          : "border border-custom-red"
       } rounded shadow flex flex-col justify-center h-40 px-5 my-2 flex-shrink-0`}
     >
-      <a href={`/${props.companyId}/trading`} className="underline text-custom-off-white font-bold">${props.ticker}</a>
-      <p className="text-custom-off-white">Shares: {props.numberOfShares}</p>
-      <p className="text-custom-off-white">Price: ${props.price}</p>
+      <a
+        href={`/${props.companyId}/trading`}
+        className="underline text-custom-gray-light font-bold"
+      >
+        ${props.ticker}
+      </a>
+      {props.type === "buy" ? <p>Action: Buy</p> : <p>Action: Sell</p>}
+      <p className="text-custom-gray-light">Shares: {props.numberOfShares}</p>
+      <p className="text-custom-gray-light">Price: ${props.price}</p>
     </div>
   );
 }
@@ -61,12 +69,11 @@ export default function ProfilePage(props: IProps) {
           }
         }
       } 
-    }`
+    }`,
   );
 
   const userId = useuserId();
   const isUser = userId === props.id;
-
 
   return (
     <div className="bg-gray-100 h-screen pt-0.5 flex flex-row justify-center w-full gap-4 px-96">
@@ -81,14 +88,20 @@ export default function ProfilePage(props: IProps) {
               {data?.user.name}
             </h1>
             <div className="font-bold text-custom-light-main">
-              <span className="text-custom-light-main">Current cash balance: </span>
+              <span className="text-custom-light-main">
+                Current cash balance:
+              </span>
               <span className="text-custom-dark-green">
-                {data?.user.balance ? '$' + makeCent(data.user.balance) : "$0.00"}
+                {data?.user.balance
+                  ? " $" + makeCent(data.user.balance)
+                  : " $0.00"}
               </span>
             </div>
             <div className="font-bold text-custom-light-main">
-              <span className="text-custom-light-main">Total profits and losses: </span>
-              <span className="text-custom-dark-green">$0.00</span>
+              <span className="text-custom-light-main">
+                Total profits and losses:
+              </span>
+              <span className="text-custom-dark-green"> $0.00</span>
             </div>
           </div>
         </div>
@@ -121,16 +134,23 @@ export default function ProfilePage(props: IProps) {
           <h1 className="text-custom-light-main text-xl font-bold mx-auto mb-5">
             Portfolio & Positions
           </h1>
-          {
-            data?.user.portfolio.map((stock, index) => (
-              <div className="bg-indigo-500 rounded shadow flex flex-col justify-center py-10 px-5 my-2 h-46 flex-shrink-0">
-                <a href={`/${stock.company.id}/trading`} className="text-custom-off-white font-bold underline">${stock.company.ticker}</a>
-                <p className="text-custom-off-white">{stock.company.name}</p>
-                <p className="text-custom-off-white">Shares: {stock.numberOfShares}</p>
-                <p className="text-custom-off-white">Total spent: ${makeCent(stock.totalSpent)}</p> 
-              </div>
-            ))
-          }
+          {data?.user.portfolio.map((stock, index) => (
+            <div className="bg-white border border-indigo-500 rounded shadow flex flex-col justify-center py-10 px-5 my-2 h-46 flex-shrink-0">
+              <a
+                href={`/${stock.company.id}/trading`}
+                className="text-custom-light-main font-bold underline"
+              >
+                ${stock.company.ticker}
+              </a>
+              <p className="text-custom-light-main">{stock.company.name}</p>
+              <p className="text-custom-light-main">
+                Shares: {stock.numberOfShares}
+              </p>
+              <p className="text-custom-light-main">
+                Total spent: ${makeCent(stock.totalSpent)}
+              </p>
+            </div>
+          ))}
         </div>
       )}
     </div>
