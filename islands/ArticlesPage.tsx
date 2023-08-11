@@ -1,5 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { generateRandomName } from "../generation/articles/executiveNameGeneration.ts";
+import Loading from "../components/Loading.tsx";
 
 import ArticleFooter from "../components/ArticleFooter.tsx";
 import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
@@ -19,7 +20,6 @@ function formatDateAndTime(time: string) {
   return `${hour}:${minute}${ampm} ${date.toLocaleDateString()}`;
 }
 
-
 export default function ArticlesPage(props: IProps) {
   const { data, error, loading } = useGraphQLQuery<{
     newsStory: NewsStory;
@@ -30,9 +30,12 @@ export default function ArticlesPage(props: IProps) {
         description
         author
         createdAt
+        rating
       }
     }`
   );
+
+  console.log(data?.newsStory?.rating);
 
   const cursiveFontStyle = {
     fontFamily: "'YourChosenCursiveFont', cursive",
@@ -45,21 +48,28 @@ export default function ArticlesPage(props: IProps) {
   }
 
   if (!data || loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
-    <div className="bg-black min-h-screen flex flex-col items-center relative">
+    <div className="bg-white min-h-screen flex flex-col items-center relative">
+      <a
+        className="absolute top-0 left-0 text-black text-2xl p-4 mb-4 bg-gray-100"
+        href="/"
+      >
+        &lt; Home
+      </a>
+
+      <div
+        className="text-black text-center text-6xl p-4 mb-4 bg-gray-100 w-screen"
+        style={cursiveFontStyle}
+      >
+        The Monkey Times
+      </div>
       <div
         className="w-120 center bg-white min-h-screen overflow-auto pb-10"
         style={{ overflow: "auto" }}
       >
-        <div
-          className="text-black text-center text-6xl mt-6 m-10"
-          style={cursiveFontStyle}
-        >
-          The Monkey Times
-        </div>
         <div
           className="text-black text-3xl ml-10"
           style={{ fontFamily: "Times New Roman, serif" }}
@@ -67,7 +77,7 @@ export default function ArticlesPage(props: IProps) {
           {data.newsStory.title}
         </div>
         <div
-          className="text-black text-1xl ml-10"
+          className="text-black text-xl ml-10"
           style={{ fontFamily: "Times New Roman, serif" }}
         >
           {data.newsStory.author}
@@ -79,12 +89,12 @@ export default function ArticlesPage(props: IProps) {
           {formatDateAndTime(data.newsStory.createdAt)}
         </div>
         <img
-          class="w-60 h-60 m-10 mt-2 float-right"
+          class="w-60 h-60 my-4 mx-auto"
           src="../art/TheMonkeyTimesLogo.jpg"
           alt="filler image"
         />
         <p
-          className="text-black text-left text-xs mt-2 ml-10 w-110"
+          className="text-black text-left text-xl mt-2 ml-10 w-110"
           style={{ fontFamily: "Times New Roman, serif" }}
         >
           {/* article.Body */ data.newsStory.description}

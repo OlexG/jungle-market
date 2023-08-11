@@ -23,6 +23,10 @@ export function generateRandomName(): string {
     "Noam",
     "Lex",
     "Ido",
+    "Sergiy",
+    "Ben",
+    "Matan",
+    "Sasha"
   ];
 
   const lastNames = [

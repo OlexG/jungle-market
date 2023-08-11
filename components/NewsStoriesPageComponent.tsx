@@ -25,7 +25,7 @@ export default function NewsStoriesPageComponent(props: IProps) {
       href={`/news/${props.id}`}
     >
       <div>
-        <h1 className="text-xl px-4">{props.title}</h1>
+        <h1 className="text-lg px-4">{props.title}</h1>
         <h1 className="px-4">
           ${props.companyTicker} - {props.companyName}
         </h1>

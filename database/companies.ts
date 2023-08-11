@@ -31,6 +31,7 @@ export class Companies {
           dailyPriceHistory,
           lastTimeUpdated: Date.now(),
           priceAdditionsSoFar: 0,
+          rating: 0
         }));
 
       await db.companies.createMany({

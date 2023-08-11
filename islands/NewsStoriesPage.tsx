@@ -3,6 +3,7 @@ import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
 import { NewsStory } from "../routes/models/newsStory.ts";
 import NewsStoriesPageComponent from "../components/NewsStoriesPageComponent.tsx";
 import Paginate from "../components/Paginate.tsx";
+import Loading from "../components/Loading.tsx";
 
 const getNewsStoriesQuery = (page: number, pageSize: number) => `{
   newsStories(page: ${page}, pageSize: ${pageSize}) {
@@ -24,8 +25,7 @@ export default function NewsStoriesPage() {
   const { data, error, loading } = useGraphQLQuery<{ newsStories: NewsStory[] } | null>(
     getNewsStoriesQuery(currentPage, itemsPerPage)
   );
-
-
+  
   const [itemOffset, setItemOffset] = useState(0);
 
   const items = data?.newsStories?.sort(
@@ -43,6 +43,10 @@ export default function NewsStoriesPage() {
     const newOffset = (newPage * itemsPerPage) % items.length;
     setItemOffset(newOffset);
   };
+
+  if (loading) {
+    return <Loading/>
+  }
 
   return (
     <div className="relative bg-gray-100 min-h-screen">
