@@ -50,7 +50,7 @@ export const rootValue = {
     /* TODO: Figure out error handling */
     return new CompanyModel(company as z.infer<typeof CompanyDBSchema>);
   },
-  newStory: async (input: { id: string }) => {
+  newsStory: async (input: { id: string }) => {
     const newsStory = await DBDriver.NewsStories.findById(input.id);
     return new NewsModel(newsStory as z.infer<typeof NewsStoryDBSchema>);
   },

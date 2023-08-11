@@ -23,9 +23,10 @@ export class NewsStories {
         id,
         companyId: company.id,
         title: "News Story" + id,
-        description: "Wowiie, this company did something",
+        description: "Wowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did somethingWowiie, this company did something",
         image: "https://google.com",
         createdAt: new Date().getTime().toString(),
+        author: "John Doe"
       },
     });
 

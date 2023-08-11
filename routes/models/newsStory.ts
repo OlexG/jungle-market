@@ -12,6 +12,7 @@ export interface NewsStory {
   image: string;
   company: CompanyModel;
   createdAt: string;
+  author: string;
 }
 
 export const NewsStoryDBSchema = z.object({
@@ -21,6 +22,7 @@ export const NewsStoryDBSchema = z.object({
   description: z.string(),
   image: z.string(),
   companyId: z.string().uuid(),
+  author: z.string(),
 });
 
 export const newsStoryQLString = `
@@ -31,6 +33,7 @@ export const newsStoryQLString = `
     image: String!
     createdAt: String!
     company: Company!
+    author: String!
   }
 `
 
@@ -41,6 +44,7 @@ export class NewsModel {
   image: string
   createdAt: string
   companyId: string
+  author: string
 
   constructor(newsStory: z.infer<typeof NewsStoryDBSchema>) {
     this.id = newsStory.id
@@ -49,6 +53,7 @@ export class NewsModel {
     this.image = newsStory.image
     this.createdAt = newsStory.createdAt
     this.companyId = newsStory.companyId
+    this.author = newsStory.author
   }
 
 
