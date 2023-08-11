@@ -17,11 +17,13 @@ import { DBDriver } from "./database/driver.ts";
 DBDriver.init();
 
 /* --- Uncomment to delete all records in the database --- */
+/* Run Deno, uncomment the first away function & save. Then recomment it and uncomment the next 3 await functions and save. Then comment out all 4.
+Then uncomment everything else and comment back in */
 
 // await DBDriver.Companies.deleteAllRecords();
+
 // await DBDriver.Users.deleteAllRecords();
 // await DBDriver.Orders.deleteAllRecords();
 // await DBDriver.NewsStories.deleteAllRecords();
-
 
 await start(manifest, { plugins: [twindPlugin(twindConfig)] });

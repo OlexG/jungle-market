@@ -120,9 +120,11 @@ export class NewsStories {
 }
 
 // Generate a news story for a random company every minute
-setInterval(async () => {
-  const companies = await db.companies.findMany({});
-  if (companies.length === 0) return;
-  const company = companies[Math.floor(Math.random() * companies.length)];
-  await NewsStories.createNewsStory(company);
-}, 60000);
+// Uncomment this section to start generating news articles. \/
+
+// setInterval(async () => {
+//   const companies = await db.companies.findMany({});
+//   if (companies.length === 0) return;
+//   const company = companies[Math.floor(Math.random() * companies.length)];
+//   await NewsStories.createNewsStory(company);
+// }, 60000);
