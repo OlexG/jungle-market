@@ -14,7 +14,18 @@ import twindConfig from "./twind.config.ts";
 
 import { DBDriver } from "./database/driver.ts";
 
+globalThis.addEventListener('unhandledrejection', (event) => {
+  console.error('Unhandled Promise Rejection:', event.reason);
+  event.preventDefault(); // Prevents the default browser action (which might be to print the error to console).
+});
+
+globalThis.addEventListener('error', (event) => {
+  console.error('Uncaught Exception:', event.error);
+  event.preventDefault(); // Prevents the default browser action (which might be to print the error to console).
+});
+
 DBDriver.init();
+
 
 /* --- Uncomment to delete all records in the database --- */
 /* Run Deno, uncomment the first away function & save. Then recomment it and uncomment the next 3 await functions and save. Then comment out all 4.
