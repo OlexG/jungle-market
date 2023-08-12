@@ -2,6 +2,7 @@ import { useGraphQLQuery } from "../hooks/useGraphQLQuery.ts";
 import { Company } from "../routes/models/company.ts";
 import { sectorNames } from "../generation/nameGeneration.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
+import Loading from "../components/Loading.tsx";
 
 const sectorsToColorMap = {
   "Technology Sector": "blue",
@@ -42,6 +43,12 @@ export default function Homepage() {
     // send to /id/trading
     const homeRoute = window.location.href.split("/")[2];
     window.location.href = `http://${homeRoute}/${id}/trading`;
+  }
+
+  if (loading) {
+    return (
+      <Loading />
+    )
   }
 
   return (
