@@ -1,5 +1,12 @@
 import { config } from "mod";
-const { CLIENT_ID, CLIENT_SECRET } = config();
+let { CLIENT_ID, CLIENT_SECRET } = config();
+if (!CLIENT_ID) {
+  CLIENT_ID = Deno.env.get("CLIENT_ID") || "";
+}
+if (!CLIENT_SECRET) {
+  CLIENT_SECRET = Deno.env.get("CLIENT_SECRET") || "";
+}
+
 import { DBDriver } from "../../database/driver.ts";
 async function getAccessToken(code: string) {
   const client_id = CLIENT_ID

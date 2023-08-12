@@ -1,6 +1,10 @@
 import { config } from "mod";
 import { DBDriver } from "../../database/driver.ts";
-const { ADMIN_KEY } = config();
+let { ADMIN_KEY } = config();
+if (!ADMIN_KEY) {
+  ADMIN_KEY = Deno.env.get("ADMIN_KEY") || "test";
+}
+
 async function attemptFunctionMultipleTimes(fn: () => Promise<void>, numberOfTries: number): Promise<void> {
   for (let i = 0; i < numberOfTries; i++) {
       try {

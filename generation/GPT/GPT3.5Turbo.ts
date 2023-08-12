@@ -1,8 +1,10 @@
 import { OpenAI } from 'https://deno.land/x/openai/mod.ts'
 import getGPT35TurboMessage from './getGPT3.5TurboMessage.ts';
 import { config } from "mod";
-const { OPENAI_KEY } = config();
-
+let { OPENAI_KEY } = config();
+if (!OPENAI_KEY) {
+  OPENAI_KEY = Deno.env.get("OPENAI_KEY") || "";
+} 
 
 const openai = new OpenAI(
   OPENAI_KEY
