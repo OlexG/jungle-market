@@ -8,14 +8,40 @@ export class Users {
     const user = await db.users.findFirst({
       where: { id },
     });
+    const companies = await db.companies.findMany({});
+
     if (!user) throw new Error("User not found");
     return {
       id: user.id,
       name: user.name,
       icon: user.icon,
       balance: user.balance,
+      totalNetWorth: user.balance + user.portfolio.reduce(
+        (acc, item) => acc + item.numberOfShares * companies.find(
+          (company) => company.id === item.companyId
+        )!.currentPrice,
+        0,
+      ),
     };
   }
+
+  static async getAllPublic(): Promise<PublicUser[]> {
+    const users = await db.users.findMany({});
+    const companies = await db.companies.findMany({});
+    return users.map((user) => ({
+      id: user.id,
+      balance: user.balance,
+      name: user.name,
+      icon: user.icon,
+      totalNetWorth: user.balance + user.portfolio.reduce(
+        (acc, item) => acc + item.numberOfShares * companies.find(
+          (company) => company.id === item.companyId
+        )!.currentPrice,
+        0,
+      ),
+    }));
+  }
+
 
   static async processPortofolioChange(
     user: z.infer<typeof UserDBSchema>,
@@ -87,12 +113,19 @@ export class Users {
     const user = await db.users.findFirst({
       where: { sessionToken },
     });
+    const companies = await db.companies.findMany({});
     if (!user) throw new Error("User not found");
     return {
       id: user.id,
       name: user.name,
       icon: user.icon,
       balance: user.balance,
+      totalNetWorth: user.balance + user.portfolio.reduce(
+        (acc, item) => acc + item.numberOfShares * companies.find( 
+          (company) => company.id === item.companyId
+        )!.currentPrice,
+        0,
+      ),
     };
   }
 

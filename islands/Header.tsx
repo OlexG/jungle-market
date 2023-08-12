@@ -44,6 +44,7 @@ export function Header() {
       <div className="absolute top-0 right-0 flex items-center h-full pr-4">
         <HeaderLink to="/joinclass" text="Class" />
         <HeaderLink to="/news" text="News" />
+        <HeaderLink to="/leaderboard" text="Rankings" />
         {
           userId ?
             <HeaderLink to={`/profile/${userId}`} text="Profile" />

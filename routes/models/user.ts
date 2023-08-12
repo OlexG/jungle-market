@@ -11,6 +11,7 @@ export interface User {
   balance: number;
   email: string;
   orders: Order[];
+  totalNetWorth: number;
   portfolio: {
     company: Company;
     numberOfShares: number;
@@ -22,6 +23,7 @@ export interface PublicUser {
   id: string;
   icon: string;
   name: string;
+  totalNetWorth: number;
   balance: number;
 }
 
@@ -54,8 +56,31 @@ export const userQLString = `
     balance: Float!
     orders: [Order!]!
     portfolio: [PortfolioItem!]!
+    totalNetWorth: Float!
+  }
+
+  type PublicUser {
+    name: String!
+    totalNetWorth: Float!
+    icon: String!
   }
 `
+
+export class PublicUserModel {
+  id: string
+  name: string
+  icon: string
+  totalNetWorth: number
+  balance: number
+
+  constructor(user: any) {
+    this.id = user.id
+    this.name = user.name
+    this.icon = user.icon
+    this.totalNetWorth = user.totalNetWorth
+    this.balance = user.balance
+  }
+}
 
 export class UserModel {
   id: string
@@ -63,6 +88,7 @@ export class UserModel {
   email: string
   icon: string
   balance: number
+  totalNetWorth: number
 
   constructor(user: any) {
     this.id = user.id
@@ -70,6 +96,7 @@ export class UserModel {
     this.email = user.email
     this.icon = user.icon
     this.balance = user.balance
+    this.totalNetWorth = user.totalNetWorth
   }
 
   orders() {

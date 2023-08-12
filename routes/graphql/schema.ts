@@ -6,7 +6,7 @@ import { CompanyModel, companyQLString } from "../models/company.ts";
 
 import { NewsModel, NewsStoryDBSchema, newsStoryQLString } from "../models/newsStory.ts";
 
-import { UserModel, userQLString } from "../models/user.ts";
+import { PublicUserModel, UserModel, userQLString } from "../models/user.ts";
 
 import { DBDriver } from "../../database/driver.ts";
 import z from "https://deno.land/x/zod@v3.21.4/index.ts";
@@ -24,6 +24,7 @@ export const schema = buildSchema(`
     newsStory(id: ID!): NewsStory!
     orders(userId: ID!): [Order!]!
     user(id: ID!): User!
+    users: [PublicUser!]!
     order(
       userId: ID! 
       id: ID!
@@ -62,6 +63,11 @@ export const rootValue = {
   user: async (input: { id: string }) => {
     const user = await DBDriver.Users.findPublicById(input.id);
     return new UserModel(user);
+  },
+
+  users: async () => {
+    const users = await DBDriver.Users.getAllPublic();
+    return users.map((user) => new PublicUserModel(user));
   },
 
   /*---- PROTECTED ----*/
