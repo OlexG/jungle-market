@@ -31,6 +31,10 @@ const style = `
     }
   `;
 
+const formatPercentage = (percent: number) => {
+  return percent.toFixed(2) + "%";
+}
+
 export default function Tradepage({ id }: { id: string }) {
   const [isAnimating, setIsAnimating] = useState(true);
 
@@ -164,8 +168,6 @@ export default function Tradepage({ id }: { id: string }) {
   const [currentOrderType, setCurrentOrderType] = useState("buy");
   const [confirmBuyModalOpen, setConfirmBuyModalOpen] = useState(false);
 
-  const percentageChange = "5.6";
-
   const handleInputNumberChange = (e: any) => {
     setAmount(e.target.value);
   };
@@ -195,7 +197,6 @@ export default function Tradepage({ id }: { id: string }) {
       reducedData.push(slicedData[i]);
     }
     reducedData.reverse();
-    console.log(reducedData);
     return reducedData;
   };
 
@@ -222,6 +223,10 @@ export default function Tradepage({ id }: { id: string }) {
         return [];
     }
   };
+
+  const stockData = getData(type)
+
+  let percentageChange = stockData.length > 0 ? (stockData[stockData.length - 1] - stockData[0]) / stockData[0] * 100 : 0
 
   if (loading || !data?.company) {
     return <Loading/>
@@ -295,14 +300,14 @@ export default function Tradepage({ id }: { id: string }) {
                   </div>
                   <div
                     className={`mt-2 ml-2 font-bold text-xl ${
-                      parseFloat(percentageChange) > 0
+                      percentageChange > 0
                         ? "text-custom-dark-green"
-                        : parseFloat(percentageChange) < 0
+                        : percentageChange < 0
                         ? "text-custom-red"
                         : "text-gray-500"
                     }`}
                   >
-                    {percentageChange + "%"}
+                    {formatPercentage(percentageChange)}
                   </div>
                 </div>
                 <div className="text-custom-gray font-inter text-xs">
@@ -312,7 +317,7 @@ export default function Tradepage({ id }: { id: string }) {
 
               <div className="relative w-full h-100 mt-3 rounded-b rounded-t flex flex-row items-center justify-center">
                 <div className="absolute top-0">
-                  <Graph data={getData(type)} type={type} />
+                  <Graph data={stockData} type={type} />
                 </div>
                 <div className="absolute bottom-4 flex flex-row gap-2">
                   <TimeButton
