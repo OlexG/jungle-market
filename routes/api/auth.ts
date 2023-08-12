@@ -47,6 +47,10 @@ export const handler = async (_req: Request): Promise<Response> => {
   // TODO: save user info to database
   let sessionToken;
   let user
+  if (!data?.email || !data?.name || !data?.picture) {
+    console.log(data);
+  }
+
   try {
     sessionToken = await DBDriver.Users.createOrFind(data.email, data.name, data.picture);
     user = await DBDriver.Users.findBySessionToken(sessionToken);
