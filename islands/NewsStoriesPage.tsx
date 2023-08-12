@@ -44,7 +44,7 @@ export default function NewsStoriesPage() {
     setItemOffset(newOffset);
   };
 
-  if (loading) {
+  if (loading || !data) {
     return <Loading/>
   }
 

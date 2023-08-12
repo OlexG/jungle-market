@@ -77,7 +77,7 @@ export default function ProfilePage(props: IProps) {
   const userId = useuserId();
   const isUser = userId === props.id;
 
-  if (loading) {
+  if (loading || !data) {
     return <Loading />;
   }
 

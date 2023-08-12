@@ -45,7 +45,7 @@ export default function Homepage() {
     window.location.href = `http://${homeRoute}/${id}/trading`;
   }
 
-  if (loading) {
+  if (loading || !data) {
     return (
       <Loading />
     )
