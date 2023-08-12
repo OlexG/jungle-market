@@ -1,17 +1,20 @@
 import { config } from "mod";
-let { CLIENT_ID, CLIENT_SECRET } = config();
+let { CLIENT_ID, CLIENT_SECRET, RED_URL } = config();
 if (!CLIENT_ID) {
   CLIENT_ID = Deno.env.get("CLIENT_ID") || "";
 }
 if (!CLIENT_SECRET) {
   CLIENT_SECRET = Deno.env.get("CLIENT_SECRET") || "";
 }
+if (!RED_URL) {
+  RED_URL = Deno.env.get("RED_URL") || "";
+}
 
 import { DBDriver } from "../../database/driver.ts";
 async function getAccessToken(code: string) {
   const client_id = CLIENT_ID
   const client_secret = CLIENT_SECRET
-  const redirect_uri = 'http://localhost:8000/signin';
+  const redirect_uri = RED_URL
   const grant_type = 'authorization_code';
   const data = {
     client_id,
