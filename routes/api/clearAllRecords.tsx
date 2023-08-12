@@ -12,7 +12,7 @@ async function attemptFunctionMultipleTimes(fn: () => Promise<void>, numberOfTri
 }
 
 export const handler = async (_req: Request): Promise<Response> => {
-  const adminKey = _req.headers.get("admin-key");
+  const adminKey = _req.headers.get("Admin-Key");
   if (adminKey !== ADMIN_KEY) {
     return new Response("Unauthorized", { status: 401 });
   }

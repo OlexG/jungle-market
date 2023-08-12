@@ -8,7 +8,7 @@ export default function AdminPanel() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'admin-key': adminKey,
+          'Admin-Key': adminKey,
         },
       });
     }
@@ -21,7 +21,7 @@ export default function AdminPanel() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'admin-key': adminKey,
+          'Admin-Key': adminKey,
         },
       });
     }

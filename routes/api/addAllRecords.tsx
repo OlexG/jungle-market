@@ -4,7 +4,7 @@ import { generateArticle } from "../../database/newsStories.ts";
 const { ADMIN_KEY } = config();
 
 export const handler = async (_req: Request): Promise<Response> => {
-  const adminKey = _req.headers.get("admin-key");
+  const adminKey = _req.headers.get("Admin-Key");
   if (adminKey !== ADMIN_KEY) {
     return new Response("Unauthorized", { status: 401 });
   }
