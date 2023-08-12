@@ -2,12 +2,16 @@ import { useEffect } from "preact/hooks";
 
 const CLIENT_ID =
   "633773348546-nem5d1e5mds0dgbvi54t7b7fglev98lb.apps.googleusercontent.com";
-const REDIRECT_URI = "http://localhost:8000/signin";
 
-export default function Signin() {
+interface IProps {
+  redirect: string;
+}
+export default function Signin(
+  props: IProps
+) {
   const loginWithGoogle = () => {
     const url =
-      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=openid%20email%20profile`;
+      `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${props.redirect}&response_type=code&scope=openid%20email%20profile`;
     window.location.href = url;
   };
 
