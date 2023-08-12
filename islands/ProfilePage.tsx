@@ -4,6 +4,7 @@ import { User } from "../routes/models/user.ts";
 import { makeCent } from "../generation/priceGeneration.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import useuserId from "../hooks/useUserID.ts";
+import Loading from "../components/Loading.tsx";
 // TODO: Look into properly rounding
 
 interface IProps {
@@ -75,6 +76,10 @@ export default function ProfilePage(props: IProps) {
 
   const userId = useuserId();
   const isUser = userId === props.id;
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="bg-gray-100 h-screen pt-0.5 flex flex-row justify-center w-full gap-4 px-80">
