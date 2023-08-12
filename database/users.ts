@@ -117,7 +117,7 @@ export class Users {
     name: string,
     icon: string,
   ): Promise<string> {
-    if (!email || !name || !icon) throw new Error("Missing required fields");
+    if (!email || !name || !icon) throw new Error("Missing required fields " + email + name + icon);
 
     const existingUser = await db.users.findFirst({
       where: { email },
