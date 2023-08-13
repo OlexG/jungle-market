@@ -23,7 +23,7 @@ export function Header() {
   return (
     <header className="w-screen h-14 bg-custom-light-green overflow-hidden fixed top-0 left-0 w-full z-50 shadow">
       <a 
-        href={'/'}
+        href={'/home'}
         className="flex w-98 h-full items-center pl-10 pr-4 text-white text-5xl font-semibold leading-normal">
         Jungle Market
       </a>

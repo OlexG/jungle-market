@@ -1,13 +1,9 @@
-import Homepage from "../islands/Homepage.tsx";
 import Header from "../islands/Header.tsx";
-import Footer from "../components/Footer.tsx";
-import { Head } from "$fresh/runtime.ts";
-
-export default function Home() {
+import LandingPageComponent from '../islands/LandingPage.tsx'
+export default function LandingPage() {
   return (
     <>
-      <Header/>
-      <Homepage/>
+      <LandingPageComponent/>
     </>
-  );
+  )
 }

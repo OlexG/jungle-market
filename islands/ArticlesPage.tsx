@@ -57,10 +57,10 @@ export default function ArticlesPage(props: IProps) {
   return (
     <div className="bg-white min-h-screen flex flex-col items-center relative">
       <a
-        className="absolute top-0 left-0 text-black text-2xl p-4 mb-4 bg-gray-100"
-        href="/"
+        className="absolute top-0 left-0 text-black text-xl p-4 mb-4 bg-gray-100"
+        href="/home"
       >
-        &lt; Home
+        Home
       </a>
 
       <div

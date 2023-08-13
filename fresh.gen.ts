@@ -10,18 +10,20 @@ import * as $4 from "./routes/api/auth.ts";
 import * as $5 from "./routes/api/clearAllRecords.tsx";
 import * as $6 from "./routes/api/graphql.ts";
 import * as $7 from "./routes/graphql/schema.ts";
-import * as $8 from "./routes/index.tsx";
-import * as $9 from "./routes/joinclass.tsx";
-import * as $10 from "./routes/leaderboard.tsx";
-import * as $11 from "./routes/loading.tsx";
-import * as $12 from "./routes/models/company.ts";
-import * as $13 from "./routes/models/newsStory.ts";
-import * as $14 from "./routes/models/order.ts";
-import * as $15 from "./routes/models/user.ts";
-import * as $16 from "./routes/news.tsx";
-import * as $17 from "./routes/news/[id].tsx";
-import * as $18 from "./routes/profile/[id].tsx";
-import * as $19 from "./routes/signin.tsx";
+import * as $8 from "./routes/home.tsx";
+import * as $9 from "./routes/index.tsx";
+import * as $10 from "./routes/joinclass.tsx";
+import * as $11 from "./routes/landingpage.tsx";
+import * as $12 from "./routes/leaderboard.tsx";
+import * as $13 from "./routes/loading.tsx";
+import * as $14 from "./routes/models/company.ts";
+import * as $15 from "./routes/models/newsStory.ts";
+import * as $16 from "./routes/models/order.ts";
+import * as $17 from "./routes/models/user.ts";
+import * as $18 from "./routes/news.tsx";
+import * as $19 from "./routes/news/[id].tsx";
+import * as $20 from "./routes/profile/[id].tsx";
+import * as $21 from "./routes/signin.tsx";
 import * as $$0 from "./islands/AdminPanel.tsx";
 import * as $$1 from "./islands/ArticlesPage.tsx";
 import * as $$2 from "./islands/Graph.tsx";
@@ -29,11 +31,12 @@ import * as $$3 from "./islands/Header.tsx";
 import * as $$4 from "./islands/Homepage.tsx";
 import * as $$5 from "./islands/InvestmentsPanel.tsx";
 import * as $$6 from "./islands/JoinClassPage.tsx";
-import * as $$7 from "./islands/LeaderboardPage.tsx";
-import * as $$8 from "./islands/NewsStoriesPage.tsx";
-import * as $$9 from "./islands/ProfilePage.tsx";
-import * as $$10 from "./islands/Signin.tsx";
-import * as $$11 from "./islands/Tradepage.tsx";
+import * as $$7 from "./islands/LandingPage.tsx";
+import * as $$8 from "./islands/LeaderboardPage.tsx";
+import * as $$9 from "./islands/NewsStoriesPage.tsx";
+import * as $$10 from "./islands/ProfilePage.tsx";
+import * as $$11 from "./islands/Signin.tsx";
+import * as $$12 from "./islands/Tradepage.tsx";
 
 const manifest = {
   routes: {
@@ -45,18 +48,20 @@ const manifest = {
     "./routes/api/clearAllRecords.tsx": $5,
     "./routes/api/graphql.ts": $6,
     "./routes/graphql/schema.ts": $7,
-    "./routes/index.tsx": $8,
-    "./routes/joinclass.tsx": $9,
-    "./routes/leaderboard.tsx": $10,
-    "./routes/loading.tsx": $11,
-    "./routes/models/company.ts": $12,
-    "./routes/models/newsStory.ts": $13,
-    "./routes/models/order.ts": $14,
-    "./routes/models/user.ts": $15,
-    "./routes/news.tsx": $16,
-    "./routes/news/[id].tsx": $17,
-    "./routes/profile/[id].tsx": $18,
-    "./routes/signin.tsx": $19,
+    "./routes/home.tsx": $8,
+    "./routes/index.tsx": $9,
+    "./routes/joinclass.tsx": $10,
+    "./routes/landingpage.tsx": $11,
+    "./routes/leaderboard.tsx": $12,
+    "./routes/loading.tsx": $13,
+    "./routes/models/company.ts": $14,
+    "./routes/models/newsStory.ts": $15,
+    "./routes/models/order.ts": $16,
+    "./routes/models/user.ts": $17,
+    "./routes/news.tsx": $18,
+    "./routes/news/[id].tsx": $19,
+    "./routes/profile/[id].tsx": $20,
+    "./routes/signin.tsx": $21,
   },
   islands: {
     "./islands/AdminPanel.tsx": $$0,
@@ -66,11 +71,12 @@ const manifest = {
     "./islands/Homepage.tsx": $$4,
     "./islands/InvestmentsPanel.tsx": $$5,
     "./islands/JoinClassPage.tsx": $$6,
-    "./islands/LeaderboardPage.tsx": $$7,
-    "./islands/NewsStoriesPage.tsx": $$8,
-    "./islands/ProfilePage.tsx": $$9,
-    "./islands/Signin.tsx": $$10,
-    "./islands/Tradepage.tsx": $$11,
+    "./islands/LandingPage.tsx": $$7,
+    "./islands/LeaderboardPage.tsx": $$8,
+    "./islands/NewsStoriesPage.tsx": $$9,
+    "./islands/ProfilePage.tsx": $$10,
+    "./islands/Signin.tsx": $$11,
+    "./islands/Tradepage.tsx": $$12,
   },
   baseUrl: import.meta.url,
 };
