@@ -139,6 +139,7 @@ export class Users {
   static async getuserIdFromSessionToken(
     sessionToken: string
   ): Promise<string> {
+    if (!sessionToken) return "";
     const user = await db.users.findFirst({
       where: { sessionToken },
     });
