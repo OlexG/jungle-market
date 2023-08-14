@@ -58,12 +58,14 @@ export default function LandingPage() {
 
   return (
     <>
-      <div className="relative w-screen h-[400px] overflow-x-hidden">
+      <div className="relative w-screen h-[350px] overflow-x-hidden">
         <div
-          className="absolute w-screen h-full bg-center bg-cover flex flex-row items-center bg-no-repeat -z-20"
+          className="absolute w-screen bg-center bg-cover flex flex-row items-center bg-no-repeat -z-20"
           style={{
             backgroundImage: "url('/art/landingPage/landingPage1.jpeg')",
             pointerEvents: "none",
+            backgroundPosition: "top",
+            height: "100%",
           }}
         />
         {/*<div

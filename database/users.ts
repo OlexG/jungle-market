@@ -136,6 +136,22 @@ export class Users {
     return user.portfolio;
   }
 
+  static async reset(userId: string) {
+    const user = await db.users.findFirst({
+      where: { id: userId },
+    });
+    if (!user) throw new Error("User not found");
+    user.balance = 10000;
+    user.portfolio = [];
+
+    // Delete all orders
+    await db.orders.deleteMany({
+      where: { userId },
+    });
+    
+    await this.updateUser(userId, user);
+  }
+
   static async getuserIdFromSessionToken(
     sessionToken: string
   ): Promise<string> {
