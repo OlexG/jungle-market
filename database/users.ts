@@ -143,6 +143,7 @@ export class Users {
     const user = await db.users.findFirst({
       where: { sessionToken },
     });
+    if (!user) return "";
     return user.id;
   }
 
