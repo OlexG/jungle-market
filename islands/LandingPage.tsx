@@ -19,8 +19,8 @@ function Panel({
   return (
     <div className="flex flex-col w-1/2 items-center justify-center mx-auto mt-20 text-custom-gray pointer-events-auto">
       <div className="flex flex-row gap-8">
-        {isLeft && <img src={image} className="h-[400px]" alt="Panel Image" />}
-        <div className="flex flex-col">
+        {isLeft && <img src={image} className="w-[300px]" alt="Panel Image" />}
+        <div className="flex flex-col w-[300px] flex-shrink-0">
           <h1 className="self-start text-xl">{title}</h1>
           <p className="font-light text-lg mt-4">{description}</p>
           {hasButton && ( // Conditionally render the button based on hasButton
@@ -32,12 +32,23 @@ function Panel({
             </a>
           )}
         </div>
-        {!isLeft && <img src={image} className="h-[400px]" alt="Panel Image" />}
+        {!isLeft && <img src={image} className="h-[300px]" alt="Panel Image" />}
       </div>
     </div>
   );
 }
 
+function TriplePanel({ text, image }: { text: string; image: string }) {
+  return (
+    <div className="part w-1/5 p-2 flex flex-col justify-between items-center gap-4 h-66">
+      <img
+        src={image}
+        className="max-w-full h-auto w-36 h-36 rounded-full flex-shrink-0"
+      />
+      <p className="mt-2 font-light text-lg mt-4">{text}</p>
+    </div>
+  );
+}
 export default function LandingPage() {
   const [isStarted, setIsStarted] = useState(true);
 
@@ -47,7 +58,7 @@ export default function LandingPage() {
 
   return (
     <>
-      <div className="relative w-screen h-[400px]">
+      <div className="relative w-screen h-[400px] overflow-x-hidden">
         <div
           className="absolute w-screen h-full bg-center bg-cover flex flex-row items-center bg-no-repeat -z-20"
           style={{
@@ -55,7 +66,7 @@ export default function LandingPage() {
             pointerEvents: "none",
           }}
         />
-        <div
+        {/*<div
           className="w-[400px] absolute -bottom-[160px] py-6 px-4 flex flex-col items-center justify-center bg-custom-bg self-end ml-[50px] mx-auto text-center rounded-t-lg transform transition-transform duration-300 text-white hover:text-custom-tan hover:-translate-y-3/4 z-10"
           style={{
             pointerEvents: "auto",
@@ -83,7 +94,7 @@ export default function LandingPage() {
           >
             Get Started!
           </a>
-        </div>
+            </div>*/}
       </div>
       <div
         className="relative min-h-screen bg-custom-bg font-sans pointer-events-none pt-2 pb-20 z-20 border-t-1 border-gray-300 "
@@ -96,6 +107,27 @@ export default function LandingPage() {
           <p className="text-lg">
             Teaching kids about investing has never been easier.
           </p>
+          <a
+            className="mt-2 bg-custom-tan hover:bg-custom-light-tan text-white font-bold py-2 px-4 rounded-full text-lg"
+            href="/home"
+          >
+            Get Started!
+          </a>
+        </div>
+
+        <div className="flex items-center justify-center mx-auto mt-10 gap-8">
+          <TriplePanel
+            text="Completely simulated yet realistic companies that are fun to trade"
+            image="/art/articleArt/2/ilikebirds82_Cooreprate_meeting_with_cartoon_monkies_in_an_offi_fb228024-525b-44ff-8516-5ee408b720eb.png"
+          />
+          <TriplePanel
+            text="Invest using virtual money that can be easily reset"
+            image="/art/articleArt/3/ilikebirds82_A_group_of_cartoon_monkies_crying_with_cartoon_dol_25fb1e19-49a2-453c-96d0-49fa380961e0.png"
+          />
+          <TriplePanel
+            text="Learn important concepts such as company fundamentals, news analysis, and much more!"
+            image="/art/articleArt/2/ilikebirds82_cartoon_monkies_standing_with_their_hands_and_bala_fd8924b0-ea6c-4de3-bd0c-6da1202f3423.png"
+          />
         </div>
 
         <div className="flex flex-col items-center justify-center mx-auto mt-10 z-10 pointer-events-auto">
@@ -120,30 +152,9 @@ export default function LandingPage() {
             description="Jungle Market empowers kids beyond academics. Navigating our simulated stock market builds confidence, enhancing financial decision-making skills. This, combined with strong financial literacy, ensures a secure, prosperous future."
             image="/art/landingPage/landingPage4.png"
             isLeft={false}
-            hasButton={true}
-            buttonText="Get Started!"
+            hasButton={false}
+            buttonText=""
           />
-        </div>
-
-        <div className="flex  items-center justify-center mx-auto mt-10">
-          <div className="part w-1/5 p-2">
-            <img src="image1.jpg" className="max-w-full h-auto" />
-            <p className="mt-2 font-light text-lg mt-4">
-              Text for part 1 goes here.
-            </p>
-          </div>
-          <div className="part w-1/5 p-2">
-            <img src="image2.jpg" className="max-w-full h-auto" />
-            <p className="mt-2 font-light text-lg mt-4">
-              Text for part 2 goes here.
-            </p>
-          </div>
-          <div className="part w-1/5 p-2">
-            <img src="image3.jpg" className="max-w-full h-auto" />
-            <p className="mt-2 font-light text-lg mt-4">
-              Text for part 3 goes here.
-            </p>
-          </div>
         </div>
       </div>
       <Footer />
