@@ -69,9 +69,6 @@ export default function Tradepage({ id }: { id: string }) {
       } 
     }`
   );
-
-  console.log(data?.company?.rating);
-
   const { data: priceData, refetch } = useGraphQLQuery<{
     company: Company;
   } | null>(

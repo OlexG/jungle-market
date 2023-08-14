@@ -47,7 +47,7 @@ export function Header() {
         <HeaderLink to="/leaderboard" text="Rankings" />
         {
           userId ?
-            <HeaderLink to={`/profile/${userId}`} text="Profile" />
+            <HeaderLink to={`/profile/${userId}`} text="Portfolio" />
             :
             <HeaderLink to="/signin" text="Sign In" />
         }

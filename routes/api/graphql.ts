@@ -7,6 +7,8 @@ const protectedMutations = [
   "order",
   "orders",
   "createOrder",
+  "reset",
+  "user"
 ];
 
 export const handler = async (_req: Request): Promise<Response> => {

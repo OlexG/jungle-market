@@ -30,7 +30,7 @@ export default function Signin(
             // TODO: Show error message
           } else {
             localStorage.setItem("userData", JSON.stringify(data));
-            window.location.href = "/";
+            window.location.href = "/home";
           }
         });
     }

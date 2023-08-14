@@ -23,7 +23,8 @@ export const schema = buildSchema(`
     newsStories(page: Int! pageSize: Int!): [NewsStory!]!
     newsStory(id: ID!): NewsStory!
     orders(userId: ID!): [Order!]!
-    user(id: ID!): User!
+    user(userId: ID!): User!
+    reset(id: ID!): User!
     users: [PublicUser!]!
     order(
       userId: ID! 
@@ -60,8 +61,8 @@ export const rootValue = {
     return newsStories.map((newsStory) => new NewsModel(newsStory));
   },
 
-  user: async (input: { id: string }) => {
-    const user = await DBDriver.Users.findPublicById(input.id);
+  user: async (input: { userId: string }) => {
+    const user = await DBDriver.Users.findPublicById(input.userId);
     return new UserModel(user);
   },
 
@@ -75,6 +76,11 @@ export const rootValue = {
   orders: async (input: { userId: string }) => {
     const orders = await DBDriver.Orders.findByuserId(input.userId);
     return orders.map((order) => new OrderModel(order));
+  },
+
+  reset: async (input: { userId: string }) => {
+    await DBDriver.Users.reset(input.userId);
+    return true;
   },
 
   order: async (input: { userId: string, id: string }) => {

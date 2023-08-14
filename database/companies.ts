@@ -102,7 +102,13 @@ export class Companies {
     for (const company of newCompanies) {
       await db.companies.update({
         where: { id: company.id },
-        data: company,
+        data: {
+          currentPrice: company.currentPrice,
+          dailyPriceHistory: company.dailyPriceHistory,
+          thirtyDaysPriceHistory: company.thirtyDaysPriceHistory,
+          lastTimeUpdated: company.lastTimeUpdated,
+          priceAdditionsSoFar: company.priceAdditionsSoFar,
+        },
       });
     }
   }

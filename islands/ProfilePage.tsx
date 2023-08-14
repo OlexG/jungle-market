@@ -44,7 +44,7 @@ function Order(props: OrderProps) {
 export default function ProfilePage(props: IProps) {
   const { data, error, loading } = useGraphQLQuery<{ user: User } | null>(
     `{
-      user(id: "${props.id}") {
+      user(userId: "${props.id}") {
         name
         id
         icon
