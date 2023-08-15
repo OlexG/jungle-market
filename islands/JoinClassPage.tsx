@@ -80,7 +80,7 @@ export default function JoinPage() {
           Classroom function under development.
         </div>
       </div>
-     {/* <TutorialMonkey/> */ }
+     {/* <TutorialMonkey/>  */}
     </div>
   );
 }
