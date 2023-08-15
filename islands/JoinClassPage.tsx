@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import TutorialMonkey from "../components/TutorialMonkey.tsx";
 
 export default function JoinPage() {
   useEffect(() => {
@@ -79,6 +80,7 @@ export default function JoinPage() {
           Classroom function under development.
         </div>
       </div>
+     {/* <TutorialMonkey/> */ }
     </div>
   );
 }
