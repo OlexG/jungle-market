@@ -1,14 +1,12 @@
 import { useEffect, useState } from "preact/hooks";
 interface IProps {
-    texts: string[];
-    name: string;
-    setNextPanel: () => void
-    setPreviousPanel: () => void
+  texts: string[];
+  name: string;
+  setNextPanel: () => void;
+  setPreviousPanel: () => void;
 }
 export default function TutorialMonkey(props: IProps) {
-  
-
-    const imageArray: string[] = [
+  const imageArray: string[] = [
     "DALL_E_2023-08-15_11.28.01_-_Please_open_the_monkies_mouth-removebg-preview.png", // closed mouth
     "ilikebirds82_a_high_quality_picture_of_a_cartoon_monkey_with_gl_7dfb7f53-be0d-453d-b916-7a3475cebed7-removebg-preview.png", // open mouth
     "DALL_E_2023-08-15_11.30.12_-_Please_close_the_monkies_eyes-removebg-preview.png", // blink
@@ -21,6 +19,10 @@ export default function TutorialMonkey(props: IProps) {
   const [text, setText] = useState(texts[currentArrayText]);
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (currentArrayText === texts.length) {
+    return null 
+  }
 
   const turnOnTalking = (numberOfCharacters: number) => {
     const duration = numberOfCharacters * 0.05 * 1000;
@@ -73,7 +75,7 @@ export default function TutorialMonkey(props: IProps) {
 
   const pageForward = () => {
     setDisplayText("");
-    setCurrentIndex(0); 
+    setCurrentIndex(0);
     setArrayCurrentText(currentArrayText + 1);
     setText(texts[currentArrayText + 1]);
     props.setNextPanel();
@@ -83,36 +85,35 @@ export default function TutorialMonkey(props: IProps) {
     setDisplayText("");
     setCurrentIndex(0);
     setArrayCurrentText(currentArrayText - 1);
-    setText(texts[currentArrayText - 1]); 
+    setText(texts[currentArrayText - 1]);
     props.setPreviousPanel();
   };
 
   const getRandomInterval = (min: number, max: number) => {
     return Math.random() * (max - min) + min;
   };
-
   return (
     <div className="bottom-0 fixed">
-<img
-  className="w-100 h-100 my-4 mx-auto z-50 fixed bottom-0 left-0"
-  src={`/art/tutorialMonkey/${imageArray[currentImageIndex]}`}
-  alt="filler image"
-/>
+      <img
+        className="w-100 h-100 my-4 mx-auto z-50 fixed bottom-0 left-0"
+        src={`/art/tutorialMonkey/${imageArray[currentImageIndex]}`}
+        alt="filler image"
+      />
       <div
         className="w-full h-20 transform bg-custom-dark-main fixed z-50 bottom-0 right-0 flex justify-end items-center p-2"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.9)" }}
       >
         <div className="flex space-x-4">
-          <button className="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 mt-3 ml-2"
+          <button
+            className="w-8 h-8 flex items-center justify-center bg-white rounded-full hover:bg-gray-200 mt-3 ml-2"
             onClick={pageBackward}
-
-          
           >
-            &#8592; 
+            &#8592;
           </button>
-          <button className="w-12 h-12 flex items-center justify-center bg-white rounded-full hover:bg-gray-200"
-               onClick={pageForward}>
-            
+          <button
+            className="w-12 h-12 flex items-center justify-center bg-white rounded-full hover:bg-gray-200"
+            onClick={pageForward}
+          >
             &#8594;
           </button>
         </div>
