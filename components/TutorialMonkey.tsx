@@ -1,6 +1,11 @@
 import { useEffect, useState } from "preact/hooks";
-
-export default function TutorialMonkey() {
+interface IProps {
+    texts: string[];
+    name: string;
+    setNextPanel: () => void
+    setPreviousPanel: () => void
+}
+export default function TutorialMonkey(props: IProps) {
   const imageArray: string[] = [
     "DALL_E_2023-08-15_11.28.01_-_Please_open_the_monkies_mouth-removebg-preview.png", // closed mouth
     "ilikebirds82_a_high_quality_picture_of_a_cartoon_monkey_with_gl_7dfb7f53-be0d-453d-b916-7a3475cebed7-removebg-preview.png", // open mouth
@@ -11,12 +16,6 @@ export default function TutorialMonkey() {
 
   const [isTalking, setIsTalking] = useState(false);
 
-  let i = 0;
-  let testing = "";
-  for (; i < 10; i++) {
-    testing += " This is for testing! ";
-  }
-
   const turnOnTalking = (numberOfCharacters: number) => {
     const duration = numberOfCharacters * 0.05 * 1000;
     setIsTalking(true);
@@ -26,15 +25,17 @@ export default function TutorialMonkey() {
     }, duration);
   };
 
+    const { texts } = props;
+
   useEffect(() => {
-    const numberOfCharacters = testing.length;
+    const numberOfCharacters = texts[0].length;
 
     if (numberOfCharacters > 0) {
       turnOnTalking(numberOfCharacters);
     }
   }, []);
 
-  const [text, setText] = useState(testing);
+  const [text, setText] = useState(texts[0]);
   const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 

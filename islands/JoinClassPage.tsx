@@ -1,6 +1,8 @@
 import { useEffect, useState } from "preact/hooks";
 import TutorialMonkey from "../components/TutorialMonkey.tsx";
 
+const texts = ["This is the class page!", "It is currently still being worked on..."];
+
 export default function JoinPage() {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -80,7 +82,12 @@ export default function JoinPage() {
           Classroom function under development.
         </div>
       </div>
-     {/* <TutorialMonkey/>  */}
+      <TutorialMonkey
+        texts={texts}
+        name={"JoinClassPage"}
+        setNextPanel={() => {}}
+        setPreviousPanel={() => {}}
+      />
     </div>
   );
 }
