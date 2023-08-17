@@ -92,14 +92,14 @@ export default function TutorialMonkey(props: IProps) {
   };
 
   return (
-    <div>
+    <div className="bottom-0 fixed">
 <img
-  className="w-100 h-100 my-4 mx-auto z-50 absolute bottom-0 left-0"
+  className="w-100 h-100 my-4 mx-auto z-50 fixed bottom-0 left-0"
   src={`/art/tutorialMonkey/${imageArray[currentImageIndex]}`}
   alt="filler image"
 />
       <div
-        className="w-full h-20 transform bg-custom-dark-main absolute z-50 bottom-0 right-0 flex justify-end items-center p-2"
+        className="w-full h-20 transform bg-custom-dark-main fixed z-50 bottom-0 right-0 flex justify-end items-center p-2"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.9)" }}
       >
         <div className="flex space-x-4">

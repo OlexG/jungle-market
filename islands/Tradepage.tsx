@@ -17,8 +17,17 @@ import TradepageNewsComponent from "../components/TradepageNewsComponent.tsx";
 import FlashingPrice from "../components/FlashingPrice.tsx";
 import Information from "../components/Information.tsx";
 import Loading from "../components/Loading.tsx";
+import TutorialWrapper from "../components/TutorialWrapper.tsx";
+import TutorialMonkey from "../components/TutorialMonkey.tsx";
 
 const defaultConsoleText = " -- PTRE 12.1% -- BNNNS 11.5% -- PTRR 1.3%";
+const tutorialTexts = [
+  "Welcome to the trade page! Here you can buy and sell stocks. This is the graph of the stock price over time. You can change the time period by clicking on the buttons below. Try it out!",
+  "This is your portfolio. You can see how many shares you own and how much you have spent on each company. You can click on the company name to go to the company trade page.",
+  "This is the buy and sell menu. Here you can put in how many shares you want to buy or sell and then do so. Try it out!",
+  "This is the information panel. Here you can see general information about the company and it's fundamentals. TODO explain these",
+  "This is the news panel. Here you can see the latest news about the company. You can click on the news to read more about it. Remember that news can affect the stock price!",
+];
 
 const style = `
     @keyframes rotate {
@@ -33,14 +42,10 @@ const style = `
 
 const formatPercentage = (percent: number) => {
   return percent.toFixed(2) + "%";
-}
+};
 
 export default function Tradepage({ id }: { id: string }) {
-  const [isAnimating, setIsAnimating] = useState(true);
-
-  const handleCompleteAnimation = () => {
-    setIsAnimating(false);
-  };
+  const [currentTutorialPanel, setCurrentTutorialPanel] = useState(0);
 
   const { data, loading } = useGraphQLQuery<{ company: Company } | null>(
     `{
@@ -221,12 +226,15 @@ export default function Tradepage({ id }: { id: string }) {
     }
   };
 
-  const stockData = getData(type)
+  const stockData = getData(type);
 
-  let percentageChange = stockData.length > 0 ? (stockData[stockData.length - 1] - stockData[0]) / stockData[0] * 100 : 0
+  let percentageChange =
+    stockData.length > 0
+      ? ((stockData[stockData.length - 1] - stockData[0]) / stockData[0]) * 100
+      : 0;
 
   if (loading || !data?.company) {
-    return <Loading/>
+    return <Loading />;
   }
   // TODO: split these into components
   return (
@@ -259,138 +267,178 @@ export default function Tradepage({ id }: { id: string }) {
       <div className="col-span-1 pt-20 h-full"></div>
       <div className="col-span-4 pt-20 h-full transform">
         <div className="w-full flex flex-row">
-          <div className="h-120 w-4/6 border border-blue-500 relative rounded mr-4 shadow-lg shadow-lg bg-white">
-            <div className="w-5/6 mx-auto rounded mt-6 text-lg">
-              <div
-                className="relative border bg-blue-500 shadow-sm rounded"
-                style={{
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <p
-                  className="bg-blue-500 text-white font-inter text-20px leading-normal tracking-tighter rotating-text"
+          <TutorialWrapper
+            currentPanel={currentTutorialPanel}
+            showPanel={0}
+            maxPanel={5}
+          >
+            <div className="h-120 w-4/6 border border-blue-500 relative rounded mr-4 shadow-lg shadow-lg bg-white">
+              <div className="w-5/6 mx-auto rounded mt-6 text-lg">
+                <div
+                  className="relative border bg-blue-500 shadow-sm rounded"
                   style={{
-                    animationName: "rotate",
-                    animationDuration: "10s",
-                    animationTimingFunction: "linear",
-                    animationIterationCount: "infinite",
+                    position: "relative",
+                    overflow: "hidden",
                   }}
                 >
-                  {consoleText}
-                </p>
+                  <p
+                    className="bg-blue-500 text-white font-inter text-20px leading-normal tracking-tighter rotating-text"
+                    style={{
+                      animationName: "rotate",
+                      animationDuration: "10s",
+                      animationTimingFunction: "linear",
+                      animationIterationCount: "infinite",
+                    }}
+                  >
+                    {consoleText}
+                  </p>
+                </div>
               </div>
-            </div>
 
-            <div className="w-5/6 mx-auto rounded-t rounded-b mt-6 text-lg flex flex-col items-start justify-between">
-              <div>
-                <div className="flex justify-between">
-                  <div className="text-custom-light-main font-inter text-3xl">
-                    {data?.company.ticker} {/* @ts-ignore */}
-                    <FlashingPrice
-                      price={
-                        priceData?.company.currentPrice
-                          ? priceData?.company.currentPrice
-                          : data?.company.currentPrice
-                      }
+              <div className="w-5/6 mx-auto rounded-t rounded-b mt-6 text-lg flex flex-col items-start justify-between">
+                <div>
+                  <div className="flex justify-between">
+                    <div className="text-custom-light-main font-inter text-3xl">
+                      {data?.company.ticker} {/* @ts-ignore */}
+                      <FlashingPrice
+                        price={
+                          priceData?.company.currentPrice
+                            ? priceData?.company.currentPrice
+                            : data?.company.currentPrice
+                        }
+                      />
+                    </div>
+                    <div
+                      className={`mt-2 ml-2 font-bold text-xl ${
+                        percentageChange > 0
+                          ? "text-custom-dark-green"
+                          : percentageChange < 0
+                          ? "text-custom-red"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {formatPercentage(percentageChange)}
+                    </div>
+                  </div>
+                  <div className="text-custom-gray font-inter text-xs">
+                    {data?.company.name}
+                  </div>
+                </div>
+
+                <div className="relative w-full h-100 mt-3 rounded-b rounded-t flex flex-row items-center justify-center">
+                  <div className="absolute top-0">
+                    <Graph data={stockData} type={type} />
+                  </div>
+                  <div className="absolute bottom-4 flex flex-row gap-2">
+                    <TimeButton
+                      currentType={type}
+                      thisType={TimeType.THIRTY_DAYS}
+                      thisText={"30 Days"}
+                      setCurrentType={setType}
+                    />
+                    <TimeButton
+                      currentType={type}
+                      thisType={TimeType.DAILY}
+                      thisText={"1 Day"}
+                      setCurrentType={setType}
+                    />
+                    <TimeButton
+                      currentType={type}
+                      thisType={TimeType.HOURLY}
+                      thisText={"1 Hour"}
+                      setCurrentType={setType}
+                    />
+                    <TimeButton
+                      currentType={type}
+                      thisType={TimeType.TEN_MINUTES}
+                      thisText={"10 Min"}
+                      setCurrentType={setType}
                     />
                   </div>
-                  <div
-                    className={`mt-2 ml-2 font-bold text-xl ${
-                      percentageChange > 0
-                        ? "text-custom-dark-green"
-                        : percentageChange < 0
-                        ? "text-custom-red"
-                        : "text-gray-500"
-                    }`}
-                  >
-                    {formatPercentage(percentageChange)}
-                  </div>
-                </div>
-                <div className="text-custom-gray font-inter text-xs">
-                  {data?.company.name}
-                </div>
-              </div>
-
-              <div className="relative w-full h-100 mt-3 rounded-b rounded-t flex flex-row items-center justify-center">
-                <div className="absolute top-0">
-                  <Graph data={stockData} type={type} />
-                </div>
-                <div className="absolute bottom-4 flex flex-row gap-2">
-                  <TimeButton
-                    currentType={type}
-                    thisType={TimeType.THIRTY_DAYS}
-                    thisText={"30 Days"}
-                    setCurrentType={setType}
-                  />
-                  <TimeButton
-                    currentType={type}
-                    thisType={TimeType.DAILY}
-                    thisText={"1 Day"}
-                    setCurrentType={setType}
-                  />
-                  <TimeButton
-                    currentType={type}
-                    thisType={TimeType.HOURLY}
-                    thisText={"1 Hour"}
-                    setCurrentType={setType}
-                  />
-                  <TimeButton
-                    currentType={type}
-                    thisType={TimeType.TEN_MINUTES}
-                    thisText={"10 Min"}
-                    setCurrentType={setType}
-                  />
                 </div>
               </div>
             </div>
-          </div>
+          </TutorialWrapper>
           {/* Stock graph div */}
 
           <div className="w-1/3 flex flex-col gap-4">
-            <div className="h-100 rounded border border-custom-light-green shadow-lg bg-white">
-              <InvestmentsPanel
-                info={
-                  userId
-                    ? portfolioData?.user.portfolio.map((e) => {
-                        const totalSpent = e.totalSpent;
-                        const currentValue =
-                          e.company.currentPrice * e.numberOfShares;
-                        const percentageChange =
-                          ((currentValue - totalSpent) / totalSpent) * 100;
-                        console.log(e);
-                        return {
-                          ticker: "$" + e.company.ticker,
-                          percentageChange: makeCent(percentageChange),
-                          id: e.company.id,
-                        };
-                      })
-                    : undefined
-                }
-              />
+            <TutorialWrapper
+              currentPanel={currentTutorialPanel}
+              showPanel={1}
+              maxPanel={5}
+            >
+              <div className="h-100 rounded border border-custom-light-green shadow-lg bg-white">
+                <InvestmentsPanel
+                  info={
+                    userId
+                      ? portfolioData?.user.portfolio.map((e) => {
+                          const totalSpent = e.totalSpent;
+                          const currentValue =
+                            e.company.currentPrice * e.numberOfShares;
+                          const percentageChange =
+                            ((currentValue - totalSpent) / totalSpent) * 100;
+                          console.log(e);
+                          return {
+                            ticker: "$" + e.company.ticker,
+                            percentageChange: makeCent(percentageChange),
+                            id: e.company.id,
+                          };
+                        })
+                      : undefined
+                  }
+                />
+              </div>
+            </TutorialWrapper>
+            <TutorialWrapper
+              currentPanel={currentTutorialPanel}
+              showPanel={2}
+              maxPanel={5}
+            >
+              <div>
+                <BuyPanel
+                  handleBuyClick={handleBuyClick}
+                  handleSellClick={handleSellClick}
+                  handleInputNumberChange={handleInputNumberChange}
+                  amount={amount}
+                />
+              </div>
+            </TutorialWrapper>
+          </div>
+        </div>
+        <TutorialWrapper
+          currentPanel={currentTutorialPanel}
+          showPanel={3}
+          maxPanel={5}
+        >
+          <div>
+            <Information company={data?.company} />
+          </div>
+        </TutorialWrapper>
+        <TutorialWrapper
+          currentPanel={currentTutorialPanel}
+          showPanel={4}
+          maxPanel={5}
+        >
+          <div className="border border-yellow-500 bg-white rounded shadow-lg mt-4 p-10 mb-4">
+            <h1 className="text-yellow-500 font-semibold text-lg">News</h1>
+            <div className="flex flex-col gap-4 mt-4">
+              {data?.company.newsStories.map((story) => (
+                <TradepageNewsComponent
+                  title={story.title}
+                  id={story.id}
+                  date={story.createdAt}
+                />
+              ))}
             </div>
-            <BuyPanel
-              handleBuyClick={handleBuyClick}
-              handleSellClick={handleSellClick}
-              handleInputNumberChange={handleInputNumberChange}
-              amount={amount}
-            />
           </div>
-        </div>
-        <Information company={data?.company} />
-        <div className="border border-yellow-500 bg-white rounded shadow-lg mt-4 p-10 mb-4">
-          <h1 className="text-yellow-500 font-semibold text-lg">News</h1>
-          <div className="flex flex-col gap-4 mt-4">
-            {data?.company.newsStories.map((story) => (
-              <TradepageNewsComponent
-                title={story.title}
-                id={story.id}
-                date={story.createdAt}
-              />
-            ))}
-          </div>
-        </div>
+        </TutorialWrapper>
       </div>
+      <TutorialMonkey
+        texts={tutorialTexts}
+        name="Tradepage"
+        setNextPanel={() => setCurrentTutorialPanel(currentTutorialPanel + 1)}
+        setPreviousPanel={() => setCurrentTutorialPanel(currentTutorialPanel - 1)}
+      />
     </div>
   );
 }
