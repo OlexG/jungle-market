@@ -17,7 +17,7 @@ export default function TutorialWrapper({
   const [blurClass, setBlurClass] = useState("");
   const [wasBlurred, setWasBlurred] = useState(false);
   const [wasScrolled, setWasScrolled] = useState(false);
-
+  const invalid = currentPanel > maxPanel;
   const childId = `tutorial-wrapper-child-${Math.random()
     .toString(36)
     .substr(2, 9)}`;
@@ -29,6 +29,9 @@ export default function TutorialWrapper({
   }, [currentPanel, showPanel, maxPanel]);
 
   useEffect(() => {
+    if (currentPanel > maxPanel) {
+      return;
+    }
     if (blurClass === "") {
       setTimeout(() => {
         const element = document.getElementById(childId);
@@ -43,7 +46,7 @@ export default function TutorialWrapper({
         setWasScrolled(true);
       }, 0); // Delay for 100ms
     }
-  }, [blurClass, wasScrolled, wasBlurred]);
+  }, [blurClass, wasScrolled, wasBlurred, currentPanel, maxPanel]);
 
   const child = children as preact.VNode<any>;
 

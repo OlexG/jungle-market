@@ -93,7 +93,7 @@ export default function Tradepage({ id }: { id: string }) {
     user: User;
   } | null>(
     `{
-        user(id: "${userId}") {
+        user(userId: "${userId}") {
           portfolio {
             numberOfShares
             totalSpent
@@ -438,6 +438,7 @@ export default function Tradepage({ id }: { id: string }) {
         name="Tradepage"
         setNextPanel={() => setCurrentTutorialPanel(currentTutorialPanel + 1)}
         setPreviousPanel={() => setCurrentTutorialPanel(currentTutorialPanel - 1)}
+        setPanelNumber={setCurrentTutorialPanel}
       />
     </div>
   );

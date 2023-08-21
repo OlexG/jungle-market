@@ -4,8 +4,27 @@ interface IProps {
   name: string;
   setNextPanel: () => void;
   setPreviousPanel: () => void;
+  setPanelNumber: (panelNumber: number) => void;
 }
+let typingInterval: any;
 export default function TutorialMonkey(props: IProps) {
+
+  const [showComponent, setShowComponent] = useState(false);
+
+  useEffect(() => {
+    const storedName = localStorage.getItem(props.name);
+    if (storedName !== props.name) {
+      setShowComponent(true);
+      localStorage.setItem(props.name, props.name);
+    } else {
+      props.setPanelNumber(100)
+    }
+  }, [props.name]);
+
+  if (!showComponent) {
+    return null;
+  }
+
   const imageArray: string[] = [
     "DALL_E_2023-08-15_11.28.01_-_Please_open_the_monkies_mouth-removebg-preview.png", // closed mouth
     "ilikebirds82_a_high_quality_picture_of_a_cartoon_monkey_with_gl_7dfb7f53-be0d-453d-b916-7a3475cebed7-removebg-preview.png", // open mouth
@@ -42,7 +61,7 @@ export default function TutorialMonkey(props: IProps) {
   }, [currentArrayText]);
 
   useEffect(() => {
-    const typingInterval = setInterval(() => {
+    typingInterval = setInterval(() => {
       if (currentIndex < text.length) {
         setDisplayText((prevText) => prevText + text[currentIndex]);
         setCurrentIndex((prevIndex) => prevIndex + 1);
@@ -74,7 +93,15 @@ export default function TutorialMonkey(props: IProps) {
   }, []);
 
   const pageForward = () => {
+    if (currentArrayText === texts.length - 1) {
+      setShowComponent(false);
+    }
     setDisplayText("");
+    try {
+      clearInterval(typingInterval);
+    } catch (e) {
+      console.log(e)
+    }
     setCurrentIndex(0);
     setArrayCurrentText(currentArrayText + 1);
     setText(texts[currentArrayText + 1]);
@@ -82,7 +109,15 @@ export default function TutorialMonkey(props: IProps) {
   };
 
   const pageBackward = () => {
+    if (currentArrayText === 0) {
+      return;
+    }
     setDisplayText("");
+    try {
+      clearInterval(typingInterval);
+    } catch (e) {
+      console.log(e)
+    }
     setCurrentIndex(0);
     setArrayCurrentText(currentArrayText - 1);
     setText(texts[currentArrayText - 1]);
@@ -95,12 +130,12 @@ export default function TutorialMonkey(props: IProps) {
   return (
     <div className="bottom-0 fixed">
       <img
-        className="w-100 h-100 my-4 mx-auto z-50 fixed bottom-0 left-0"
+        className="w-100 h-100 my-4 mx-auto z-50 fixed bottom-4 left-0"
         src={`/art/tutorialMonkey/${imageArray[currentImageIndex]}`}
         alt="filler image"
       />
       <div
-        className="w-full h-20 transform bg-custom-dark-main fixed z-50 bottom-0 right-0 flex justify-end items-center p-2"
+        className="w-full h-20 transform bg-custom-dark-main fixed z-10 bottom-0 right-0 flex justify-end items-center p-2"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.9)" }}
       >
         <div className="flex space-x-4">
@@ -120,7 +155,7 @@ export default function TutorialMonkey(props: IProps) {
       </div>
 
       <div
-        className="w-80 bg-off-white absolute z-50 bottom-60 left-96 round-full"
+        className="w-80 bg-off-white fixed z-50 bottom-60 left-96 round-full border-1 border-gray-400"
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.97)",
           minHeight: "auto",
