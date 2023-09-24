@@ -127,5 +127,5 @@ export async function generateArticle() {
    const company = companies[Math.floor(Math.random() * companies.length)];
    await NewsStories.createNewsStory(company);
 }
-setInterval(generateArticle, 3600000);
+setInterval(generateArticle, 3600000); // 1 hour
 generateArticle();

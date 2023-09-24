@@ -63,7 +63,12 @@ export default function TutorialMonkey(props: IProps) {
   useEffect(() => {
     typingInterval = setInterval(() => {
       if (currentIndex < text.length) {
-        setDisplayText((prevText) => prevText + text[currentIndex]);
+        let newText = "";
+        // add all characters from the 0th index to current index
+        for (let i = 0; i <= currentIndex; i++) {
+          newText += text[i];
+        }
+        setDisplayText(newText);
         setCurrentIndex((prevIndex) => prevIndex + 1);
       } else {
         clearInterval(typingInterval);
