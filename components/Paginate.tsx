@@ -19,8 +19,7 @@ export default function Paginate(props: IProps) {
   };
 
   let startPage = currentPage - Math.floor(props.pageRangeDisplayed / 2);
-  console.log(startPage)
-  if (startPage < 1) startPage = 1;
+  if (startPage < 1) startPage = 0;
   if (startPage + props.pageRangeDisplayed - 1 > props.pageCount) {
     startPage = props.pageCount - props.pageRangeDisplayed + 1;
   }
