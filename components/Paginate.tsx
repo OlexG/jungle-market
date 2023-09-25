@@ -33,15 +33,15 @@ export default function Paginate(props: IProps) {
     <div className="flex justify-center absolute bottom-6 w-full">
       <button
         className="bg-white px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
-        onClick={() => handlePageClick(1)}
-        disabled={currentPage === 1}
+        onClick={() => handlePageClick(0)}
+        disabled={currentPage === 0}
       >
         {props.firstLabel}
       </button>
       <button
         className="bg-white px-4 mx-2 text-custom-grey flex mt-4 flex-row border border-custom-light-green items-center rounded shadow py-2 hover:bg-custom-light-green hover:text-white hover:border-custom-light-green hover:shadow-lg"
         onClick={() => handlePageClick(currentPage - 1)}
-        disabled={currentPage === 1}
+        disabled={currentPage === 0}
       >
         {props.previousLabel}
       </button>
