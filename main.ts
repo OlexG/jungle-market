@@ -24,7 +24,7 @@ globalThis.addEventListener('error', (event) => {
   event.preventDefault(); // Prevents the default browser action (which might be to print the error to console).
 });
 
-DBDriver.init();
+await DBDriver.init();
 
 
 /* --- Uncomment to delete all records in the database --- */

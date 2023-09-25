@@ -9,7 +9,23 @@ import { db } from "./database.ts";
 
 export const DBDriver = {
   db,
-  init: Companies.ensureCompaniesExist,
+  init: async () => {
+    // Ensure the lastGenerated key exists on the meta table
+    const lastGenerated = await db.meta.findFirst({
+      where: { key: "lastGenerated" },
+    });
+    if (!lastGenerated) {
+      await db.meta.create({
+        data: {
+          id: crypto.randomUUID(),
+          key: "lastGenerated",
+          value: "0",
+        },
+      });
+    }
+
+    Companies.ensureCompaniesExist;
+  },
   Companies,
   Users,
   Orders,

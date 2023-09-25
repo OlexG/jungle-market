@@ -119,13 +119,36 @@ export class NewsStories {
   }
 }
 
-// Generate a news story for a random company every minute
+// Generate a news story for a random company every hour
 // Uncomment this section to start generating news articles. \/
 export async function generateArticle() {
+  // Check if an article has been generated in this hour
+  const lastGenerated = await db.meta.findFirst({
+    where: { key: "lastGenerated" },
+  });
+  const lastGeneratedDate = lastGenerated ? 
+    new Date(parseInt(lastGenerated.value)) : 
+    new Date(0);
+  
+  const now = new Date();
+  if (now.getHours() === lastGeneratedDate.getHours() &&
+      now.getDate() === lastGeneratedDate.getDate() &&
+      now.getMonth() === lastGeneratedDate.getMonth() &&
+      now.getFullYear() === lastGeneratedDate.getFullYear()) {
+    return;
+  }
+
+  await db.meta.update({
+    where: { key: "lastGenerated" },
+    data: {
+      value: now.getTime().toString(),
+    },
+  });
+
   const companies = await db.companies.findMany({});
    if (companies.length === 0) return;
    const company = companies[Math.floor(Math.random() * companies.length)];
    await NewsStories.createNewsStory(company);
 }
 setInterval(generateArticle, 3600000); // 1 hour
-generateArticle();
+setTimeout(generateArticle, 10000); // TODO: fix workaround, we need to wait for init before generating
